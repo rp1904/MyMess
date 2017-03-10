@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,36 +25,37 @@
 				<!-- progressbar -->
 				<ul id="progressbar">
 					<li class="active">Account Setup</li>
-					<li>Social Profiles</li>
+<!-- 					<li>Social Profiles</li> -->
 					<li>Personal Details</li>
 				</ul>
 				<!-- fieldsets -->
 				<fieldset>
 					<h2 class="fs-title">Create your account</h2>
-					<h3 class="fs-subtitle">This is step 1</h3>
-					<input type="text" name="email" placeholder="Email" /> <input
-						type="password" name="pass" placeholder="Password" /> <input
-						type="password" name="cpass" placeholder="Confirm Password" /> <input
-						type="button" name="next" class="next action-button" value="Next" />
+<!-- 					<h3 class="fs-subtitle">This is step 1</h3> -->
+					<form:input path="email" placeholder="Email"/>
+					<form:errors path="email" class="control-label" />
+					<form:input path="mobileNumber" placeholder="Mobile Number"/>
+					<form:errors path="mobileNumber" class="control-label" />
+					<form:password path="password" placeholder="Password" /> 
+					<input type="password" name="cpass" placeholder="Confirm Password" />
+					<form:errors path="password" class="control-label" />
+					<input type="button" name="next" class="next action-button" value="Next" />
 				</fieldset>
-				<fieldset>
-					<h2 class="fs-title">Social Profiles</h2>
-					<h3 class="fs-subtitle">Your presence on the social network</h3>
-					<input type="text" name="twitter" placeholder="Twitter" /> <input
-						type="text" name="facebook" placeholder="Facebook" /> <input
-						type="text" name="gplus" placeholder="Google Plus" /> <input
-						type="button" name="previous" class="previous action-button"
-						value="Previous" /> <input type="button" name="next"
-						class="next action-button" value="Next" />
-				</fieldset>
+<!-- 				<fieldset> -->
+<!-- 					<h2 class="fs-title">Social Profiles</h2> -->
+<!-- 					<h3 class="fs-subtitle">Your presence on the social network</h3> -->
+<!-- 					<input type="text" name="twitter" placeholder="Twitter" /> <input -->
+<!-- 						type="text" name="facebook" placeholder="Facebook" /> <input -->
+<!-- 						type="text" name="gplus" placeholder="Google Plus" /> <input -->
+<!-- 						type="button" name="previous" class="previous action-button" -->
+<!-- 						value="Previous" /> <input type="button" name="next" -->
+<!-- 						class="next action-button" value="Next" /> -->
+<!-- 				</fieldset> -->
 				<fieldset>
 					<h2 class="fs-title">Personal Details</h2>
-					<h3 class="fs-subtitle">We will never sell it</h3>
+<!-- 					<h3 class="fs-subtitle">We will never sell it</h3> -->
 					<form:input path="userInfo.firstName" placeholder="First Name"/> 
-					<input
-						type="text" name="lname" placeholder="Last Name" /> <input
-						type="text" name="phone" placeholder="Phone" />
-					<textarea name="address" placeholder="Address"></textarea>
+					<form:input path="userInfo.lastName" placeholder="Last Name"/>
 					<input type="button" name="previous" class="previous action-button"
 						value="Previous" /> <input type="submit" name="submit"
 						class="submit action-button" value="Submit" />

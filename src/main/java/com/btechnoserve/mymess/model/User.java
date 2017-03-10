@@ -9,11 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "users")
@@ -29,15 +27,10 @@ public class User {
 	@Email
 	private String email;
 
-	@Column(name = "mobile_number", unique = true, nullable = false, length = 10)
 	private String mobileNumber;
 
-	@Column(name = "password")
-	@NotEmpty(message = "Please enter your password.")
-	@Size(min = 6, max = 15, message = "Your password must between 6 and 15 characters")
 	private String password;
 
-	@Column(name = "enabled", nullable = false)
 	private boolean enabled;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
