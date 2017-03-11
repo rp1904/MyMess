@@ -55,7 +55,10 @@
 					<h2 class="fs-title">Personal Details</h2>
 <!-- 					<h3 class="fs-subtitle">We will never sell it</h3> -->
 					<form:input path="userInfo.firstName" placeholder="First Name"/> 
+					<form:errors path="userInfo.firstName" class="control-label" />
 					<form:input path="userInfo.lastName" placeholder="Last Name"/>
+					<form:errors path="userInfo.lastName" class="control-label" />
+					
 					<input type="button" name="previous" class="previous action-button"
 						value="Previous" /> <input type="submit" name="submit"
 						class="submit action-button" value="Submit" />

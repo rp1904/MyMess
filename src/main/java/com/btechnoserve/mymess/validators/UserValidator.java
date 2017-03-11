@@ -27,14 +27,18 @@ public class UserValidator implements Validator {
 		// TODO Auto-generated method stub
 		User user = (User) target;
 
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.userForm.email");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.userForm.password");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "mobileNumber", "NotEmpty.userForm.sex");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.user.email");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.user.password");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "mobileNumber", "NotEmpty.user.sex");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userInfo.firstName", "NotEmpty.user.firstName");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userInfo.lastName", "NotEmpty.user.lastName");
 
-		if (!emailValidator.valid(user.getEmail())) {
-			errors.rejectValue("email", "Pattern.userForm.email");
+		if (user.getEmail() != null && !user.getEmail().trim().equals("")) {
+
+			if (!emailValidator.valid(user.getEmail())) {
+				errors.rejectValue("email", "Pattern.user.email");
+			}
 		}
-
 	}
 
 }

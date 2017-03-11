@@ -14,10 +14,14 @@
     <!-- Getting Database properties -->
     <context:property-placeholder location="classpath:database.properties" />
 
-	<bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename" value="classpath:messages/validation" />
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	    <property name="basename" value="classpath:messages/validation" />
+	    <property name="useCodeAsDefaultMessage" value="true" />
 	</bean>
+<!-- 	<bean id="messageSource" -->
+<!-- 		class="org.springframework.context.support.ResourceBundleMessageSource"> -->
+<!-- 		<property name="basename" value="classpath:messages/validation" /> -->
+<!-- 	</bean> -->
 	
     <mvc:annotation-driven />
     
