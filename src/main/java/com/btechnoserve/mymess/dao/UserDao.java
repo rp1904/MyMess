@@ -11,4 +11,8 @@ public interface UserDao {
 
 	public UserRole getUserRoleById(int roleId);
 
+	public User getUserByEmail(String emailId);
+
+	public User getUserByMobileNumber(String mobileNumber);
+
 }

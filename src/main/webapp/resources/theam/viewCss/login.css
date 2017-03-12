@@ -100,3 +100,13 @@ body {
 	background-color: #1CA347;
 	border-color: #1CA347;
 }
+.error {
+	color: #a94442;
+	font-weight: 600;
+	font-size: small;
+}
+.msg {
+	color: #029f5b;
+	font-weight: 600;
+	font-size: small;
+}

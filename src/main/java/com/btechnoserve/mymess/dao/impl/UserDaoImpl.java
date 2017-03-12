@@ -49,4 +49,24 @@ public class UserDaoImpl implements UserDao {
 		return (UserRole) sessionFactory.getCurrentSession().get(UserRole.class, roleId);
 	}
 
+	@Override
+	public User getUserByEmail(String emailId) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(User.class);
+		criteria.add(Restrictions.eq("email", emailId.trim()));
+		User m = (User) criteria.uniqueResult();
+		return m;
+	}
+
+	@Override
+	public User getUserByMobileNumber(String mobileNumber) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(User.class);
+		criteria.add(Restrictions.eq("mobileNumber", mobileNumber.trim()));
+		User m = (User) criteria.uniqueResult();
+		return m;
+	}
+
 }

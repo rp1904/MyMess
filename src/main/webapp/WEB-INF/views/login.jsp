@@ -21,12 +21,15 @@
 				<div class="panel panel-login">
 					<div class="panel-heading">
 						<div class="row">
-							<div class="col-xs-6">
+							<div class="col-xs-12 text-center">
 								<a href="#" class="active" id="login-form-link">Login</a>
 							</div>
-							<div class="col-xs-6">
-								<a href="#" id="register-form-link">Register</a>
-							</div>
+							<c:if test="${not empty error}">
+								<div class="error">${error}</div>
+							</c:if>
+							<c:if test="${not empty msg}">
+								<div class="msg">${msg}</div>
+							</c:if>
 						</div>
 						<hr>
 					</div>
@@ -35,15 +38,15 @@
 							<div class="col-lg-12">
 								<form id="login-form" action="<c:url value='/j_spring_security_check' />" method="post" role="form" style="display: block;">
 									<div class="form-group">
-										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Email-ID / Mobile Number" value="">
+										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Email / Mobile Number" value="">
 									</div>
 									<div class="form-group">
 										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
 									</div>
-									<div class="form-group text-center">
-										<input type="checkbox" tabindex="3" class="" name="remember" id="remember">
-										<label for="remember"> Remember Me</label>
-									</div>
+<!-- 									<div class="form-group text-center"> -->
+<!-- 										<input type="checkbox" tabindex="3" class="" name="remember" id="remember"> -->
+<!-- 										<label for="remember"> Remember Me</label> -->
+<!-- 									</div> -->
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
@@ -62,31 +65,6 @@
 										</div>
 									</div>
 								</form>
-								<form:form id="register-form" cssClass="form-horizontal" modelAttribute="member" method="POST" action="member-registration">
-									<div class="form-group">
-									<form:label class="col-md-3 control-label" path="userInfo.firstName">First Name</form:label>
-										<div class="col-md-6">
-											<form:input path="userInfo.firstName" readonly="true"
-												cssClass="form-control input-md" maxlength="10" />
-										</div>
-									</div>
-									<div class="form-group">
-										<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
-									</div>
-									<div class="form-group">
-										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
-									</div>
-									<div class="form-group">
-										<input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
-									</div>
-									<div class="form-group">
-										<div class="row">
-											<div class="col-sm-6 col-sm-offset-3">
-												<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
-											</div>
-										</div>
-									</div>
-								</form:form>
 							</div>
 						</div>
 					</div>

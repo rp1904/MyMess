@@ -24,7 +24,7 @@
 			<form:form id="msform" modelAttribute="member" method="POST" action="member-registration">
 				<!-- progressbar -->
 				<ul id="progressbar">
-					<li class="active">Account Setup</li>
+					<li class="active" style="margin-left: 17%;">Account Setup</li>
 <!-- 					<li>Social Profiles</li> -->
 					<li>Personal Details</li>
 				</ul>
@@ -37,8 +37,9 @@
 					<form:input path="mobileNumber" placeholder="Mobile Number"/>
 					<form:errors path="mobileNumber" class="control-label" />
 					<form:password path="password" placeholder="Password" /> 
-					<input type="password" name="cpass" placeholder="Confirm Password" />
 					<form:errors path="password" class="control-label" />
+					<form:password path="confirmPassword" placeholder="Confirm Password" /> 
+					<form:errors path="confirmPassword" class="control-label" />
 					<input type="button" name="next" class="next action-button" value="Next" />
 				</fieldset>
 <!-- 				<fieldset> -->

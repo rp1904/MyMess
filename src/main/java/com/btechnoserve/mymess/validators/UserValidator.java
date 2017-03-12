@@ -8,9 +8,13 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.btechnoserve.mymess.model.User;
+import com.btechnoserve.mymess.services.UserServices;
 
 @Component
 public class UserValidator implements Validator {
+
+	@Autowired
+	private UserServices userServices;
 
 	@Autowired
 	@Qualifier("emailValidator")
@@ -29,7 +33,8 @@ public class UserValidator implements Validator {
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.user.email");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.user.password");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "mobileNumber", "NotEmpty.user.sex");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.user.confirmPassword");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "mobileNumber", "NotEmpty.user.mobileno");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userInfo.firstName", "NotEmpty.user.firstName");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userInfo.lastName", "NotEmpty.user.lastName");
 
@@ -38,7 +43,26 @@ public class UserValidator implements Validator {
 			if (!emailValidator.valid(user.getEmail())) {
 				errors.rejectValue("email", "Pattern.user.email");
 			}
+
+			if (userServices.isEmailAlreadyRegistered(user.getEmail())) {
+				errors.rejectValue("email", "AlreadyExist.user.email");
+			}
 		}
+
+		if (user.getMobileNumber() != null && !user.getMobileNumber().trim().equals("")) {
+
+			if (userServices.isMobileNumberAlreadyRegistered(user.getMobileNumber())) {
+				errors.rejectValue("mobileNumber", "AlreadyExist.user.mobileno");
+			}
+		}
+
+		if (user.getPassword() != null && user.getConfirmPassword() != null && !user.getPassword().trim().equals("")
+				&& !user.getConfirmPassword().trim().equals("")) {
+			if (!user.getPassword().equals(user.getConfirmPassword())) {
+				errors.rejectValue("confirmPassword", "Diff.user.confirmPassword");
+			}
+		}
+
 	}
 
 }

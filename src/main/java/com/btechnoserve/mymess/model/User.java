@@ -31,6 +31,8 @@ public class User {
 
 	private String password;
 
+	private String confirmPassword;
+
 	private boolean enabled;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
@@ -114,6 +116,14 @@ public class User {
 
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	@Override

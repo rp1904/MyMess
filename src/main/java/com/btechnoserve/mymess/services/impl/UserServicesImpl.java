@@ -29,4 +29,32 @@ public class UserServicesImpl implements UserServices {
 		return userDao.getUserRoleById(roleId);
 	}
 
+	@Override
+	public User getUserByEmail(String emailId) {
+		// TODO Auto-generated method stub
+		return userDao.getUserByEmail(emailId);
+	}
+
+	@Override
+	public User getUserByMobileNumber(String mobileNumber) {
+		// TODO Auto-generated method stub
+		return userDao.getUserByMobileNumber(mobileNumber);
+	}
+
+	@Override
+	public boolean isEmailAlreadyRegistered(String emailId) {
+		// TODO Auto-generated method stub
+		if (getUserByEmail(emailId) != null)
+			return Boolean.TRUE;
+		return Boolean.FALSE;
+	}
+
+	@Override
+	public boolean isMobileNumberAlreadyRegistered(String mobileNumber) {
+		// TODO Auto-generated method stub
+		if (getUserByMobileNumber(mobileNumber) != null)
+			return Boolean.TRUE;
+		return Boolean.FALSE;
+	}
+
 }

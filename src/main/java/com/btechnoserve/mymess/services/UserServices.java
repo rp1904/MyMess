@@ -9,4 +9,11 @@ public interface UserServices {
 
 	public UserRole getUserRoleById(int roleId);
 
+	public User getUserByEmail(String emailId);
+
+	public User getUserByMobileNumber(String mobileNumber);
+
+	public boolean isEmailAlreadyRegistered(String emailId);
+
+	public boolean isMobileNumberAlreadyRegistered(String mobileNumber);
 }

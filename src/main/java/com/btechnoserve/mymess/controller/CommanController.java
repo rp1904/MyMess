@@ -2,11 +2,12 @@ package com.btechnoserve.mymess.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.log4j.Logger;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -17,21 +18,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.btechnoserve.mymess.model.User;
-import com.btechnoserve.mymess.services.UserServices;
+import com.btechnoserve.mymess.util.ProjectConstant;
 
 @Controller
 public class CommanController {
 
-	@Autowired
-	private UserServices userServices;
+	Logger logger = Logger.getLogger(CommanController.class);
+
+	// @Autowired
+	// private UserServices userServices;
 
 	@RequestMapping(value = "/welcome**", method = RequestMethod.GET)
 	public ModelAndView defaultPage() {
 
+		SimpleGrantedAuthority grantedAuthority = (SimpleGrantedAuthority) (SecurityContextHolder.getContext()
+				.getAuthentication().getAuthorities()).toArray()[0];
+
 		ModelAndView model = new ModelAndView();
-		model.addObject("title", "Spring Security + Hibernate Example");
-		model.addObject("message", "This is default page!");
-		model.setViewName("admin/index");
+
+		String role = grantedAuthority.getAuthority();
+
+		if (role.equals(ProjectConstant.USER_ROLE_SUPERADMIN)) {
+			model.setViewName("super-admin/superadmin-home");
+		} else if (role.equals(ProjectConstant.USER_ROLE_ADMIN)) {
+			model.setViewName("admin/admin-home");
+		} else {
+			model.setViewName("member/member-home");
+		}
+
 		return model;
 
 	}
@@ -53,22 +67,6 @@ public class CommanController {
 			@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {
 
-		// UserInfo userInfo = new UserInfo();
-		// userInfo.setFirstName("Roshan");
-		// userInfo.setLastName("Patil");
-		// userInfo.setRegistrationDate(new Date());
-		//
-		// User user = new User();
-		// user.setEmail("roshanpatil@gmail.com");
-		// user.setEnabled(true);
-		// user.setMobileNumber("8308238755");
-		// user.setPassword("123456");
-		// user.setUserInfo(userInfo);
-		//
-		// user.setUserRole(userServices.getUserRoleById(1));
-		//
-		// userServices.saveUser(user);
-
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
 			model.addObject("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
@@ -77,6 +75,7 @@ public class CommanController {
 		if (logout != null) {
 			model.addObject("msg", "You've been logged out successfully.");
 		}
+
 		model.setViewName("login");
 
 		return model;
@@ -90,11 +89,11 @@ public class CommanController {
 
 		String error = "";
 		if (exception instanceof BadCredentialsException) {
-			error = "Invalid username and password!";
+			error = "Invalid Credentials !";
 		} else if (exception instanceof LockedException) {
 			error = exception.getMessage();
 		} else {
-			error = "Invalid username and password!";
+			error = "Your account is locked !";
 		}
 
 		return error;

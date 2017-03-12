@@ -1,5 +1,7 @@
 package com.btechnoserve.mymess.controller.web.registration;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.btechnoserve.mymess.model.User;
 import com.btechnoserve.mymess.services.UserServices;
+import com.btechnoserve.mymess.util.ProjectConstant;
 import com.btechnoserve.mymess.validators.UserValidator;
 
 @Controller
@@ -46,8 +49,9 @@ public class RegistrationController {
 		if (result.hasErrors()) {
 			return new ModelAndView("member-registration");
 		} else {
+			member.setUserRole(userServices.getUserRoleById(ProjectConstant.USER_ROLE_ID_MEMBER));
+			member.getUserInfo().setRegistrationDate(new Date());
 			userServices.saveUser(member);
-			logger.info(member);
 			ModelAndView modelAndView = new ModelAndView("redirect:login");
 			return modelAndView;
 		}
