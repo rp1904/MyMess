@@ -3,6 +3,7 @@ package com.btechnoserve.mymess.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.btechnoserve.mymess.model.User;
+import com.btechnoserve.mymess.services.UserServices;
 import com.btechnoserve.mymess.util.ProjectConstant;
 
 @Controller
@@ -25,10 +27,10 @@ public class CommanController {
 
 	Logger logger = Logger.getLogger(CommanController.class);
 
-	// @Autowired
-	// private UserServices userServices;
+	@Autowired
+	private UserServices userServices;
 
-	@RequestMapping(value = "/welcome**", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/welcome", method = RequestMethod.GET)
 	public ModelAndView defaultPage() {
 
 		SimpleGrantedAuthority grantedAuthority = (SimpleGrantedAuthority) (SecurityContextHolder.getContext()
@@ -37,26 +39,17 @@ public class CommanController {
 		ModelAndView model = new ModelAndView();
 
 		String role = grantedAuthority.getAuthority();
+		String emailIdRoMobNo = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		if (role.equals(ProjectConstant.USER_ROLE_SUPERADMIN)) {
 			model.setViewName("super-admin/superadmin-home");
 		} else if (role.equals(ProjectConstant.USER_ROLE_ADMIN)) {
 			model.setViewName("admin/admin-home");
 		} else {
-			model.setViewName("member/member-home");
+
+			model.setViewName("member/select-mess");
+			model.addObject("member", userServices.getUserByEmailOrMobileNo(emailIdRoMobNo));
 		}
-
-		return model;
-
-	}
-
-	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
-	public ModelAndView adminPage() {
-
-		ModelAndView model = new ModelAndView();
-		model.addObject("title", "Spring Security + Hibernate Example");
-		model.addObject("message", "This page is for ROLE_ADMIN only!");
-		model.setViewName("admin");
 
 		return model;
 
@@ -93,7 +86,7 @@ public class CommanController {
 		} else if (exception instanceof LockedException) {
 			error = exception.getMessage();
 		} else {
-			error = "Your account is locked !";
+			error = "Invalid Email / Mobile Number !";
 		}
 
 		return error;

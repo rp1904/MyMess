@@ -1,5 +1,7 @@
 package com.btechnoserve.mymess.services.impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +57,18 @@ public class UserServicesImpl implements UserServices {
 		if (getUserByMobileNumber(mobileNumber) != null)
 			return Boolean.TRUE;
 		return Boolean.FALSE;
+	}
+
+	@Override
+	public User getUserByEmailOrMobileNo(String emailIdRoMobNo) {
+		// TODO Auto-generated method stub
+		return userDao.getUserByEmailOrMobileNo(emailIdRoMobNo);
+	}
+
+	@Override
+	public List<User> getAllMembers() {
+		// TODO Auto-generated method stub
+		return userDao.getAllMembers();
 	}
 
 }

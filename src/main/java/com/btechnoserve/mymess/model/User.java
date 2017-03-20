@@ -7,8 +7,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
@@ -31,6 +33,11 @@ public class User {
 
 	private String password;
 
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "mess_id_fk")
+	private Mess mess;
+
+	@Transient
 	private String confirmPassword;
 
 	private boolean enabled;
@@ -126,10 +133,19 @@ public class User {
 		this.confirmPassword = confirmPassword;
 	}
 
+	public Mess getMess() {
+		return mess;
+	}
+
+	public void setMess(Mess mess) {
+		this.mess = mess;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", email=" + email + ", mobileNumber=" + mobileNumber + ", password="
-				+ password + ", enabled=" + enabled + ", userRole=" + userRole + ", userInfo=" + userInfo + "]";
+				+ password + ", mess=" + mess + ", confirmPassword=" + confirmPassword + ", enabled=" + enabled
+				+ ", userRole=" + userRole + ", userInfo=" + userInfo + "]";
 	}
 
 }

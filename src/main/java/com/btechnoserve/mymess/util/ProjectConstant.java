@@ -10,4 +10,6 @@ public class ProjectConstant {
 	public static final String USER_ROLE_ADMIN = "ADMIN";
 	public static final String USER_ROLE_MEMBER = "MEMBER";
 
+	public static final String DEFAULT_COUNTRY = "INDIA";
+
 }

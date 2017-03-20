@@ -35,8 +35,31 @@ public class UserValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.user.password");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.user.confirmPassword");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "mobileNumber", "NotEmpty.user.mobileno");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userInfo.firstName", "NotEmpty.user.firstName");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userInfo.lastName", "NotEmpty.user.lastName");
+
+		// if (user.getMess().getMessDisplayId() != null) {
+		//
+		// ValidationUtils.rejectIfEmptyOrWhitespace(errors,
+		// "adminInfo.messName", "NotEmpty.admin.messName");
+		// ValidationUtils.rejectIfEmptyOrWhitespace(errors,
+		// "adminInfo.ownerName", "NotEmpty.admin.ownerName");
+		// ValidationUtils.rejectIfEmptyOrWhitespace(errors,
+		// "adminInfo.messAddress.postalAddress",
+		// "NotEmpty.admin.messPostalAddress");
+		// ValidationUtils.rejectIfEmptyOrWhitespace(errors,
+		// "adminInfo.messAddress.city", "NotEmpty.admin.messCity");
+		// ValidationUtils.rejectIfEmptyOrWhitespace(errors,
+		// "adminInfo.messAddress.state",
+		// "NotEmpty.admin.messState");
+		// ValidationUtils.rejectIfEmptyOrWhitespace(errors,
+		// "adminInfo.messAddress.PINcode",
+		// "NotEmpty.admin.messPinCode");
+		//
+		// } else
+		{
+
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userInfo.firstName", "NotEmpty.user.firstName");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userInfo.lastName", "NotEmpty.user.lastName");
+		}
 
 		if (user.getEmail() != null && !user.getEmail().trim().equals("")) {
 

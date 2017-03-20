@@ -56,4 +56,24 @@ public class RegistrationController {
 			return modelAndView;
 		}
 	}
+
+	@RequestMapping(value = "/mess-registration", method = RequestMethod.GET)
+	public ModelAndView getAdminRegPage(@ModelAttribute("admin") User admin) {
+		ModelAndView modelAndView = new ModelAndView("admin-registration");
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/mess-registration", method = RequestMethod.POST)
+	public ModelAndView doAdminRegistration(@Validated @ModelAttribute("admin") User admin, BindingResult result,
+			Model model) {
+		if (result.hasErrors()) {
+			return new ModelAndView("admin-registration");
+		} else {
+			admin.setUserRole(userServices.getUserRoleById(ProjectConstant.USER_ROLE_ID_ADMIN));
+			admin.getMess().setMessRegistrationDate(new Date());
+			userServices.saveUser(admin);
+			ModelAndView modelAndView = new ModelAndView("redirect:login");
+			return modelAndView;
+		}
+	}
 }

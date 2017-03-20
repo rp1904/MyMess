@@ -64,6 +64,15 @@
 											</div>
 										</div>
 									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-lg-12">
+												<div class="text-center">
+													New Member? Register <a href="member-registration" tabindex="5" class="forgot-password">Here</a>
+												</div>
+											</div>
+										</div>
+									</div>
 								</form>
 							</div>
 						</div>
