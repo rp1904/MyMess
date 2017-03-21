@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.btechnoserve</groupId>
-	<artifactId>mymess</artifactId>
+	<artifactId>demo1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>MyMess</name>
+	<name>demo1</name>
 	<description>Connect With Your Daily Meal</description>
 
 	<!-- Specifying the Versions of Spring, Hiberante, MySQL etc -->
@@ -130,6 +130,15 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
 		</dependency>
+		
+		<!-- POSTGRESQL -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.3-1100-jdbc41</version>
+		</dependency>
+
+		
 		<!-- Mail -->
 		<dependency>
 			<groupId>javax.mail</groupId>

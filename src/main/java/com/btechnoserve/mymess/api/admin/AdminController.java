@@ -1,28 +1,30 @@
 package com.btechnoserve.mymess.api.admin;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.btechnoserve.mymess.model.User;
+import com.btechnoserve.mymess.api.commancontroller.BaseController;
 import com.btechnoserve.mymess.services.AdminServices;
 
 @RestController
 @RequestMapping("/api")
-public class AdminController {
+public class AdminController extends BaseController{
 
 	@Autowired
-	@Qualifier("adminServices")
 	private AdminServices adminServices;
 
-	@RequestMapping(value = "/admin-all", method = RequestMethod.GET)
-	public @ResponseBody List<User> getAllAdmins() {
+	@RequestMapping(value = "/header-test", method = RequestMethod.GET)
+	public @ResponseBody Map<String,String> getAllAdmins() {
 
-		return adminServices.getAllAdmins();
+		Map<String,String> result = new HashMap<String, String>();
+		result.put("old-key", getHeaderMyAPIKey());
+		
+		return result;
 	}
 }
