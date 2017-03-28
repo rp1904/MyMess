@@ -1,4 +1,4 @@
-package com.btechnoserve.mymess.api.commancontroller;
+package com.btechnoserve.mymess.api.comman;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

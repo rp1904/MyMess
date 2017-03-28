@@ -1,11 +1,11 @@
 package com.btechnoserve.mymess.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "mess")
+@Table(name = "messes")
 public class Mess implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,27 +26,45 @@ public class Mess implements Serializable {
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
+	@Column(name = "mess_id_pk", unique = true)
+	private String messIdPk;
+
 	@Column(name = "mess_id", unique = true)
 	private String messId;
 
-	private String messDisplayId;
-
+	@Column(name = "mess_name")
 	private String messName;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "owner_user_id_fk")
+	@JoinColumn(name = "mess_owner_id_fk")
 	private User messOwner;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id_fk")
+	@JoinColumn(name = "mess_address_id_fk")
 	private Address messAddress;
 
+	@Column(name = "mess_tag_line")
+	private String messTagLine;
+
+	@Column(name = "mess_profile_image_url")
+	private String messProfileImageUrl;
+
+	@Column(name = "mess_profile_image_thumbnail_url")
+	private String messProfileImageThumbnailUrl;
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "mess", cascade = CascadeType.ALL)
-	private List<User> members;
+	private List<User> mess_members;
 
-	private Date messStartedDate;
+	@Embedded
+	private CreatedUpdated createdUpdated;
 
-	private Date messRegistrationDate;
+	public String getMessIdPk() {
+		return messIdPk;
+	}
+
+	public void setMessIdPk(String messIdPk) {
+		this.messIdPk = messIdPk;
+	}
 
 	public String getMessId() {
 		return messId;
@@ -54,14 +72,6 @@ public class Mess implements Serializable {
 
 	public void setMessId(String messId) {
 		this.messId = messId;
-	}
-
-	public String getMessDisplayId() {
-		return messDisplayId;
-	}
-
-	public void setMessDisplayId(String messDisplayId) {
-		this.messDisplayId = messDisplayId;
 	}
 
 	public String getMessName() {
@@ -88,28 +98,44 @@ public class Mess implements Serializable {
 		this.messAddress = messAddress;
 	}
 
-	public List<User> getMembers() {
-		return members;
+	public String getMessTagLine() {
+		return messTagLine;
 	}
 
-	public void setMembers(List<User> members) {
-		this.members = members;
+	public void setMessTagLine(String messTagLine) {
+		this.messTagLine = messTagLine;
 	}
 
-	public Date getMessStartedDate() {
-		return messStartedDate;
+	public String getMessProfileImageUrl() {
+		return messProfileImageUrl;
 	}
 
-	public void setMessStartedDate(Date messStartedDate) {
-		this.messStartedDate = messStartedDate;
+	public void setMessProfileImageUrl(String messProfileImageUrl) {
+		this.messProfileImageUrl = messProfileImageUrl;
 	}
 
-	public Date getMessRegistrationDate() {
-		return messRegistrationDate;
+	public String getMessProfileImageThumbnailUrl() {
+		return messProfileImageThumbnailUrl;
 	}
 
-	public void setMessRegistrationDate(Date messRegistrationDate) {
-		this.messRegistrationDate = messRegistrationDate;
+	public void setMessProfileImageThumbnailUrl(String messProfileImageThumbnailUrl) {
+		this.messProfileImageThumbnailUrl = messProfileImageThumbnailUrl;
+	}
+
+	public List<User> getMess_members() {
+		return mess_members;
+	}
+
+	public void setMess_members(List<User> mess_members) {
+		this.mess_members = mess_members;
+	}
+
+	public CreatedUpdated getCreatedUpdated() {
+		return createdUpdated;
+	}
+
+	public void setCreatedUpdated(CreatedUpdated createdUpdated) {
+		this.createdUpdated = createdUpdated;
 	}
 
 }

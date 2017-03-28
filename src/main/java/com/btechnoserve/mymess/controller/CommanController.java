@@ -30,8 +30,17 @@ public class CommanController {
 	@Autowired
 	private UserServices userServices;
 
-	@RequestMapping(value = "/user/welcome", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView defaultPage() {
+
+		ModelAndView model = new ModelAndView("redirect:web/login");
+
+		return model;
+
+	}
+
+	@RequestMapping(value = "/web/welcome", method = RequestMethod.GET)
+	public ModelAndView afterLoginPage() {
 
 		SimpleGrantedAuthority grantedAuthority = (SimpleGrantedAuthority) (SecurityContextHolder.getContext()
 				.getAuthentication().getAuthorities()).toArray()[0];
@@ -55,7 +64,7 @@ public class CommanController {
 
 	}
 
-	@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
+	@RequestMapping(value = "/web/login", method = RequestMethod.GET)
 	public ModelAndView login(@ModelAttribute("member") User member,
 			@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {

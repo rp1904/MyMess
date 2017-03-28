@@ -20,9 +20,10 @@ public class UserServicesImpl implements UserServices {
 	private UserDao userDao;
 
 	@Override
-	public void saveUser(User user) {
+	public User saveUser(User user) {
 		// TODO Auto-generated method stub
 		userDao.saveUser(user);
+		return userDao.getUserByEmail(user.getEmail());
 	}
 
 	@Override

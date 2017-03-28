@@ -2,6 +2,7 @@ package com.btechnoserve.mymess.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,26 +11,37 @@ import javax.persistence.Table;
 import com.btechnoserve.mymess.util.ProjectConstant;
 
 @Entity
-@Table(name = "address")
+@Table(name = "addresses")
 public class Address implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
-	private long addressId;
-	private String country = ProjectConstant.DEFAULT_COUNTRY;
-	private String state;
-	private String city;
-	private String postalAddress;
-	private String PINcode;
+	@Column(name = "address_id_pk")
+	private long addressIdPk;
 
-	public long getAddressId() {
-		return addressId;
+	private String country = ProjectConstant.DEFAULT_COUNTRY;
+
+	private String state;
+
+	private String city;
+
+	@Column(name = "address_line_1")
+	private String addressLine1;
+
+	@Column(name = "address_line_2")
+	private String addressLine2;
+
+	@Column(name = "pin_code")
+	private String pinCode;
+
+	public long getAddressIdPk() {
+		return addressIdPk;
 	}
 
-	public void setAddressId(long addressId) {
-		this.addressId = addressId;
+	public void setAddressIdPk(long addressIdPk) {
+		this.addressIdPk = addressIdPk;
 	}
 
 	public String getCountry() {
@@ -56,26 +68,34 @@ public class Address implements Serializable {
 		this.city = city;
 	}
 
-	public String getPostalAddress() {
-		return postalAddress;
+	public String getAddressLine1() {
+		return addressLine1;
 	}
 
-	public void setPostalAddress(String postalAddress) {
-		this.postalAddress = postalAddress;
+	public void setAddressLine1(String addressLine1) {
+		this.addressLine1 = addressLine1;
 	}
 
-	public String getPINcode() {
-		return PINcode;
+	public String getAddressLine2() {
+		return addressLine2;
 	}
 
-	public void setPINcode(String pINcode) {
-		PINcode = pINcode;
+	public void setAddressLine2(String addressLine2) {
+		this.addressLine2 = addressLine2;
+	}
+
+	public String getPinCode() {
+		return pinCode;
+	}
+
+	public void setPinCode(String pinCode) {
+		this.pinCode = pinCode;
 	}
 
 	@Override
 	public String toString() {
-		return "Address [country=" + country + ", state=" + state + ", city=" + city + ", postalAddress="
-				+ postalAddress + ", PINcode=" + PINcode + "]";
+		return "Address [addressIdPk=" + addressIdPk + ", country=" + country + ", state=" + state + ", city=" + city
+				+ ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", pinCode=" + pinCode + "]";
 	}
 
 }

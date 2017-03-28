@@ -1,7 +1,10 @@
 package com.btechnoserve.mymess.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,38 +20,57 @@ import org.hibernate.validator.constraints.Email;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
+	@Column(name = "user_id_pk", unique = true)
+	private String userIdPk;
+
 	@Column(name = "user_id", unique = true)
 	private String userId;
 
-	@Column(name = "email", unique = true, nullable = false, length = 60)
-	@Email
-	private String email;
-
-	private String mobileNumber;
-
-	private String password;
-
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "mess_id_fk")
-	private Mess mess;
-
-	@Transient
-	private String confirmPassword;
-
-	private boolean enabled;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_profile_id_fk")
+	private UserProfile userProfile;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "user_role_id_fk")
 	private UserRole userRole;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_info_id_fk")
-	private UserInfo userInfo;
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "mess_id_fk")
+	private Mess mess;
+
+	@Column(name = "email", unique = true)
+	@Email
+	private String email;
+
+	@Column(name = "mobile_number", unique = true)
+	private String mobileNumber;
+
+	private String password;
+
+	@Transient
+	private String confirmPassword;
+
+	@Column(name = "is_enable")
+	private boolean isEnable = Boolean.TRUE;
+
+	@Column(name = "accout_non_expired")
+	private boolean accoutNonExpired = Boolean.TRUE;
+
+	@Column(name = "credentials_non_expired")
+	private boolean credentialsNonExpired = Boolean.TRUE;
+
+	@Column(name = "accout_non_locker")
+	private boolean accoutNonLocker = Boolean.TRUE;
+
+	@Embedded
+	private CreatedUpdated createdUpdated;
 
 	public User() {
 	}
@@ -60,13 +82,12 @@ public class User {
 		this.password = password;
 	}
 
-	public User(String email, String mobileNumber, String password, boolean enabled, UserRole userRole) {
-		super();
-		this.email = email;
-		this.mobileNumber = mobileNumber;
-		this.password = password;
-		this.enabled = enabled;
-		this.userRole = userRole;
+	public String getUserIdPk() {
+		return userIdPk;
+	}
+
+	public void setUserIdPk(String userIdPk) {
+		this.userIdPk = userIdPk;
 	}
 
 	public String getUserId() {
@@ -75,6 +96,30 @@ public class User {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public UserProfile getUserProfile() {
+		return userProfile;
+	}
+
+	public void setUserProfile(UserProfile userProfile) {
+		this.userProfile = userProfile;
+	}
+
+	public UserRole getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
+	}
+
+	public Mess getMess() {
+		return mess;
+	}
+
+	public void setMess(Mess mess) {
+		this.mess = mess;
 	}
 
 	public String getEmail() {
@@ -101,30 +146,6 @@ public class User {
 		this.password = password;
 	}
 
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public UserRole getUserRole() {
-		return userRole;
-	}
-
-	public void setUserRole(UserRole userRole) {
-		this.userRole = userRole;
-	}
-
-	public UserInfo getUserInfo() {
-		return userInfo;
-	}
-
-	public void setUserInfo(UserInfo userInfo) {
-		this.userInfo = userInfo;
-	}
-
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}
@@ -133,19 +154,53 @@ public class User {
 		this.confirmPassword = confirmPassword;
 	}
 
-	public Mess getMess() {
-		return mess;
+	public boolean isEnable() {
+		return isEnable;
 	}
 
-	public void setMess(Mess mess) {
-		this.mess = mess;
+	public void setEnable(boolean isEnable) {
+		this.isEnable = isEnable;
+	}
+
+	public boolean isAccoutNonExpired() {
+		return accoutNonExpired;
+	}
+
+	public void setAccoutNonExpired(boolean accoutNonExpired) {
+		this.accoutNonExpired = accoutNonExpired;
+	}
+
+	public boolean isCredentialsNonExpired() {
+		return credentialsNonExpired;
+	}
+
+	public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+		this.credentialsNonExpired = credentialsNonExpired;
+	}
+
+	public boolean isAccoutNonLocker() {
+		return accoutNonLocker;
+	}
+
+	public void setAccoutNonLocker(boolean accoutNonLocker) {
+		this.accoutNonLocker = accoutNonLocker;
+	}
+
+	public CreatedUpdated getCreatedUpdated() {
+		return createdUpdated;
+	}
+
+	public void setCreatedUpdated(CreatedUpdated createdUpdated) {
+		this.createdUpdated = createdUpdated;
 	}
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", email=" + email + ", mobileNumber=" + mobileNumber + ", password="
-				+ password + ", mess=" + mess + ", confirmPassword=" + confirmPassword + ", enabled=" + enabled
-				+ ", userRole=" + userRole + ", userInfo=" + userInfo + "]";
+		return "User [userIdPk=" + userIdPk + ", userId=" + userId + ", userProfile=" + userProfile + ", userRole="
+				+ userRole + ", mess=" + mess + ", email=" + email + ", mobileNumber=" + mobileNumber + ", password="
+				+ password + ", confirmPassword=" + confirmPassword + ", isEnable=" + isEnable + ", accoutNonExpired="
+				+ accoutNonExpired + ", credentialsNonExpired=" + credentialsNonExpired + ", accoutNonLocker="
+				+ accoutNonLocker + ", createdUpdated=" + createdUpdated + "]";
 	}
 
 }

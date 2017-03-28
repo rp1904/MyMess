@@ -10,8 +10,8 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
  <!-- Bootstrap 3.3.6 -->
- <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
- <link rel="stylesheet" href="resources/viewCss/login.css">
+ <link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
+ <link rel="stylesheet" href="../resources/viewCss/login.css">
 </head>
 <body>
 
@@ -36,7 +36,7 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-12">
-								<form id="login-form" action="<c:url value='/j_spring_security_check' />" method="post" role="form" style="display: block;">
+								<form id="login-form" action="<c:url value='/web/j_spring_security_check' />" method="post" role="form" style="display: block;">
 									<div class="form-group">
 										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Email / Mobile Number" value="">
 									</div>
@@ -83,11 +83,11 @@
 	</div>
 
 <!-- jQuery 2.2.3 -->
-<script src="resources/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../resources/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="resources/bootstrap/js/bootstrap.min.js"></script>
+<script src="../resources/bootstrap/js/bootstrap.min.js"></script>
 
-<script src="resources/viewJs/login.js"></script>
+<script src="../resources/viewJs/login.js"></script>
 
 </body>
 </html>

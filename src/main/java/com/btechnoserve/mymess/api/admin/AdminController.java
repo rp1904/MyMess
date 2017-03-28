@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.btechnoserve.mymess.api.commancontroller.BaseController;
+import com.btechnoserve.mymess.api.comman.BaseController;
 import com.btechnoserve.mymess.services.AdminServices;
 
 @RestController

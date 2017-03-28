@@ -30,10 +30,10 @@ public class MyUserDetailsServiceForSpringSecurityImpl implements UserDetailsSer
 		com.btechnoserve.mymess.model.User user = userDao.findByUserName(username);
 
 		String password = user.getPassword();
-		boolean enabled = user.isEnabled();
-		boolean accoutNonExpired = user.isEnabled();
-		boolean credentialsNonExpired = user.isEnabled();
-		boolean accoutNonLocker = user.isEnabled();
+		boolean enabled = user.isEnable();
+		boolean accoutNonExpired = user.isAccoutNonExpired();
+		boolean credentialsNonExpired = user.isCredentialsNonExpired();
+		boolean accoutNonLocker = user.isAccoutNonLocker();
 		List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
 
 		return new User(username, password, enabled, accoutNonExpired, credentialsNonExpired, accoutNonLocker,

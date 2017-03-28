@@ -47,7 +47,6 @@ public class UserDaoImpl implements UserDao {
 		Session session = sessionFactory.getCurrentSession();
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		user.setPassword(encoder.encode(user.getPassword()));
-		user.setEnabled(Boolean.TRUE);
 		session.save(user);
 	}
 
