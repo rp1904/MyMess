@@ -9,6 +9,8 @@ target/
 .settings
 .springBeans
 
+.apk
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
