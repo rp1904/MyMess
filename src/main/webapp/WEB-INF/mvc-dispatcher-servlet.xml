@@ -81,12 +81,12 @@
         <property name="packagesToScan" value="com.btechnoserve.mymess.model"></property>
     </bean>
 
-	<bean id="userDao" class="com.btechnoserve.mymess.dao.impl.UserDaoImpl">
+	<bean id="userDao" class="com.byb.bhojan.dao.impl.UserDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
 	<bean id="myUserDetailsServiceForSpringSecurity"
-	class="com.btechnoserve.mymess.services.impl.MyUserDetailsServiceForSpringSecurityImpl">
+	class="com.byb.bhojan.services.impl.MyUserDetailsServiceForSpringSecurityImpl">
 		<property name="userDao" ref="userDao" />
 	</bean>
 
