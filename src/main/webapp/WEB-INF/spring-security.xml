@@ -46,21 +46,22 @@
 	xmlns="http://www.springframework.org/schema/security">
 	
 		<intercept-url pattern="/web/resources/**" access="permitAll" />
+		<intercept-url pattern="/web/login" access="permitAll" />
 		<intercept-url pattern="/web/member/**" access="hasRole('MEMBER')" />
 		<intercept-url pattern="/web/admin/**" access="hasRole('ADMIN')" />
 		<intercept-url pattern="/web/superadmin/**" access="hasRole('SUPERADMIN')" />
 
 		<!-- access denied page -->
 		<access-denied-handler error-page="/403" />
-		<form-login 
-		    login-page="/web/login" 
-		    default-target-url="/web/welcome"
-		    login-processing-url="/web/j_spring_security_check"
-			authentication-failure-url="/web/login?error" 
-			username-parameter="username"
-			password-parameter="password" />
-		<logout logout-success-url="/web/login?logout" />
-		<csrf />
+<!-- 		<form-login  -->
+<!-- 		    login-page="/web/login"  -->
+<!-- 		    default-target-url="/web/welcome" -->
+<!-- 		    login-processing-url="/web/j_spring_security_check" -->
+<!-- 			authentication-failure-url="/web/login?error"  -->
+<!-- 			username-parameter="username" -->
+<!-- 			password-parameter="password" /> -->
+<!-- 		<logout logout-success-url="/web/login?logout" /> -->
+<!-- 		<csrf /> -->
 	</http>
 
 	

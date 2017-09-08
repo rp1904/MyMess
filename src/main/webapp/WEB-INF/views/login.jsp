@@ -36,17 +36,16 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-12">
-								<form id="login-form" action="<c:url value='/web/login' />" method="post" role="form" style="display: block;">
+							<form:form id="loginForm" method="post" action="/web/login" modelAttribute="superAdmin">
+							
 									<div class="form-group">
-										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Email / Mobile Number" value="">
+										<form:input id="email" name="email" path="email"  tabindex="1" class="form-control" placeholder="Email" />
 									</div>
+									
 									<div class="form-group">
-										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+										<form:password id="password" name="password" path="password" tabindex="2" class="form-control" placeholder="Password" />
 									</div>
-<!-- 									<div class="form-group text-center"> -->
-<!-- 										<input type="checkbox" tabindex="3" class="" name="remember" id="remember"> -->
-<!-- 										<label for="remember"> Remember Me</label> -->
-<!-- 									</div> -->
+									
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
@@ -54,7 +53,7 @@
 											</div>
 										</div>
 									</div>
-									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+									
 									<div class="form-group">
 										<div class="row">
 											<div class="col-lg-12">
@@ -64,6 +63,7 @@
 											</div>
 										</div>
 									</div>
+									
 									<div class="form-group">
 										<div class="row">
 											<div class="col-lg-12">
@@ -73,7 +73,9 @@
 											</div>
 										</div>
 									</div>
-								</form>
+								
+								</form:form>
+								
 							</div>
 						</div>
 					</div>

@@ -17,12 +17,12 @@ public class EmailService extends Thread {
 
 	Logger logger = Logger.getLogger(EmailService.class);
 
+	@Autowired
 	private JavaMailSender mailSender;
 
 	@Value("${isEmailsEnabled}")
 	private String isEmailsEnabled;
 
-	@Autowired
 	public void setMailSender(JavaMailSender mailSender) {
 		this.mailSender = mailSender;
 	}
