@@ -30,8 +30,7 @@ public interface UserServices {
 
 	public List<User> getMembersByMess(Mess mess, int start, int limit);
 
-	public List<User> getMembersByMessAndSearch(String searchString, Mess mess,
-			int start, int limit);
+	public List<User> getMembersByMessAndSearch(String searchString, Mess mess, int start, int limit);
 
 	public Mess getMessByMember(User loggedInUser);
 
@@ -40,4 +39,6 @@ public interface UserServices {
 	public User getUserByAppKey(String appKey);
 
 	public void updateUser(User user);
+
+	public List<User> getMembersByMessId(String messId);
 }

@@ -1,5 +1,7 @@
 package com.byb.bhojan.services.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +60,12 @@ public class MessServicesImpl implements MessServices {
 	public boolean isMessNameAlreadyRegistered(String messName) {
 		// TODO Auto-generated method stub
 		return messDao.isMessNameAlreadyRegistered(messName);
+	}
+
+	@Override
+	public List<Mess> getAllMessess() {
+		// TODO Auto-generated method stub
+		return messDao.getAllMessess();
 	}
 
 }

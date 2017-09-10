@@ -80,4 +80,8 @@ public class ProjectConstant {
 
 	// --------------------------------------------------------------------------------------------
 
+	public static String getProjectName() {
+		return PROJECT_NAME;
+	}
+
 }

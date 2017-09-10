@@ -178,4 +178,16 @@ public class UserDaoImpl implements UserDao {
 		User m = (User) criteria.uniqueResult();
 		return m;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getMembersByMessId(String messIdPk) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(User.class);
+		criteria.createAlias("mess", "m").add(Restrictions.eq("m.messIdPk", messIdPk));
+		criteria.addOrder(Order.desc("createdUpdated.updatedAt"));
+
+		return criteria.list();
+	}
 }

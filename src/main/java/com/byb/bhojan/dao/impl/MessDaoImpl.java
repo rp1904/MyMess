@@ -1,5 +1,7 @@
 package com.byb.bhojan.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -77,6 +79,15 @@ public class MessDaoImpl implements MessDao {
 		criteria.createAlias("messMembers", "mm").add(Restrictions.eq("mm.userIdPk", userIdPk.trim()));
 		return (Mess) criteria.uniqueResult();
 
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Mess> getAllMessess() {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(Mess.class);
+		return criteria.list();
 	}
 
 }

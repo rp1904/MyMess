@@ -1,5 +1,7 @@
 package com.byb.bhojan.dao;
 
+import java.util.List;
+
 import com.byb.bhojan.model.Mess;
 
 public interface MessDao {
@@ -15,5 +17,7 @@ public interface MessDao {
 	public boolean isMessNameAlreadyRegistered(String messName);
 
 	public Mess getMessByMemberIdPk(String userIdPk);
+
+	public List<Mess> getAllMessess();
 
 }

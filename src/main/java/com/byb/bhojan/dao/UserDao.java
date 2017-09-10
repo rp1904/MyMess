@@ -30,11 +30,12 @@ public interface UserDao {
 
 	public List<User> getMembersByMess(Mess mess, int start, int limit);
 
-	public List<User> getMembersByMessAndSearch(String searchString, Mess mess,
-			int pageNumber, int pageSize);
+	public List<User> getMembersByMessAndSearch(String searchString, Mess mess, int pageNumber, int pageSize);
 
 	public Mess getMessByMember(User loggedInUser);
 
 	public User getUserByUserId(String memberId);
+
+	public List<User> getMembersByMessId(String messId);
 
 }

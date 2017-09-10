@@ -36,10 +36,10 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-12">
-							<form:form id="loginForm" method="post" action="/web/login" modelAttribute="superAdmin">
+							<form:form id="loginForm" method="post" action="j_spring_security_check" modelAttribute="superAdmin">
 							
 									<div class="form-group">
-										<form:input id="email" name="email" path="email"  tabindex="1" class="form-control" placeholder="Email" />
+										<form:input id="email" name="email" path="email"  tabindex="1" class="form-control" placeholder="Email Or Mobile Number" />
 									</div>
 									
 									<div class="form-group">
@@ -54,25 +54,25 @@
 										</div>
 									</div>
 									
-									<div class="form-group">
-										<div class="row">
-											<div class="col-lg-12">
-												<div class="text-center">
-													<a href="#" tabindex="5" class="forgot-password">Forgot Password?</a>
-												</div>
-											</div>
-										</div>
-									</div>
+<!-- 									<div class="form-group"> -->
+<!-- 										<div class="row"> -->
+<!-- 											<div class="col-lg-12"> -->
+<!-- 												<div class="text-center"> -->
+<!-- 													<a href="#" tabindex="5" class="forgot-password">Forgot Password?</a> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
 									
-									<div class="form-group">
-										<div class="row">
-											<div class="col-lg-12">
-												<div class="text-center">
-													New Member? Register <a href="member-registration" tabindex="5" class="forgot-password">Here</a>
-												</div>
-											</div>
-										</div>
-									</div>
+<!-- 									<div class="form-group"> -->
+<!-- 										<div class="row"> -->
+<!-- 											<div class="col-lg-12"> -->
+<!-- 												<div class="text-center"> -->
+<!-- 													New Member? Register <a href="member-registration" tabindex="5" class="forgot-password">Here</a> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
 								
 								</form:form>
 								

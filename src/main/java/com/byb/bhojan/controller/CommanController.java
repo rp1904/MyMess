@@ -10,18 +10,17 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.byb.bhojan.model.User;
 import com.byb.bhojan.services.UserServices;
-import com.byb.bhojan.util.ProjectConstant;
 
 @Controller
 public class CommanController {
@@ -43,38 +42,27 @@ public class CommanController {
 	@RequestMapping(value = "/web/welcome", method = RequestMethod.GET)
 	public ModelAndView afterLoginPage() {
 
-		SimpleGrantedAuthority grantedAuthority = (SimpleGrantedAuthority) (SecurityContextHolder.getContext()
-				.getAuthentication().getAuthorities()).toArray()[0];
-
-		ModelAndView model = new ModelAndView();
-
-		String role = grantedAuthority.getAuthority();
-		String emailIdRoMobNo = SecurityContextHolder.getContext().getAuthentication().getName();
-
-		if (role.equals(ProjectConstant.USER_ROLE_SUPERADMIN)) {
-			model.setViewName("super-admin/superadmin-home");
-		} else if (role.equals(ProjectConstant.USER_ROLE_MESS)) {
-			model.setViewName("admin/admin-home");
-		} else {
-
-			model.setViewName("member/select-mess");
-			model.addObject("member", userServices.getUserByEmailOrMobileNo(emailIdRoMobNo));
-		}
+		ModelAndView model = new ModelAndView("redirect:admin/home");
 
 		return model;
-
 	}
 
 	@RequestMapping(value = "/web/login", method = RequestMethod.GET)
-	public ModelAndView login(@ModelAttribute("superAdmin") User superAdmin, HttpServletRequest request) {
+	public ModelAndView login(@ModelAttribute("superAdmin") User superAdmin,
+			@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout) {
 
-		ModelAndView modelAndView = new ModelAndView();
+		ModelAndView model = new ModelAndView();
+		if (error != null) {
+			model.addObject("error", "Invalid Credentials!");
+		}
 
-		modelAndView.setViewName("login");
+		if (logout != null) {
+			model.addObject("msg", "You've been logged out successfully.");
+		}
+		model.setViewName("login");
 
-		logger.info("User : " + superAdmin);
-
-		return modelAndView;
+		return model;
 
 	}
 

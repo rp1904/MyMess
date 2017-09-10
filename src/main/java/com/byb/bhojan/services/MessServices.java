@@ -1,5 +1,7 @@
 package com.byb.bhojan.services;
 
+import java.util.List;
+
 import com.byb.bhojan.model.Mess;
 
 public interface MessServices {
@@ -13,5 +15,7 @@ public interface MessServices {
 	public Mess getMessByOwnerIdPk(String userIdPk);
 
 	public boolean isMessNameAlreadyRegistered(String messName);
+
+	public List<Mess> getAllMessess();
 
 }

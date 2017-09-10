@@ -154,4 +154,10 @@ public class UserServicesImpl implements UserServices {
 		userDao.updateUser(user);
 	}
 
+	@Override
+	public List<User> getMembersByMessId(String messId) {
+		// TODO Auto-generated method stub
+		return userDao.getMembersByMessId(messId);
+	}
+
 }
