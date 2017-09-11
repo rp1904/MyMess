@@ -274,4 +274,63 @@
 		</plugins>
 	</build>
 
+	<profiles>
+      <profile>
+      <id>dev</id>
+      <build>      
+     <resources>
+         <resource>
+             <directory>src/main/resources</directory>
+          </resource>
+         <resource>
+          <directory>src/main/config/dev</directory>
+         </resource>
+       </resources>
+      </build>
+      </profile>
+            
+      <profile>
+      <id>demo</id>       
+      <build>
+      <resources>
+         <resource>
+             <directory>src/main/resources</directory>
+          </resource>
+         <resource>
+          <directory>src/main/config/demo</directory>
+         </resource>
+       </resources>
+      </build>
+      </profile>
+      
+      <profile>
+      <id>prod</id>       
+      <build>
+      <resources>
+         <resource>
+             <directory>src/main/resources</directory>
+          </resource>
+         <resource>
+          <directory>src/main/config/prod</directory>
+         </resource>
+       </resources>
+      </build>
+      </profile>
+      
+      <profile>
+      <id>local</id>
+      <build>
+      <resources>
+         <resource>
+             <directory>src/main/resources</directory>
+          </resource>
+         <resource>
+          <directory>src/main/config/local</directory>
+         </resource>
+       </resources>
+      </build>
+      </profile>
+      
+   </profiles>
+   
 </project>
