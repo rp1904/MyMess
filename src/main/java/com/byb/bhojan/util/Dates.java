@@ -39,5 +39,15 @@ public class Dates {
 
 		return calendar.getTime();
 	}
+	
+	public static Long getMillisAfterHours(Date date, int hrs) {
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.clear();
+		calendar.setTime(date);
+		calendar.add(Calendar.HOUR_OF_DAY, hrs);
+
+		return calendar.getTimeInMillis();
+	}
 
 }

@@ -1,6 +1,7 @@
 package com.byb.bhojan.controller;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,8 +13,11 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.byb.bhojan.model.User;
 import com.byb.bhojan.services.UserServices;
+import com.byb.bhojan.util.EncryptionUtils;
+import com.byb.bhojan.util.ProjectConstant;
 
 @Controller
 public class CommanController {
@@ -45,6 +51,63 @@ public class CommanController {
 		ModelAndView model = new ModelAndView("redirect:admin/home");
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/web/resetpassword", method = RequestMethod.GET)
+	public ModelAndView webResetPasswordGet(@RequestParam("token") String token) {
+
+		ModelAndView modelAndView = new ModelAndView("password-reset");
+
+		String decryptedToken = EncryptionUtils.decrypt(token);
+		
+		String[] tokenParams = decryptedToken.split(ProjectConstant.STRING_SEPERATOR);
+		
+		String userId = tokenParams[0];
+		
+		User user = userServices.getMemberByMemberId(userId);
+		
+		logger.info(user);
+		
+		long validTillMillis = Long.parseLong(tokenParams[1]);
+		
+		logger.info("Valid Till" + new Date(validTillMillis));
+		
+		//Check for link expiry
+		if(validTillMillis < new Date().getTime()) {
+			
+			modelAndView.addObject("status",ProjectConstant.STATUS_ERROR);
+			modelAndView.addObject("message", "This password reset link is expired !");
+			return modelAndView;
+		}
+		
+		user.setPassword("");
+		user.setConfirmPassword("");
+		modelAndView.addObject("user",user);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/web/resetpassword", method = RequestMethod.POST)
+	public ModelAndView webResetPasswordPost(@RequestBody User user) {
+
+		ModelAndView modelAndView = new ModelAndView("password-reset");
+
+		logger.info(user);
+		
+		if(!(user.getPassword().equals(user.getConfirmPassword()))) {
+			modelAndView.addObject("status", ProjectConstant.STATUS_ERROR);
+			modelAndView.addObject("message", "Password and confirm password does not match !");
+		}
+		
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
+		user.setPassword(encoder.encode(user.getPassword()));
+		
+		userServices.updateUser(user);
+		
+		modelAndView.addObject("status", ProjectConstant.STATUS_SUCCESS);
+		modelAndView.addObject("message", "Password reset successfully !");
+		
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "/web/login", method = RequestMethod.GET)

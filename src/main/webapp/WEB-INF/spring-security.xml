@@ -9,6 +9,7 @@
     <http auto-config="true">
         <intercept-url pattern="/web/resources/**" access="permitAll" />
 		<intercept-url pattern="/web/login" access="permitAll" />
+		<intercept-url pattern="/web/resetpassword/**" access="permitAll" />
 		<intercept-url pattern="/web/member/**" access="hasRole('MEMBER')" />
 		<intercept-url pattern="/web/admin/**" access="hasRole('SUPERADMIN')" />
 
