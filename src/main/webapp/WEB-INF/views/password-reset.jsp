@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Log in</title>
+  <title>Reset Password</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
  <!-- Bootstrap 3.3.6 -->
@@ -22,13 +22,14 @@
 					<div class="panel-heading">
 						<div class="row">
 							<div class="col-xs-12 text-center">
-								<a href="#" class="active" id="login-form-link">Login</a>
+								<a href="#" class="active" id="login-form-link">Reset Password</a>
 							</div>
-							<c:if test="${not empty error}">
-								<div class="error">${error}</div>
-							</c:if>
-							<c:if test="${not empty msg}">
-								<div class="msg">${msg}</div>
+							status = ${test}
+							<c:if test="${not empty status}">
+								<div class="alert alert-${status}" role="alert">
+								  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								  <strong>${message}</strong>
+								</div>
 							</c:if>
 						</div>
 						<hr>
@@ -36,10 +37,12 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-12">
-							<form:form id="loginForm" method="post" action="j_spring_security_check" modelAttribute="superAdmin">
+							<form:form id="passwordResetForm" method="post" action="resetpassword" modelAttribute="user">
 							
+									<form:hidden id="userIdPk" name="userIdPk" path="userIdPk"/>
+									
 									<div class="form-group">
-										<form:input id="email" name="email" path="email"  tabindex="1" class="form-control" placeholder="Email Or Mobile Number" />
+										<form:input id="email" name="email" path="email"  tabindex="1" class="form-control" disabled="true" />
 									</div>
 									
 									<div class="form-group">
@@ -47,33 +50,16 @@
 									</div>
 									
 									<div class="form-group">
+										<form:password id="confirmPassword" name="confirmPassword" path="confirmPassword" tabindex="3" class="form-control" placeholder="Confirm Password" />
+									</div>
+									
+									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
-												<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+												<button type="submit" class="form-control btn btn-login">Reset</button>
 											</div>
 										</div>
 									</div>
-									
-<!-- 									<div class="form-group"> -->
-<!-- 										<div class="row"> -->
-<!-- 											<div class="col-lg-12"> -->
-<!-- 												<div class="text-center"> -->
-<!-- 													<a href="#" tabindex="5" class="forgot-password">Forgot Password?</a> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-									
-<!-- 									<div class="form-group"> -->
-<!-- 										<div class="row"> -->
-<!-- 											<div class="col-lg-12"> -->
-<!-- 												<div class="text-center"> -->
-<!-- 													New Member? Register <a href="member-registration" tabindex="5" class="forgot-password">Here</a> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-								
 								</form:form>
 								
 							</div>

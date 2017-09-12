@@ -2,7 +2,7 @@ package com.byb.bhojan.util;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
+import com.byb.bhojan.model.User;
 
 public class EmailTemplates {
 
@@ -77,7 +77,7 @@ public class EmailTemplates {
 		return message;
 	}
 
-	public static String getPasswordMailTemplate(HttpServletRequest req, String tempPassword) {
+	public static String getPasswordMailTemplate(String tempPassword) {
 		String PASSWORD_MAIL_TEMPLETE = "";
 		// @formatter:off
 		PASSWORD_MAIL_TEMPLETE = "<!DOCTYPE html>" + "<html lang='en-US'>" + "<head>" + "<meta charset='utf-8'>"
@@ -148,6 +148,16 @@ public class EmailTemplates {
 
 		// @formatter:on
 		return WELCOME_MAIL_TEMPLETE;
+	}
+
+	public static String passwordResetText(User user, String link, String linkLifeTime) {
+		// @formatter:off
+		String message = startDefualtMessage + " <h3>Dear " + user.getUserProfile().getFullName() + ",</h3>"
+				+ " <p>We received a request for password change.<br/><br/> " + " <a href='" + link
+				+ "' target='_blank'>Click here</a> to set your new password.<br/><br/>"
+				+ "The link will be active for " + linkLifeTime + " hour.<br><br>" + "</p>" + endDefualtMessageTemplete;
+		// @formatter:on
+		return message;
 	}
 
 }

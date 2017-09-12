@@ -10,8 +10,10 @@ public class ProjectConstant {
 
 	public static final String WELCOME_EMAIL_SUB = "Welcome to " + PROJECT_NAME;
 
+	public static final String EMAIL_PASSWORD_RESET = "Welcome to " + PROJECT_NAME;
+
 	public static final String SERVER_KEY = "AAAAMCyTYzA:APA91bEEGdkJ8HE7XN0UvcobqFhDDQ_wEMOPsZsfNSpZARnNjyar-wNF62Sky8HMzsr-8yRiv3T1XJ9BfVZ4FSwhqS7Au2_JZIbqRBuflaIjYu5VAFiEKx_EU8Wd8_jeuqjjnmM3qi1T";
-	
+
 	public static final String STRING_SEPERATOR = "RP_WORLD";
 
 	// ---------------- USER ROLE -------------------
@@ -79,11 +81,11 @@ public class ProjectConstant {
 
 	public static final String MESS_PAYMENT_PENDING = "Pending";
 	public static final String MESS_PAYMENT_PAID = "Paid";
-	
+
 	// ----------------- RESPONSE STATUS --------------------------------
 
-	public static final String STATUS_SUCCESS = "SUCCESS";
-	public static final String STATUS_ERROR = "ERROR";
+	public static final String STATUS_SUCCESS = "success";
+	public static final String STATUS_DANGER = "danger";
 
 	// --------------------------------------------------------------------------------------------
 
