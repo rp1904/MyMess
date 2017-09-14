@@ -216,7 +216,6 @@
 			<version>1.9.13</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 		<dependency>
 		    <groupId>com.googlecode.json-simple</groupId>
 		    <artifactId>json-simple</artifactId>
@@ -234,6 +233,12 @@
             <artifactId>spring-context-support</artifactId>
             <version>4.0.1.RELEASE</version>
         </dependency>
+        
+        <dependency>
+		  <groupId>commons-codec</groupId>
+		  <artifactId>commons-codec</artifactId>
+		  <version>1.10</version>
+		</dependency>
 
 	</dependencies>
 
