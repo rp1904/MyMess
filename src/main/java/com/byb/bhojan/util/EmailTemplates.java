@@ -155,6 +155,9 @@ public class EmailTemplates {
 		String message = startDefualtMessage + " <h3>Dear " + user.getUserProfile().getFullName() + ",</h3>"
 				+ " <p>We received a request for password change.<br/><br/> " + " <a href='" + link
 				+ "' target='_blank'>Click here</a> to set your new password.<br/><br/>"
+				// + "<tbody><tr><td style='border-radius:5px' width='10%'
+				// bgcolor='#f9a92f' align='center'> <a href='"
+				// + link + "'> Reset My Password </a> </td></tr></tbody>"
 				+ "The link will be active for " + linkLifeTime + " hour.<br><br>" + "</p>" + endDefualtMessageTemplete;
 		// @formatter:on
 		return message;

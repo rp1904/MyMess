@@ -64,7 +64,8 @@ public class EncryptionUtils {
 		String link = "2fc9cb23-7a0a-4dd9-9044-cbb27bdb7ddeRP_WORLD1505330151645";
 
 		String encryptedString = EncryptionUtils.encrypt(link);
-		String decryptedString = EncryptionUtils.decrypt(encryptedString);
+		String decryptedString = EncryptionUtils
+				.decrypt("exIf//jDA+Y7adpkwHCawfkUtfvBb2LSI3+e3JP71qRVZ9lVFe7DGpGXlY68Tfl0c2i2L7QrCL73eHS2k7lPPQ==");
 
 		System.out.println(link);
 		System.out.println(encryptedString);
