@@ -1,81 +1,89 @@
 package com.byb.bhojan.util;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.spec.AlgorithmParameterSpec;
+import java.security.spec.KeySpec;
 
 import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.PBEParameterSpec;
 
 import org.apache.commons.codec.binary.Base64;
 
 public class EncryptionUtils {
+	// some random salt
+	private static final byte[] SALT = { (byte) 0x21, (byte) 0x21, (byte) 0xF0, (byte) 0x55, (byte) 0xC3, (byte) 0x9F,
+			(byte) 0x5A, (byte) 0x75 };
 
-	private static final String characterEncoding = "UTF-8";
-	private static final String cipherTransformation = "AES/CBC/PKCS5PADDING";
-	private static final String aesEncryptionAlgorithem = "AES";
+	private final static int ITERATION_COUNT = 31;
 
-	public static String encrypt(String plainText) {
-		String encryptedText = "";
-		try {
-			Cipher cipher = Cipher.getInstance(cipherTransformation);
-			byte[] key = getMD5(ProjectConstant.STRING_SEPERATOR).substring(0, 16).getBytes(characterEncoding);
-			SecretKeySpec secretKey = new SecretKeySpec(key, aesEncryptionAlgorithem);
-			IvParameterSpec ivparameterspec = new IvParameterSpec(key);
-			cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivparameterspec);
-			byte[] cipherText = cipher.doFinal(plainText.getBytes("UTF8"));
-			encryptedText = Base64.encodeBase64String(cipherText);
-
-		} catch (Exception E) {
-			System.err.println("Encrypt Exception : " + E.getMessage());
-		}
-		return encryptedText;
+	private EncryptionUtils() {
 	}
 
-	public static String decrypt(String encryptedText) {
-		String decryptedText = "";
-		try {
-			Cipher cipher = Cipher.getInstance(cipherTransformation);
-			byte[] key = getMD5(ProjectConstant.STRING_SEPERATOR).substring(0, 16).getBytes(characterEncoding);
-			SecretKeySpec secretKey = new SecretKeySpec(key, aesEncryptionAlgorithem);
-			IvParameterSpec ivparameterspec = new IvParameterSpec(key);
-			cipher.init(Cipher.DECRYPT_MODE, secretKey, ivparameterspec);
-			byte[] cipherText = Base64.decodeBase64(encryptedText.getBytes("UTF8"));
-			decryptedText = new String(cipher.doFinal(cipherText), "UTF-8");
-		} catch (Exception E) {
-			System.err.println("decrypt Exception : " + E.getMessage());
+	public static String encrypt(String input) {
+		if (input == null) {
+			throw new IllegalArgumentException();
 		}
-		return decryptedText;
+		try {
+
+			KeySpec keySpec = new PBEKeySpec(null, SALT, ITERATION_COUNT);
+			AlgorithmParameterSpec paramSpec = new PBEParameterSpec(SALT, ITERATION_COUNT);
+
+			SecretKey key = SecretKeyFactory.getInstance("PBEWithMD5AndDES").generateSecret(keySpec);
+
+			Cipher ecipher = Cipher.getInstance(key.getAlgorithm());
+			ecipher.init(Cipher.ENCRYPT_MODE, key, paramSpec);
+
+			byte[] enc = ecipher.doFinal(input.getBytes());
+
+			String res = new String(Base64.encodeBase64(enc));
+			// escapes for url
+			res = res.replace('+', '-').replace('/', '_').replace("%", "%25").replace("\n", "%0A");
+
+			return res;
+
+		} catch (Exception e) {
+		}
+
+		return "";
+
 	}
 
-	public static String getMD5(String input) {
-		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			byte[] messageDigest = md.digest(input.getBytes());
-			BigInteger number = new BigInteger(1, messageDigest);
-			String hashtext = number.toString(16);
-			// Now we need to zero pad it if you actually want the full 32
-			// chars.
-			while (hashtext.length() < 32) {
-				hashtext = "0" + hashtext;
-			}
-			return hashtext;
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
+	public static String decrypt(String token) {
+		if (token == null) {
+			return null;
 		}
+		try {
+
+			String input = token.replace("%0A", "\n").replace("%25", "%").replace('_', '/').replace('-', '+');
+
+			byte[] dec = Base64.decodeBase64(input.getBytes());
+
+			KeySpec keySpec = new PBEKeySpec(null, SALT, ITERATION_COUNT);
+			AlgorithmParameterSpec paramSpec = new PBEParameterSpec(SALT, ITERATION_COUNT);
+
+			SecretKey key = SecretKeyFactory.getInstance("PBEWithMD5AndDES").generateSecret(keySpec);
+
+			Cipher dcipher = Cipher.getInstance(key.getAlgorithm());
+			dcipher.init(Cipher.DECRYPT_MODE, key, paramSpec);
+
+			byte[] decoded = dcipher.doFinal(dec);
+
+			String result = new String(decoded);
+			return result;
+
+		} catch (Exception e) {
+			// use logger in production code
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	public static void main(String[] args) {
-
-		String link = "1505330151645RP_WORLD2fc9cb23-7a0a-4dd9-9044-cbb27bdb7ddeRP_WORLD1505330151645";
-
-		String encryptedString = EncryptionUtils.encrypt(link);
-		String decryptedString = EncryptionUtils
-				.decrypt("exIf//jDA+Y7adpkwHCawfkUtfvBb2LSI3+e3JP71qRVZ9lVFe7DGpGXlY68Tfl0c2i2L7QrCL73eHS2k7lPPQ==");
-
-		System.out.println(link);
-		System.out.println(encryptedString);
-		System.out.println(decryptedString);
+		System.out.println(encrypt("28bb3428-56f2-47cb-84d7-00d611a01646RP_WORLD1505500685649"));
+		System.out.println(decrypt(encrypt("28bb3428-56f2-47cb-84d7-00d611a01646RP_WORLD1505500685649")));
 	}
+
 }
