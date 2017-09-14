@@ -1,0 +1,3 @@
+commands
+
+mvn clean -o -Pprod package && rm -rf opt/tomcat/webapps/bhojan opt/tomcat/webapps/bhojan.war && cp /home/ubuntu/Bhojan/MyMess/target/bhojan.war /home/ubuntu/opt/apache-tomcat-8.5.15/webapps/

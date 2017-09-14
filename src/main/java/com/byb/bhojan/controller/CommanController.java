@@ -3,13 +3,9 @@ package com.byb.bhojan.controller;
 import java.io.IOException;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -57,8 +53,6 @@ public class CommanController {
 
 		ModelAndView modelAndView = new ModelAndView("password-reset");
 
-		modelAndView.addObject("test", ProjectConstant.STATUS_DANGER);
-
 		String decryptedToken = EncryptionUtils.decrypt(token);
 
 		String[] tokenParams = decryptedToken.split(ProjectConstant.STRING_SEPERATOR);
@@ -98,13 +92,29 @@ public class CommanController {
 
 		logger.info(user);
 
+		if (user.getPassword().length() < 5) {
+			modelAndView.addObject("status", ProjectConstant.STATUS_DANGER);
+			modelAndView.addObject("message", "Password length should be of minimum 5 characters !");
+			return modelAndView;
+		}
+
+		if (user.getPassword().contains(" ")) {
+			modelAndView.addObject("status", ProjectConstant.STATUS_DANGER);
+			modelAndView.addObject("message", "Password can not contain white space !");
+			return modelAndView;
+		}
+
 		if (!(user.getPassword().equals(user.getConfirmPassword()))) {
 			modelAndView.addObject("status", ProjectConstant.STATUS_DANGER);
 			modelAndView.addObject("message", "Password and confirm password does not match !");
+			return modelAndView;
 		}
 
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		user.setPassword(encoder.encode(user.getPassword()));
+
+		User userFromDb = userServices.getUserByUserIdPk(user.getUserIdPk());
+
+		userFromDb.setPassword(encoder.encode(user.getPassword()));
 
 		userServices.updateUser(user);
 
@@ -145,23 +155,6 @@ public class CommanController {
 		// Testing 1");
 
 		return new ModelAndView("super-admin/list");
-	}
-
-	// customize the error message
-	private String getErrorMessage(HttpServletRequest request, String key) {
-
-		Exception exception = (Exception) request.getSession().getAttribute(key);
-
-		String error = "";
-		if (exception instanceof BadCredentialsException) {
-			error = "Invalid Credentials !";
-		} else if (exception instanceof LockedException) {
-			error = exception.getMessage();
-		} else {
-			error = "Invalid Email / Mobile Number !";
-		}
-
-		return error;
 	}
 
 	// for 403 access denied page

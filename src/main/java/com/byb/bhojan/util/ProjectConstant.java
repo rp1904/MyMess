@@ -10,7 +10,7 @@ public class ProjectConstant {
 
 	public static final String WELCOME_EMAIL_SUB = "Welcome to " + PROJECT_NAME;
 
-	public static final String EMAIL_PASSWORD_RESET = "Welcome to " + PROJECT_NAME;
+	public static final String EMAIL_PASSWORD_RESET = "Reset your " + PROJECT_NAME + " account password";
 
 	public static final String SERVER_KEY = "AAAAMCyTYzA:APA91bEEGdkJ8HE7XN0UvcobqFhDDQ_wEMOPsZsfNSpZARnNjyar-wNF62Sky8HMzsr-8yRiv3T1XJ9BfVZ4FSwhqS7Au2_JZIbqRBuflaIjYu5VAFiEKx_EU8Wd8_jeuqjjnmM3qi1T";
 
