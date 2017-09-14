@@ -116,7 +116,7 @@ public class CommanController {
 
 		userFromDb.setPassword(encoder.encode(user.getPassword()));
 
-		userServices.updateUser(user);
+		userServices.updateUser(userFromDb);
 
 		modelAndView.addObject("status", ProjectConstant.STATUS_SUCCESS);
 		modelAndView.addObject("message", "Password reset successfully !");
