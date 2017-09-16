@@ -319,6 +319,7 @@
           <directory>src/main/config/prod</directory>
          </resource>
        </resources>
+       <directory>/home/ubuntu/opt/apache-tomcat-8.5.15/webapps/</directory>
       </build>
       </profile>
       

@@ -45,7 +45,7 @@ public class ForgetPassword extends BaseController {
 		User user = userServices.getUserByEmailOrMobileNo(email);
 
 		if (user == null) {
-			return sendErrorResponse("Email not registered with us !");
+			return sendErrorResponse("Email is not registered with us !");
 		} else {
 
 			String resetPassWebPage = "/web/resetpassword?token=";

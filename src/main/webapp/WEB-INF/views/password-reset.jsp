@@ -20,7 +20,7 @@
 <div class="container">
     	<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<c:if test="${status != 'success'}">	
+				<c:if test="${empty type && status != 'success'}">	
 					<div class="panel panel-login">			
 						<div class="panel-heading">
 							<div class="row">
@@ -30,7 +30,7 @@
 							</div>
 							<hr>
 						</div>
-						<c:if test="${empty status || status == 'danger'}">
+						<c:if test="${empty type && (empty status || status == 'danger')}">
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-lg-12">
@@ -76,6 +76,12 @@
 					<div class="alert alert-${status}" role="alert">
 					  <h2 class="text-center"> ${message}</h2>
 					  <h5 class="text-center text-info"> Please login in app with new password.</h5>
+					</div>
+				</c:if>
+				
+				<c:if test="${not empty type}">	
+					<div class="alert alert-${status}" role="alert">
+					  <h2 class="text-center"> ${message}</h2>
 					</div>
 				</c:if>
 			</div>

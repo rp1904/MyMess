@@ -55,6 +55,16 @@ public class CommanController {
 
 		String decryptedToken = EncryptionUtils.decrypt(token);
 
+		if (decryptedToken == null) {
+
+			logger.info("Invalid Token !");
+
+			modelAndView.addObject("status", ProjectConstant.STATUS_DANGER);
+			modelAndView.addObject("type", "invalid_token");
+			modelAndView.addObject("message", "Invalid Token !");
+			return modelAndView;
+		}
+
 		String[] tokenParams = decryptedToken.split(ProjectConstant.STRING_SEPERATOR);
 
 		String userIdPk = tokenParams[0];

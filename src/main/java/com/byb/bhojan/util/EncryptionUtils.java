@@ -83,7 +83,9 @@ public class EncryptionUtils {
 
 	public static void main(String[] args) {
 		System.out.println(encrypt("28bb3428-56f2-47cb-84d7-00d611a01646RP_WORLD1505500685649"));
-		System.out.println(decrypt(encrypt("28bb3428-56f2-47cb-84d7-00d611a01646RP_WORLD1505500685649")));
+
+		System.out.println(
+				decrypt("LPTQhw3i7p2oJLuxLDmo-FZJ2x62bw4rHw45xyMLZl7ZHxD0OYZITkZoUM90qaWPN0yxHtAOI7yaYqo6DdwKQ=="));
 	}
 
 }

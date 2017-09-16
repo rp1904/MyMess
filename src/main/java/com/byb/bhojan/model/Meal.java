@@ -183,11 +183,10 @@ public class Meal implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Meal [mealId=" + mealId + ", mess=" + mess + ", mealTitle=" + mealTitle + ", status=" + status
-				+ ", vegDefaultMenu=" + vegDefaultMenu + ", vegItems=" + vegItems + ", vegExtra=" + vegExtra
-				+ ", sweet=" + sweet + ", isNonVeg=" + isNonVeg + ", nonVegDefaultMenu=" + nonVegDefaultMenu
-				+ ", nonVegItems=" + nonVegItems + ", nonVegExtra=" + nonVegExtra + ", note=" + note
-				+ ", createdUpdated=" + createdUpdated + "]";
+		return "Meal [mealId=" + mealId + ", mealTitle=" + mealTitle + ", status=" + status + ", vegDefaultMenu="
+				+ vegDefaultMenu + ", vegItems=" + vegItems + ", vegExtra=" + vegExtra + ", sweet=" + sweet
+				+ ", isNonVeg=" + isNonVeg + ", nonVegDefaultMenu=" + nonVegDefaultMenu + ", nonVegItems=" + nonVegItems
+				+ ", nonVegExtra=" + nonVegExtra + ", note=" + note + ", createdUpdated=" + createdUpdated + "]";
 	}
 
 }
