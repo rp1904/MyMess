@@ -3,6 +3,7 @@ package com.byb.bhojan.services.impl;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -12,6 +13,8 @@ import com.byb.bhojan.util.ProjectConstant;
 
 @Service
 public class AndroidPush {
+
+  Logger logger = Logger.getLogger(AndroidPush.class);
 
   @Autowired
   private FCMDeviceServices FCMdeviceServices;
@@ -50,6 +53,8 @@ public class AndroidPush {
 
       System.out.println(conn.getResponseCode());
       System.out.println(conn.getResponseMessage());
+    } else {
+      logger.info("FCM token not found for userId: " + userId);
     }
 
   }
