@@ -201,13 +201,14 @@ public class UserDaoImpl implements UserDao {
   public List<AppMember> getMemberListForAppByMessIdPk(String messIdPk) {
     // TODO Auto-generated method stub
     Session session = sessionFactory.getCurrentSession();
-    SQLQuery query =
-        session.createSQLQuery("SELECT u.user_id_pk, up.full_name, mm.created_at FROM users as u "
-            + "INNER JOIN user_profiles up ON up.user_profile_id_pk = u.user_profile_id_fk "
-            + "INNER JOIN messes as m ON m.mess_id_pk = u.mess_id_fk "
-            + "INNER JOIN meals as ml ON ml.mess_id = m.mess_id_pk AND ml.status = 'OPEN' "
-            + "LEFT JOIN members_meals as mm ON u.user_id_pk = mm.member_id_fk" + " WHERE "
-            + "m.mess_id_pk =:MESS_ID_PK ORDER BY mm.created_at DESC, up.full_name");
+    String qry = "SELECT u.user_id_pk, up.full_name, mm.created_at FROM users as u "
+        + "INNER JOIN user_profiles up ON up.user_profile_id_pk = u.user_profile_id_fk "
+        + "INNER JOIN messes as m ON m.mess_id_pk = u.mess_id_fk "
+        + "INNER JOIN meals as ml ON ml.mess_id = m.mess_id_pk AND ml.status = 'OPEN' "
+        + "LEFT JOIN members_meals as mm ON u.user_id_pk = mm.member_id_fk "
+        + "AND mm.meal_id_fk = ml.meal_id_pk "
+        + "WHERE m.mess_id_pk =:MESS_ID_PK ORDER BY mm.created_at DESC, up.full_name";
+    SQLQuery query = session.createSQLQuery(qry);
     query.setParameter("MESS_ID_PK", messIdPk);
 
     List<AppMember> mList = new ArrayList<AppMember>();
@@ -215,14 +216,12 @@ public class UserDaoImpl implements UserDao {
     Iterator<Object> it = l.iterator();
     while (it.hasNext()) {
       Object row[] = (Object[]) it.next();
-      System.out.println("--------------->>> " + row[0] + " -- " + row[1] + " -- " + row[2]);
       AppMember appMember = new AppMember();
       appMember.setMemberId((String) row[0]);
       appMember.setFullName((String) row[1]);
       appMember.setCreatedAt((Date) (row[2]));
       mList.add(appMember);
     }
-    System.out.println("--------------->>> " + mList);
     return mList;
   }
 }

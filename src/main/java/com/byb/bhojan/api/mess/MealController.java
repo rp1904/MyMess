@@ -1,7 +1,6 @@
 package com.byb.bhojan.api.mess;
 
 import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.byb.bhojan.api.comman.BaseController;
 import com.byb.bhojan.model.CreatedUpdated;
 import com.byb.bhojan.model.Meal;
@@ -32,154 +30,168 @@ import com.byb.bhojan.util.ProjectConstant;
 @RequestMapping("/api/mess/meals")
 public class MealController extends BaseController {
 
-	Logger logger = Logger.getLogger(MealController.class);
+  Logger logger = Logger.getLogger(MealController.class);
 
-	@Autowired
-	private MealServices mealServices;
+  @Autowired
+  private MealServices mealServices;
 
-	@Autowired
-	private MessServices messServices;
+  @Autowired
+  private MessServices messServices;
 
-	@Autowired
-	private UserServices userServices;
+  @Autowired
+  private UserServices userServices;
 
-	@Autowired
-	private MemberMealServices memberMealServices;
+  @Autowired
+  private MemberMealServices memberMealServices;
 
-	@Autowired
-	private AndroidPush notification;
+  @Autowired
+  private AndroidPush notification;
 
-	@Autowired
-	private MemberMealCoupenServices memberMealCoupenServices;
+  @Autowired
+  private MemberMealCoupenServices memberMealCoupenServices;
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> addMeal(@RequestBody Meal meal) {
+  @RequestMapping(value = "/add", method = RequestMethod.POST,
+      consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> addMeal(@RequestBody Meal meal) {
 
-		Mess mess = getLoggedInMessByAppKey();
-		meal.setMess(mess);
-		meal.setStatus(ProjectConstant.MEAL_STATUS_OPEN);
-		meal.setCreatedUpdated(new CreatedUpdated(mess.getMessOwner().getUserIdPk()));
+    Mess mess = getLoggedInMessByAppKey();
+    meal.setMess(mess);
+    meal.setStatus(ProjectConstant.MEAL_STATUS_OPEN);
+    meal.setCreatedUpdated(new CreatedUpdated(mess.getMessOwner().getUserIdPk()));
 
-		mealServices.addMeal(meal);
+    mealServices.addMeal(meal);
 
-		return sendSuccessResponse("Meal added successfully !");
-	}
+    return sendSuccessResponse("Meal added successfully !");
+  }
 
-	@RequestMapping(value = "/{start}/{limit}", method = RequestMethod.GET)
-	public ResponseEntity<List<Meal>> getMealList(@PathVariable("start") int start, @PathVariable("limit") int limit) {
+  @RequestMapping(value = "/{start}/{limit}", method = RequestMethod.GET)
+  public ResponseEntity<List<Meal>> getMealList(@PathVariable("start") int start,
+      @PathVariable("limit") int limit) {
 
-		Mess mess = getLoggedInMessByAppKey();
+    Mess mess = getLoggedInMessByAppKey();
 
-		List<Meal> meals = mealServices.getLastMealsByMessIdPk(
-				messServices.getMessByOwnerIdPk(mess.getMessOwner().getUserIdPk()).getMessIdPk(), start, limit);
+    List<Meal> meals = mealServices.getLastMealsByMessIdPk(
+        messServices.getMessByOwnerIdPk(mess.getMessOwner().getUserIdPk()).getMessIdPk(), start,
+        limit);
 
-		return new ResponseEntity<List<Meal>>(meals, HttpStatus.OK);
-	}
+    return new ResponseEntity<List<Meal>>(meals, HttpStatus.OK);
+  }
 
-	@RequestMapping(value = "/read-meal-code/{code}", method = RequestMethod.GET)
-	public ResponseEntity<?> readMealCode(@PathVariable("code") String qrCode) {
+  @RequestMapping(value = "/read-meal-code/{code}", method = RequestMethod.GET)
+  public ResponseEntity<?> readMealCode(@PathVariable("code") String qrCode) {
 
-		Mess mess = getLoggedInMessByAppKey();
+    Mess mess = getLoggedInMessByAppKey();
 
-		String memberIdPk = qrCode.split("==")[0];
-		String mealId = qrCode.split("==")[1];
-		String mealType = qrCode.split("==")[2];
+    String memberIdPk = qrCode.split("==")[0];
+    String mealId = qrCode.split("==")[1];
+    String mealType = qrCode.split("==")[2];
+    String origin = qrCode.split("==")[3]; // QR or Manual
 
-		User member = userServices.getUserByUserIdPk(memberIdPk);
-		Meal meal = mealServices.getMealByMealId(mealId);
+    for (int i = 0; i < 4; i++) {
+      logger.info(qrCode.split("==")[i]);
+    }
 
-		if (member == null || meal == null) {
-			return sendErrorResponse("Invalid QR Code !");
-		}
 
-		if (memberMealServices.isMealAlreadyConsumed(member, meal)) {
+    User member = userServices.getUserByUserIdPk(memberIdPk);
+    Meal meal = mealServices.getMealByMealId(mealId);
 
-			return sendErrorResponse("Meal Already Consumed !");
-		}
+    if (member == null || meal == null) {
+      return sendErrorResponse("Invalid QR Code !");
+    }
 
-		int lastMealcount = memberMealServices.getMealCountForMember(member);
+    if (memberMealServices.isMealAlreadyConsumed(member, meal)) {
 
-		if (lastMealcount == -1) {
-			lastMealcount = memberMealCoupenServices.getMealCoupenByMember(member).getMealCoupen().getValidity();
-		}
+      return sendErrorResponse("Meal Already Consumed !");
+    }
 
-		if (lastMealcount == 0) {
-			return sendErrorResponse("No Meals Availabel In " + member.getUserProfile().getFullName() + " Account !");
-		}
+    int lastMealcount = memberMealServices.getMealCountForMember(member);
 
-		MemberMeal memberMeal = new MemberMeal();
-		memberMeal.setMeal(meal);
-		memberMeal.setMember(member);
-		memberMeal.setMealType(mealType);
-		memberMeal.setReadBy(ProjectConstant.MEAL_READ_BY_QR);
-		memberMeal.setRemainingMealCount(lastMealcount - 1);
-		memberMeal.setMealFor(ProjectConstant.MEAL_FOR_SELF);
-		memberMeal.setCreatedUpdated(new CreatedUpdated(mess.getMessOwner().getUserIdPk()));
+    if (lastMealcount == -1) {
+      lastMealcount =
+          memberMealCoupenServices.getMealCoupenByMember(member).getMealCoupen().getValidity();
+    }
 
-		memberMealServices.saveMemberMeal(memberMeal);
+    if (lastMealcount == 0) {
+      return sendErrorResponse(
+          "No Meals Availabel In " + member.getUserProfile().getFullName() + " Account !");
+    }
 
-		try {
+    MemberMeal memberMeal = new MemberMeal();
+    memberMeal.setMeal(meal);
+    memberMeal.setMember(member);
+    memberMeal.setMealType(mealType);
+    memberMeal.setReadBy(origin);
+    memberMeal.setRemainingMealCount(lastMealcount - 1);
+    memberMeal.setMealFor(ProjectConstant.MEAL_FOR_SELF);
+    memberMeal.setCreatedUpdated(new CreatedUpdated(mess.getMessOwner().getUserIdPk()));
 
-			String title = "Your Meal Coupen Updated !";
-			String msg = "You have " + memberMeal.getRemainingMealCount() + " meals left in your account.";
+    memberMealServices.saveMemberMeal(memberMeal);
 
-			notification.sendPushNotification(title, msg, member.getUserIdPk());
+    try {
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+      String title = "Your Meal Coupen Updated !";
+      String msg =
+          "You have " + memberMeal.getRemainingMealCount() + " meals left in your account.";
 
-		return sendSuccessResponse(member.getUserProfile().getFullName());
-	}
+      notification.sendPushNotification(title, msg, member.getUserIdPk());
 
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<?> closeMeal(@RequestParam(required = true, value = "mealId") String mealId) {
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 
-		Mess mess = getLoggedInMessByAppKey();
-		Meal meal = mealServices.getMealByMealId(mealId);
+    return sendSuccessResponse(member.getUserProfile().getFullName());
+  }
 
-		if (meal != null) {
-			if (meal.getStatus().equals(ProjectConstant.MEAL_STATUS_CLOSED)) {
-				return sendErrorResponse("Meal Alredy Closed !");
-			} else {
-				meal.setStatus(ProjectConstant.MEAL_STATUS_CLOSED);
-				meal.setCreatedUpdated(new CreatedUpdated(meal.getCreatedUpdated(), mess.getMessOwner().getUserIdPk()));
-				mealServices.closeMeal(meal);
-				return sendSuccessResponse("Meal Status Updated Successfully !");
-			}
-		}
+  @RequestMapping(method = RequestMethod.GET)
+  public ResponseEntity<?> closeMeal(
+      @RequestParam(required = true, value = "mealId") String mealId) {
 
-		return sendErrorResponse("Meal Not Found !");
-	}
+    Mess mess = getLoggedInMessByAppKey();
+    Meal meal = mealServices.getMealByMealId(mealId);
 
-	@RequestMapping(value = "/active", method = RequestMethod.GET)
-	public ResponseEntity<?> getOpenMeals() {
+    if (meal != null) {
+      if (meal.getStatus().equals(ProjectConstant.MEAL_STATUS_CLOSED)) {
+        return sendErrorResponse("Meal Alredy Closed !");
+      } else {
+        meal.setStatus(ProjectConstant.MEAL_STATUS_CLOSED);
+        meal.setCreatedUpdated(
+            new CreatedUpdated(meal.getCreatedUpdated(), mess.getMessOwner().getUserIdPk()));
+        mealServices.closeMeal(meal);
+        return sendSuccessResponse("Meal Status Updated Successfully !");
+      }
+    }
 
-		Mess mess = getLoggedInMessByAppKey();
+    return sendErrorResponse("Meal Not Found !");
+  }
 
-		List<Meal> meals = mealServices.getOpenedMealsByMessId(mess.getMessIdPk());
+  @RequestMapping(value = "/active", method = RequestMethod.GET)
+  public ResponseEntity<?> getOpenMeals() {
 
-		if (meals != null && meals.size() > 0) {
-			return new ResponseEntity<List<Meal>>(meals, HttpStatus.OK);
-		}
+    Mess mess = getLoggedInMessByAppKey();
 
-		return sendErrorResponse("Meal Not Found !");
-	}
+    List<Meal> meals = mealServices.getOpenedMealsByMessId(mess.getMessIdPk());
 
-	@RequestMapping(value = "/{mealId}", method = RequestMethod.GET)
-	public ResponseEntity<?> getMealDetails(@PathVariable("mealId") String mealId) {
+    if (meals != null && meals.size() > 0) {
+      return new ResponseEntity<List<Meal>>(meals, HttpStatus.OK);
+    }
 
-		Meal meal = mealServices.getMealByMealId(mealId);
+    return sendErrorResponse("Meal Not Found !");
+  }
 
-		if (meal != null) {
+  @RequestMapping(value = "/{mealId}", method = RequestMethod.GET)
+  public ResponseEntity<?> getMealDetails(@PathVariable("mealId") String mealId) {
 
-			logger.info(meal);
+    Meal meal = mealServices.getMealByMealId(mealId);
 
-			return new ResponseEntity<Meal>(meal, HttpStatus.OK);
-		}
+    if (meal != null) {
 
-		return sendErrorResponse("Meal Not Found !");
-	}
+      logger.info(meal);
+
+      return new ResponseEntity<Meal>(meal, HttpStatus.OK);
+    }
+
+    return sendErrorResponse("Meal Not Found !");
+  }
 
 }

@@ -3,6 +3,7 @@ package com.byb.bhojan.api.mess;
 import java.util.Date;
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.byb.bhojan.api.comman.BaseController;
 import com.byb.bhojan.model.AppMember;
 import com.byb.bhojan.model.CreatedUpdated;
+import com.byb.bhojan.model.Meal;
 import com.byb.bhojan.model.MealCoupen;
 import com.byb.bhojan.model.MemberMeal;
 import com.byb.bhojan.model.MemberMealCoupen;
 import com.byb.bhojan.model.Mess;
 import com.byb.bhojan.model.User;
 import com.byb.bhojan.services.MealCoupenServices;
+import com.byb.bhojan.services.MealServices;
 import com.byb.bhojan.services.MemberMealCoupenHistoryServices;
 import com.byb.bhojan.services.MemberMealCoupenServices;
 import com.byb.bhojan.services.MemberMealServices;
@@ -36,6 +39,9 @@ public class MessMembersController extends BaseController {
 
   @Autowired
   private UserServices userServices;
+
+  @Autowired
+  private MealServices mealServices;
 
   @Autowired
   private MemberMealServices memberMealServices;
@@ -102,18 +108,34 @@ public class MessMembersController extends BaseController {
     return sendErrorResponse("Member Not Found !");
   }
 
+  @SuppressWarnings("unchecked")
   @RequestMapping(value = "/{start}/{limit}", method = RequestMethod.GET)
-  public ResponseEntity<List<AppMember>> gerMembers(@PathVariable("start") int start,
+  public ResponseEntity<JSONObject> gerMembers(@PathVariable("start") int start,
       @PathVariable("limit") int limit) {
 
     Mess mess = getLoggedInMessByAppKey();
-    // List<User> members = userServices.getMembersByMessAndSearch("", mess, start, limit);
 
     List<AppMember> ml = userServices.getMemberListForAppByMessIdPk(mess.getMessIdPk());
 
-    logger.info(ml);
+    JSONObject result = new JSONObject();
 
-    return new ResponseEntity<List<AppMember>>(ml, HttpStatus.OK);
+    List<Meal> meals = mealServices.getOpenedMealsByMessId(mess.getMessIdPk());
+
+    if (meals.size() > 0) {
+      result.put("isActiveMealAvailable", true);
+      result.put("activeMealId", meals.get(0).getMealId());
+      result.put("activeMealType", 1);
+      if (meals.get(0).getIsNonVeg()) {
+        result.put("activeMealType", 2);
+      }
+
+    } else {
+      result.put("isActiveMealAvailable", false);
+    }
+
+    result.put("memberList", ml);
+
+    return new ResponseEntity<JSONObject>(result, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/{start}/{limit}/{searchString}", method = RequestMethod.GET)
