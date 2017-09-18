@@ -203,8 +203,8 @@ public class UserDaoImpl implements UserDao {
     Session session = sessionFactory.getCurrentSession();
     String qry = "SELECT u.user_id_pk, up.full_name, mm.created_at FROM users as u "
         + "INNER JOIN user_profiles up ON up.user_profile_id_pk = u.user_profile_id_fk "
-        + "INNER JOIN messes as m ON m.mess_id_pk = u.mess_id_fk "
-        + "INNER JOIN meals as ml ON ml.mess_id = m.mess_id_pk AND ml.status = 'OPEN' "
+        + "LEFT JOIN messes as m ON m.mess_id_pk = u.mess_id_fk "
+        + "LEFT JOIN meals as ml ON ml.mess_id = m.mess_id_pk AND ml.status = 'OPEN' "
         + "LEFT JOIN members_meals as mm ON u.user_id_pk = mm.member_id_fk "
         + "AND mm.meal_id_fk = ml.meal_id_pk "
         + "WHERE m.mess_id_pk =:MESS_ID_PK ORDER BY mm.created_at DESC, up.full_name";
