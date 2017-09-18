@@ -9,78 +9,94 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.byb.bhojan.api.comman.BaseController;
 import com.byb.bhojan.model.MembershipRequest;
 import com.byb.bhojan.model.Mess;
 import com.byb.bhojan.model.User;
 import com.byb.bhojan.services.MembershipRequestServices;
 import com.byb.bhojan.services.MessServices;
+import com.byb.bhojan.services.impl.AndroidPush;
 import com.byb.bhojan.util.ProjectConstant;
 
 @RestController
 @RequestMapping("/api/membershiprequest")
 public class MembershipRequestController extends BaseController {
 
-	Logger logger = Logger.getLogger(MembershipRequestController.class);
+  Logger logger = Logger.getLogger(MembershipRequestController.class);
 
-	@Autowired
-	private MessServices messServices;
+  @Autowired
+  private AndroidPush notification;
 
-	@Autowired
-	private MembershipRequestServices membershipRequestServices;
+  @Autowired
+  private MessServices messServices;
 
-	@RequestMapping(value = "/make", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> makeMembershipRequest(@RequestBody String messCode) {
+  @Autowired
+  private MembershipRequestServices membershipRequestServices;
 
-		User loggedInMember = getLoggedInUserByAppKey();
+  @RequestMapping(value = "/make", method = RequestMethod.POST,
+      consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> makeMembershipRequest(@RequestBody String messCode) {
 
-		MembershipRequest membershipRequest = membershipRequestServices
-				.getMembershipRequestByUserIdAndMessId(loggedInMember.getUserIdPk(), messCode);
+    User loggedInMember = getLoggedInUserByAppKey();
 
-		if (membershipRequest == null) {
+    MembershipRequest membershipRequest = membershipRequestServices
+        .getMembershipRequestByUserIdAndMessId(loggedInMember.getUserIdPk(), messCode);
 
-			Mess mess = messServices.getActiveMessByMessId(messCode);
-			if (mess == null) {
-				return sendErrorResponse("Invalid Mess Code !");
-			} else {
-				membershipRequestServices.saveMembershipRequests(mess, loggedInMember);
-				MembershipRequest mr = membershipRequestServices
-						.getMembershipRequestByUserIdAndMessId(loggedInMember.getUserIdPk(), messCode);
-				return new ResponseEntity<>(mr, HttpStatus.OK);
-			}
-			// return sendSuccessResponse("Request Sent Successfully To Mess: "
-			// + mess.getMessName());
+    if (membershipRequest == null) {
 
-		} else {
+      Mess mess = messServices.getActiveMessByMessId(messCode);
+      if (mess == null) {
+        return sendErrorResponse("Invalid Mess Code !");
+      } else {
+        membershipRequestServices.saveMembershipRequests(mess, loggedInMember);
+        MembershipRequest mr = membershipRequestServices
+            .getMembershipRequestByUserIdAndMessId(loggedInMember.getUserIdPk(), messCode);
 
-			if (membershipRequest.getRequestStatus().equals(ProjectConstant.MEMBERSHIP_REQUEST_PENDING)) {
+        try {
 
-				return sendAlertResponse(
-						"Your Request Is Pending For Mess: " + membershipRequest.getMess().getMessName());
-			}
+          String title = "New Membership Request !";
+          String msg = "You have received new membership request.";
 
-		}
+          notification.sendPushNotification(title, msg, mess.getMessOwner().getUserIdPk());
 
-		return sendErrorResponse("Request Sending Failed !");
-	}
+        } catch (Exception e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+        return new ResponseEntity<>(mr, HttpStatus.OK);
+      }
+      // return sendSuccessResponse("Request Sent Successfully To Mess: "
+      // + mess.getMessName());
 
-	@RequestMapping(value = "/check", method = RequestMethod.GET)
-	public ResponseEntity<?> checkMembershipRequest() {
+    } else {
 
-		User loggedInMember = getLoggedInUserByAppKey();
+      if (membershipRequest.getRequestStatus().equals(ProjectConstant.MEMBERSHIP_REQUEST_PENDING)) {
 
-		// MembershipRequest membershipRequest = membershipRequestServices
-		// .getMembershipRequestByUserId(loggedInMember.getUserIdPk());
+        return sendAlertResponse(
+            "Your Request Is Pending For Mess: " + membershipRequest.getMess().getMessName());
+      }
 
-		MembershipRequest membershipRequest = membershipRequestServices
-				.getMembershipRequestByUserId(loggedInMember.getUserIdPk());
+    }
 
-		if (membershipRequest != null) {
-			return new ResponseEntity<>(membershipRequest, HttpStatus.OK);
-		}
+    return sendErrorResponse("Request Sending Failed !");
+  }
 
-		return sendErrorResponse("Not Found !");
+  @RequestMapping(value = "/check", method = RequestMethod.GET)
+  public ResponseEntity<?> checkMembershipRequest() {
 
-	}
+    User loggedInMember = getLoggedInUserByAppKey();
+
+    // MembershipRequest membershipRequest = membershipRequestServices
+    // .getMembershipRequestByUserId(loggedInMember.getUserIdPk());
+
+    MembershipRequest membershipRequest =
+        membershipRequestServices.getMembershipRequestByUserId(loggedInMember.getUserIdPk());
+
+    if (membershipRequest != null) {
+      return new ResponseEntity<>(membershipRequest, HttpStatus.OK);
+    }
+
+    return sendErrorResponse("Not Found !");
+
+  }
 }

@@ -157,4 +157,16 @@ public class MessMembersController extends BaseController {
     return new ResponseEntity<List<MemberMeal>>(memberMeals, HttpStatus.OK);
   }
 
+  @RequestMapping(value = "/renew-mealcoupen", method = RequestMethod.POST)
+  public ResponseEntity<MemberMealCoupen> renewMealCoupen(
+      @RequestBody MemberMealCoupen memberMealCoupen) {
+
+    // memberMealCoupenServices.getMealCoupenByMember(member);
+
+    // memberMealCoupenServices.updateMemberMealCoupen(memberMealCoupen);
+
+    logger.info(memberMealCoupen);
+
+    return new ResponseEntity<MemberMealCoupen>(memberMealCoupen, HttpStatus.OK);
+  }
 }
