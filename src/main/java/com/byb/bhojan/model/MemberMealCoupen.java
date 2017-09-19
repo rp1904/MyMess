@@ -45,26 +45,13 @@ public class MemberMealCoupen implements Serializable {
   @Column(name = "remaining_meal_count")
   private int remainingMealCount;
 
+  @Column(name = "is_next_meal_added")
+  private boolean isNextMealAdded = Boolean.FALSE;
+
   private String status;
 
   @Embedded
   private CreatedUpdated createdUpdated;
-
-  public int getNoOfMeals() {
-    return noOfMeals;
-  }
-
-  public void setNoOfMeals(int noOfMeals) {
-    this.noOfMeals = noOfMeals;
-  }
-
-  public int getRemainingMealCount() {
-    return remainingMealCount;
-  }
-
-  public void setRemainingMealCount(int remainingMealCount) {
-    this.remainingMealCount = remainingMealCount;
-  }
 
   public String getMemberMealCoupenId() {
     return memberMealCoupenId;
@@ -98,6 +85,30 @@ public class MemberMealCoupen implements Serializable {
     this.expiryDate = expiryDate;
   }
 
+  public int getNoOfMeals() {
+    return noOfMeals;
+  }
+
+  public void setNoOfMeals(int noOfMeals) {
+    this.noOfMeals = noOfMeals;
+  }
+
+  public int getRemainingMealCount() {
+    return remainingMealCount;
+  }
+
+  public void setRemainingMealCount(int remainingMealCount) {
+    this.remainingMealCount = remainingMealCount;
+  }
+
+  public boolean isNextMealAdded() {
+    return isNextMealAdded;
+  }
+
+  public void setNextMealAdded(boolean isNextMealAdded) {
+    this.isNextMealAdded = isNextMealAdded;
+  }
+
   public String getStatus() {
     return status;
   }
@@ -118,8 +129,8 @@ public class MemberMealCoupen implements Serializable {
   public String toString() {
     return "MemberMealCoupen [memberMealCoupenId=" + memberMealCoupenId + ", member=" + member
         + ", mealCoupen=" + mealCoupen + ", expiryDate=" + expiryDate + ", noOfMeals=" + noOfMeals
-        + ", remainingMealCount=" + remainingMealCount + ", status=" + status + ", createdUpdated="
-        + createdUpdated + "]";
+        + ", remainingMealCount=" + remainingMealCount + ", isNextMealAdded=" + isNextMealAdded
+        + ", status=" + status + ", createdUpdated=" + createdUpdated + "]";
   }
 
 }

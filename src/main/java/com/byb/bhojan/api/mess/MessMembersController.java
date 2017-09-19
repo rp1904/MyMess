@@ -158,15 +158,27 @@ public class MessMembersController extends BaseController {
   }
 
   @RequestMapping(value = "/renew-mealcoupen", method = RequestMethod.POST)
-  public ResponseEntity<MemberMealCoupen> renewMealCoupen(
-      @RequestBody MemberMealCoupen memberMealCoupen) {
+  public ResponseEntity<?> renewMealCoupen(
+      @RequestParam(required = true, value = "memberId") String memberId,
+      @RequestParam(required = true, value = "coupenId") String coupenId) {
 
-    // memberMealCoupenServices.getMealCoupenByMember(member);
+    User member = userServices.getMemberByMemberId(memberId);
+    MealCoupen mealCoupen = mealCoupenServices.getMealCoupenById(coupenId);
 
-    // memberMealCoupenServices.updateMemberMealCoupen(memberMealCoupen);
+    MemberMealCoupen newMemberMealCoupen = new MemberMealCoupen();
+    newMemberMealCoupen.setMember(member);
+    newMemberMealCoupen.setMealCoupen(mealCoupen);
+    newMemberMealCoupen.setExpiryDate(Dates.getDateAfterDays(new Date(), mealCoupen.getValidity()));
+    newMemberMealCoupen.setNoOfMeals(mealCoupen.getNoOfMeals());
+    newMemberMealCoupen.setRemainingMealCount(mealCoupen.getNoOfMeals());
+    newMemberMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_WAITING);
+    newMemberMealCoupen.setCreatedUpdated(new CreatedUpdated("1"));
 
-    logger.info(memberMealCoupen);
+    memberMealCoupenServices.saveMemberMealCoupen(newMemberMealCoupen);
 
-    return new ResponseEntity<MemberMealCoupen>(memberMealCoupen, HttpStatus.OK);
+    logger.info(newMemberMealCoupen);
+
+    return sendSuccessResponseWithData("New Meal Coupen Allocated Successfully !",
+        newMemberMealCoupen);
   }
 }
