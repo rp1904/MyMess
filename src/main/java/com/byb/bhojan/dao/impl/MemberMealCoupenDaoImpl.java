@@ -38,7 +38,7 @@ public class MemberMealCoupenDaoImpl implements MemberMealCoupenDao {
     Session session = sessionFactory.getCurrentSession();
     Criteria criteria = session.createCriteria(MemberMealCoupen.class);
     criteria.add(Restrictions.eq("member", member));
-    criteria.add(Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE));
+    // criteria.add(Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE));
     return (MemberMealCoupen) criteria.uniqueResult();
   }
 
