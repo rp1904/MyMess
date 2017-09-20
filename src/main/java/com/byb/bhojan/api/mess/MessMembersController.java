@@ -102,6 +102,7 @@ public class MessMembersController extends BaseController {
 
     if (member != null) {
       MemberMealCoupen memberMealCoupen = memberMealCoupenServices.getMealCoupenByMember(member);
+      logger.info(memberMealCoupen);
       return new ResponseEntity<MemberMealCoupen>(memberMealCoupen, HttpStatus.OK);
     }
 
