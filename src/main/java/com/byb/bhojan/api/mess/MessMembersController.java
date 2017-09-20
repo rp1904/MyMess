@@ -165,6 +165,9 @@ public class MessMembersController extends BaseController {
     User member = userServices.getMemberByMemberId(memberId);
     MealCoupen mealCoupen = mealCoupenServices.getMealCoupenById(coupenId);
 
+    memberMealCoupenServices.getMealCoupenByMember(member);
+
+
     MemberMealCoupen newMemberMealCoupen = new MemberMealCoupen();
     newMemberMealCoupen.setMember(member);
     newMemberMealCoupen.setMealCoupen(mealCoupen);

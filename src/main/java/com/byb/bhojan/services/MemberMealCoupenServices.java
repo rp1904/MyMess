@@ -1,18 +1,17 @@
 package com.byb.bhojan.services;
 
 import java.util.Date;
-
-import com.byb.bhojan.model.User;
 import com.byb.bhojan.model.MemberMealCoupen;
+import com.byb.bhojan.model.User;
 
 public interface MemberMealCoupenServices {
 
-	void saveMemberMealCoupen(MemberMealCoupen memberMealCoupen);
+  void saveMemberMealCoupen(MemberMealCoupen memberMealCoupen);
 
-	void updateMemberMealCoupen(MemberMealCoupen memberMealCoupen);
+  void updateMemberMealCoupen(MemberMealCoupen memberMealCoupen);
 
-	public MemberMealCoupen getMealCoupenByMember(User member);
+  public MemberMealCoupen getMealCoupenByMember(User member);
 
-	int updateExpiredMemberMealCoupen(Date currentDate);
+  int updateExpiredMemberMealCoupen(Date currentDate);
 
 }
