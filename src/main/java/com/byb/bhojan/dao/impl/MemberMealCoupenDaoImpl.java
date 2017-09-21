@@ -1,9 +1,11 @@
 package com.byb.bhojan.dao.impl;
 
 import java.util.Date;
+import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,17 +35,65 @@ public class MemberMealCoupenDaoImpl implements MemberMealCoupenDao {
   }
 
   @Override
-  public MemberMealCoupen getMealCoupenByMember(User member) {
+  public MemberMealCoupen getActiveMealCoupenByMember(User member) {
     // TODO Auto-generated method stub
     Session session = sessionFactory.getCurrentSession();
     Criteria criteria = session.createCriteria(MemberMealCoupen.class);
     criteria.add(Restrictions.eq("member", member));
-    // criteria.add(Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE));
+    criteria.add(Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE));
     return (MemberMealCoupen) criteria.uniqueResult();
   }
 
   @Override
-  public int updateExpiredMemberMelaCoupen(Date currentDate) {
+  public MemberMealCoupen getWaitingMealCoupenByMember(User member) {
+    // TODO Auto-generated method stub
+    Session session = sessionFactory.getCurrentSession();
+    Criteria criteria = session.createCriteria(MemberMealCoupen.class);
+    criteria.add(Restrictions.eq("member", member));
+    criteria.add(Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_WAITING));
+    return (MemberMealCoupen) criteria.uniqueResult();
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<MemberMealCoupen> getNonWaitingMealCoupensByMember(User member) {
+    // TODO Auto-generated method stub
+    Session session = sessionFactory.getCurrentSession();
+    Criteria criteria = session.createCriteria(MemberMealCoupen.class);
+    criteria.add(Restrictions.eq("member", member));
+    criteria.add(Restrictions.ne("status", ProjectConstant.MEAL_COUPEN_STATUS_WAITING));
+    criteria.addOrder(Order.desc("createdUpdated.updatedAt"));
+    return criteria.list();
+  }
+
+
+  @Override
+  public MemberMealCoupen getLastExpiredOrConsumedMealCoupenByMember(User member) {
+    // TODO Auto-generated method stub
+    Session session = sessionFactory.getCurrentSession();
+    Criteria criteria = session.createCriteria(MemberMealCoupen.class);
+    criteria.add(Restrictions.eq("member", member));
+    criteria
+        .add(Restrictions.or(Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_EXPIRED),
+            Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_CONSUMED)));
+    criteria.addOrder(Order.desc("createdUpdated.updatedAt"));
+    criteria.setMaxResults(1);
+    return (MemberMealCoupen) criteria.uniqueResult();
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<MemberMealCoupen> getMealCoupenHistoryByMember(User member) {
+    // TODO Auto-generated method stub
+    Session session = sessionFactory.getCurrentSession();
+    Criteria criteria = session.createCriteria(MemberMealCoupen.class);
+    criteria.add(Restrictions.eq("member", member));
+    criteria.addOrder(Order.desc("createdUpdated.updatedAt"));
+    return criteria.list();
+  }
+
+  @Override
+  public int updateExpiredMemberMealCoupen(Date currentDate) {
     // TODO Auto-generated method stub
     Session session = sessionFactory.getCurrentSession();
     String hqlUpdate = "UPDATE MemberMealCoupen mmc SET mmc.status = :NEW_STATUS, "

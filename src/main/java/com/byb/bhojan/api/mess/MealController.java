@@ -107,8 +107,8 @@ public class MealController extends BaseController {
     int lastMealcount = memberMealServices.getMealCountForMember(member);
 
     if (lastMealcount == -1) {
-      lastMealcount =
-          memberMealCoupenServices.getMealCoupenByMember(member).getMealCoupen().getValidity();
+      lastMealcount = memberMealCoupenServices.getActiveMealCoupenByMember(member).getMealCoupen()
+          .getValidity();
     }
 
     if (lastMealcount == 0) {
@@ -127,18 +127,10 @@ public class MealController extends BaseController {
 
     memberMealServices.saveMemberMeal(memberMeal);
 
-    try {
+    String title = "Your Meal Coupen Updated !";
+    String msg = "You have " + memberMeal.getRemainingMealCount() + " meals left in your account.";
 
-      String title = "Your Meal Coupen Updated !";
-      String msg =
-          "You have " + memberMeal.getRemainingMealCount() + " meals left in your account.";
-
-      notification.sendPushNotification(title, msg, member.getUserIdPk());
-
-    } catch (Exception e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    notification.sendPushNotification(title, msg, member.getUserIdPk());
 
     return sendSuccessResponse(member.getUserProfile().getFullName());
   }

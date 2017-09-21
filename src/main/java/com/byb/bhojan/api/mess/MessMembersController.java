@@ -28,6 +28,7 @@ import com.byb.bhojan.services.MemberMealCoupenHistoryServices;
 import com.byb.bhojan.services.MemberMealCoupenServices;
 import com.byb.bhojan.services.MemberMealServices;
 import com.byb.bhojan.services.UserServices;
+import com.byb.bhojan.services.impl.AndroidPush;
 import com.byb.bhojan.util.Dates;
 import com.byb.bhojan.util.ProjectConstant;
 
@@ -54,6 +55,9 @@ public class MessMembersController extends BaseController {
 
   @Autowired
   private MemberMealCoupenHistoryServices memberMealCoupenHistoryServices;
+
+  @Autowired
+  private AndroidPush notification;
 
   @RequestMapping(value = "/register", method = RequestMethod.POST)
   public ResponseEntity<?> registerMember(@RequestBody User member) {
@@ -95,17 +99,34 @@ public class MessMembersController extends BaseController {
     return sendSuccessResponse("Member Registration Successful !");
   }
 
+  @SuppressWarnings("unchecked")
   @RequestMapping(method = RequestMethod.GET)
   public ResponseEntity<?> gerMemberDeatil(@RequestParam("memberId") String memberId) {
 
     User member = userServices.getMemberByMemberId(memberId);
 
-    if (member != null) {
-      MemberMealCoupen memberMealCoupen = memberMealCoupenServices.getMealCoupenByMember(member);
-      logger.info(memberMealCoupen);
-      return new ResponseEntity<MemberMealCoupen>(memberMealCoupen, HttpStatus.OK);
-    }
+    JSONObject result = new JSONObject();
 
+    if (member != null) {
+
+      result.put("member", member);
+
+      MemberMealCoupen activeMealCoupen =
+          memberMealCoupenServices.getActiveMealCoupenByMember(member);
+      MemberMealCoupen waitingMealCoupen =
+          memberMealCoupenServices.getWaitingMealCoupenByMember(member);
+
+      result.put("activeMealCoupen", activeMealCoupen);
+      result.put("waitingMealCoupen", waitingMealCoupen);
+
+      if (activeMealCoupen == null) {
+        MemberMealCoupen lastExpiredOrConsumedMealCoupen =
+            memberMealCoupenServices.getLastExpiredOrConsumedMealCoupenByMember(member);
+        result.put("lastExpiredOrConsumedMealCoupen", lastExpiredOrConsumedMealCoupen);
+      }
+
+      return new ResponseEntity<JSONObject>(result, HttpStatus.OK);
+    }
     return sendErrorResponse("Member Not Found !");
   }
 
@@ -166,21 +187,33 @@ public class MessMembersController extends BaseController {
     User member = userServices.getMemberByMemberId(memberId);
     MealCoupen mealCoupen = mealCoupenServices.getMealCoupenById(coupenId);
 
-    memberMealCoupenServices.getMealCoupenByMember(member);
-
-
     MemberMealCoupen newMemberMealCoupen = new MemberMealCoupen();
     newMemberMealCoupen.setMember(member);
     newMemberMealCoupen.setMealCoupen(mealCoupen);
-    newMemberMealCoupen.setExpiryDate(Dates.getDateAfterDays(new Date(), mealCoupen.getValidity()));
     newMemberMealCoupen.setNoOfMeals(mealCoupen.getNoOfMeals());
     newMemberMealCoupen.setRemainingMealCount(mealCoupen.getNoOfMeals());
-    newMemberMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_WAITING);
     newMemberMealCoupen.setCreatedUpdated(new CreatedUpdated("1"));
+
+    MemberMealCoupen activeMemberMealCoupen =
+        memberMealCoupenServices.getActiveMealCoupenByMember(member);
+    if (activeMemberMealCoupen != null) {
+      newMemberMealCoupen.setExpiryDate(
+          Dates.getDateAfterDays(activeMemberMealCoupen.getExpiryDate(), mealCoupen.getValidity()));
+      newMemberMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_WAITING);
+    } else {
+      newMemberMealCoupen
+          .setExpiryDate(Dates.getDateAfterDays(new Date(), mealCoupen.getValidity()));
+      newMemberMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE);
+    }
 
     memberMealCoupenServices.saveMemberMealCoupen(newMemberMealCoupen);
 
     logger.info(newMemberMealCoupen);
+    String title = "New Meal Coupen Added !";
+    String msg = "New meal coupen '" + newMemberMealCoupen.getMealCoupen().toShortString()
+        + "' is added in your account.";
+
+    notification.sendPushNotification(title, msg, member.getUserIdPk());
 
     return sendSuccessResponseWithData("New Meal Coupen Allocated Successfully !",
         newMemberMealCoupen);

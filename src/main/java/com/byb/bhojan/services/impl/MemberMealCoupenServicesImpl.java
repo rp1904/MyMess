@@ -1,6 +1,7 @@
 package com.byb.bhojan.services.impl;
 
 import java.util.Date;
+import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,15 +30,39 @@ public class MemberMealCoupenServicesImpl implements MemberMealCoupenServices {
   }
 
   @Override
-  public MemberMealCoupen getMealCoupenByMember(User member) {
+  public MemberMealCoupen getActiveMealCoupenByMember(User member) {
     // TODO Auto-generated method stub
-    return memberMealCoupenDao.getMealCoupenByMember(member);
+    return memberMealCoupenDao.getActiveMealCoupenByMember(member);
   }
 
   @Override
   public int updateExpiredMemberMealCoupen(Date currentDate) {
     // TODO Auto-generated method stub
-    return memberMealCoupenDao.updateExpiredMemberMelaCoupen(currentDate);
+    return memberMealCoupenDao.updateExpiredMemberMealCoupen(currentDate);
+  }
+
+  @Override
+  public List<MemberMealCoupen> getMealCoupenHistoryByMember(User member) {
+    // TODO Auto-generated method stub
+    return memberMealCoupenDao.getMealCoupenHistoryByMember(member);
+  }
+
+  @Override
+  public MemberMealCoupen getWaitingMealCoupenByMember(User member) {
+    // TODO Auto-generated method stub
+    return memberMealCoupenDao.getWaitingMealCoupenByMember(member);
+  }
+
+  @Override
+  public List<MemberMealCoupen> getNonWaitingMealCoupensByMember(User member) {
+    // TODO Auto-generated method stub
+    return memberMealCoupenDao.getNonWaitingMealCoupensByMember(member);
+  }
+
+  @Override
+  public MemberMealCoupen getLastExpiredOrConsumedMealCoupenByMember(User member) {
+    // TODO Auto-generated method stub
+    return memberMealCoupenDao.getLastExpiredOrConsumedMealCoupenByMember(member);
   }
 
 }

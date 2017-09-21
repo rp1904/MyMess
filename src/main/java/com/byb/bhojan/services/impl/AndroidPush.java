@@ -21,7 +21,7 @@ public class AndroidPush {
 
   @SuppressWarnings("unchecked")
   @Async
-  public void sendPushNotification(String title, String message, String userId) throws Exception {
+  public void sendPushNotification(String title, String message, String userId) {
 
     String fcmToken = FCMdeviceServices.getFCMtokenByUserId(userId);
 
@@ -39,20 +39,26 @@ public class AndroidPush {
       String pushMessage = pushOuterObj.toJSONString();
 
       // Create connection to send FCM Message request.
-      System.out.println(pushMessage);
-      URL url = new URL("https://fcm.googleapis.com/fcm/send");
-      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-      conn.setRequestProperty("Authorization", "key=" + ProjectConstant.SERVER_KEY);
-      conn.setRequestProperty("Content-Type", "application/json");
-      conn.setRequestMethod("POST");
-      conn.setDoOutput(true);
 
-      // Send FCM message content.
-      OutputStream outputStream = conn.getOutputStream();
-      outputStream.write(pushMessage.getBytes());
+      try {
+        System.out.println(pushMessage);
+        URL url = new URL("https://fcm.googleapis.com/fcm/send");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestProperty("Authorization", "key=" + ProjectConstant.SERVER_KEY);
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
 
-      System.out.println(conn.getResponseCode());
-      System.out.println(conn.getResponseMessage());
+        // Send FCM message content.
+        OutputStream outputStream = conn.getOutputStream();
+        outputStream.write(pushMessage.getBytes());
+
+        System.out.println(conn.getResponseCode());
+        System.out.println(conn.getResponseMessage());
+      } catch (Exception e) {
+        // TODO: handle exception
+        e.printStackTrace();
+      }
     } else {
       logger.info("FCM token not found for userId: " + userId);
     }

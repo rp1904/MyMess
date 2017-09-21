@@ -121,7 +121,7 @@ public class AdminController {
       return new ModelAndView("redirect:mess-members?messId=" + messId + "&error=invalid_id");
     }
 
-    MemberMealCoupen memberMealCoupen = memberMealCoupenServices.getMealCoupenByMember(member);
+    MemberMealCoupen memberMealCoupen = memberMealCoupenServices.getActiveMealCoupenByMember(member);
 
     Mess mess = userServices.getMessByMember(member);
 

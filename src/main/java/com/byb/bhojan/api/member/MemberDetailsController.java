@@ -27,7 +27,7 @@ public class MemberDetailsController extends BaseController {
     User member = getLoggedInUserByAppKey();
 
     if (member != null) {
-      MemberMealCoupen memberMealCoupen = memberMealCoupenServices.getMealCoupenByMember(member);
+      MemberMealCoupen memberMealCoupen = memberMealCoupenServices.getActiveMealCoupenByMember(member);
       return new ResponseEntity<MemberMealCoupen>(memberMealCoupen, HttpStatus.OK);
     }
 

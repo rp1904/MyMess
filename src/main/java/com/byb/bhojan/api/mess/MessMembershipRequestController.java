@@ -1,7 +1,6 @@
 package com.byb.bhojan.api.mess;
 
 import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,70 +9,81 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.byb.bhojan.api.comman.BaseController;
 import com.byb.bhojan.model.CreatedUpdated;
 import com.byb.bhojan.model.MembershipRequest;
 import com.byb.bhojan.model.Mess;
 import com.byb.bhojan.services.MemberMealCoupenHistoryServices;
 import com.byb.bhojan.services.MembershipRequestServices;
+import com.byb.bhojan.services.impl.AndroidPush;
 import com.byb.bhojan.util.ProjectConstant;
 
 @RestController
 @RequestMapping("/api/mess/new-membership-requests")
 public class MessMembershipRequestController extends BaseController {
 
-	Logger logger = Logger.getLogger(MessMembershipRequestController.class);
+  Logger logger = Logger.getLogger(MessMembershipRequestController.class);
 
-	@Autowired
-	private MemberMealCoupenHistoryServices memberMealCoupenHistoryServices;
+  @Autowired
+  private MemberMealCoupenHistoryServices memberMealCoupenHistoryServices;
 
-	@Autowired
-	private MembershipRequestServices membershipRequestServices;
+  @Autowired
+  private MembershipRequestServices membershipRequestServices;
 
-	@RequestMapping(value = "/pending", method = RequestMethod.GET)
-	public ResponseEntity<List<MembershipRequest>> makeMembershipRequest() {
+  @Autowired
+  private AndroidPush notification;
 
-		List<MembershipRequest> allRequests = null;
-		Mess mess = getLoggedInMessByAppKey();
-		allRequests = membershipRequestServices.getPendingMembershipRequestsByMessIdPk(mess.getMessIdPk());
-		return new ResponseEntity<List<MembershipRequest>>(allRequests, HttpStatus.OK);
-	}
+  @RequestMapping(value = "/pending", method = RequestMethod.GET)
+  public ResponseEntity<List<MembershipRequest>> makeMembershipRequest() {
 
-	@RequestMapping(value = "/update/{status}/{member_id}/{coupen_id}", method = RequestMethod.GET)
-	public ResponseEntity<?> updateMembershipRequest(@PathVariable("status") String status,
-			@PathVariable("member_id") String memberIdPk, @PathVariable("coupen_id") String coupenId) {
+    List<MembershipRequest> allRequests = null;
+    Mess mess = getLoggedInMessByAppKey();
+    allRequests =
+        membershipRequestServices.getPendingMembershipRequestsByMessIdPk(mess.getMessIdPk());
+    return new ResponseEntity<List<MembershipRequest>>(allRequests, HttpStatus.OK);
+  }
 
-		if (status.equals("A")) {
-			status = ProjectConstant.MEMBERSHIP_REQUEST_ACCEPTED;
+  @RequestMapping(value = "/update/{status}/{member_id}/{coupen_id}", method = RequestMethod.GET)
+  public ResponseEntity<?> updateMembershipRequest(@PathVariable("status") String status,
+      @PathVariable("member_id") String memberIdPk, @PathVariable("coupen_id") String coupenId) {
 
-		} else {
-			status = ProjectConstant.MEMBERSHIP_REQUEST_REJECTED;
-		}
+    if (status.equals("A")) {
+      status = ProjectConstant.MEMBERSHIP_REQUEST_ACCEPTED;
 
-		Mess mess = getLoggedInMessByAppKey();
-		MembershipRequest membershipRequest = membershipRequestServices
-				.getPendingMembershipRequestByMessIdPkAndMemberIdPk(mess.getMessIdPk(), memberIdPk);
+    } else {
+      status = ProjectConstant.MEMBERSHIP_REQUEST_REJECTED;
+    }
 
-		if (membershipRequest == null) {
-			return sendErrorResponse("Already Accepted !");
-		}
+    Mess mess = getLoggedInMessByAppKey();
+    MembershipRequest membershipRequest = membershipRequestServices
+        .getPendingMembershipRequestByMessIdPkAndMemberIdPk(mess.getMessIdPk(), memberIdPk);
 
-		membershipRequest.setRequestStatus(status);
-		membershipRequest.setCreatedUpdated(
-				new CreatedUpdated(membershipRequest.getCreatedUpdated(), mess.getMessOwner().getUserIdPk()));
+    if (membershipRequest == null) {
+      return sendErrorResponse("Already Accepted !");
+    }
 
-		MembershipRequest updatedMembershipRequest = membershipRequestServices
-				.updateMembershipRequest(membershipRequest, coupenId);
+    membershipRequest.setRequestStatus(status);
+    membershipRequest.setCreatedUpdated(new CreatedUpdated(membershipRequest.getCreatedUpdated(),
+        mess.getMessOwner().getUserIdPk()));
 
-		if (updatedMembershipRequest.getRequestStatus().equals(ProjectConstant.MEMBERSHIP_REQUEST_REJECTED)) {
+    MembershipRequest updatedMembershipRequest =
+        membershipRequestServices.updateMembershipRequest(membershipRequest, coupenId);
 
-			return sendErrorResponse("Request Rejected !");
-		}
+    if (updatedMembershipRequest.getRequestStatus()
+        .equals(ProjectConstant.MEMBERSHIP_REQUEST_REJECTED)) {
 
-		memberMealCoupenHistoryServices.saveMemberMealCoupen(memberIdPk, coupenId);
+      return sendErrorResponse("Request Rejected !");
+    }
 
-		return sendSuccessResponse("Request Accepted Successfully !");
+    memberMealCoupenHistoryServices.saveMemberMealCoupen(memberIdPk, coupenId);
 
-	}
+    String title = "Membership Request Status !";
+    String msg = updatedMembershipRequest.getMess().getMessName() + " has "
+        + updatedMembershipRequest.getRequestStatus() + " your membership request.";
+
+    notification.sendPushNotification(title, msg, memberIdPk);
+
+    return sendSuccessResponse("Request Accepted Successfully !");
+
+  }
 }

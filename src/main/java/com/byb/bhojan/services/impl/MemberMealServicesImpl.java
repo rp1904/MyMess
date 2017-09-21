@@ -29,7 +29,7 @@ public class MemberMealServicesImpl implements MemberMealServices {
     memberMealDao.saveMemberMeal(memberMeal);
 
     MemberMealCoupen memberMealCoupen =
-        memberMealCoupenServices.getMealCoupenByMember(memberMeal.getMember());
+        memberMealCoupenServices.getActiveMealCoupenByMember(memberMeal.getMember());
     memberMealCoupen.setRemainingMealCount(memberMealCoupen.getRemainingMealCount() - 1);
     memberMealCoupen.setCreatedUpdated(new CreatedUpdated(memberMealCoupen.getCreatedUpdated(),
         memberMealCoupen.getCreatedUpdated().getCreatedBy()));
