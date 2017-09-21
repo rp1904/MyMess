@@ -23,7 +23,7 @@ public class AndroidPush {
   @Async
   public void sendPushNotification(String title, String message, String userId) {
 
-    String fcmToken = FCMdeviceServices.getFCMtokenByUserId(userId);
+    String fcmToken = userId;// FCMdeviceServices.getFCMtokenByUserId(userId);
 
     if (fcmToken != null) {
       JSONObject pushOuterObj = new JSONObject();
@@ -68,7 +68,7 @@ public class AndroidPush {
   public static void main(String[] args) throws Exception {
     String title = "Title";
     String message = "Message";
-    String userId = "ead0fee7-e5de-4c58-8ea9-b2bcbee22674";
+    String userId = "82b798aa-5113-4e27-80e1-99a52e220a34";
     new AndroidPush().sendPushNotification(title, message, userId);
   }
 

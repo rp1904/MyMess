@@ -52,17 +52,10 @@ public class MembershipRequestController extends BaseController {
         MembershipRequest mr = membershipRequestServices
             .getMembershipRequestByUserIdAndMessId(loggedInMember.getUserIdPk(), messCode);
 
-        try {
+        String title = "New Membership Request !";
+        String msg = "You have received new membership request.";
+        notification.sendPushNotification(title, msg, mess.getMessOwner().getUserIdPk());
 
-          String title = "New Membership Request !";
-          String msg = "You have received new membership request.";
-
-          notification.sendPushNotification(title, msg, mess.getMessOwner().getUserIdPk());
-
-        } catch (Exception e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
         return new ResponseEntity<>(mr, HttpStatus.OK);
       }
       // return sendSuccessResponse("Request Sent Successfully To Mess: "
