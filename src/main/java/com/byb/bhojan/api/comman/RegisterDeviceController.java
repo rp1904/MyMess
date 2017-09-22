@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.byb.bhojan.model.CreatedUpdated;
 import com.byb.bhojan.model.FCMDevice;
 import com.byb.bhojan.model.Mess;
@@ -17,56 +18,54 @@ import com.byb.bhojan.services.FCMDeviceServices;
 @RequestMapping("/api/register-device")
 public class RegisterDeviceController extends BaseController {
 
-  Logger logger = Logger.getLogger(RegisterDeviceController.class);
+	Logger logger = Logger.getLogger(RegisterDeviceController.class);
 
-  @Autowired
-  private FCMDeviceServices FCMdeviceServices;
+	@Autowired
+	private FCMDeviceServices FCMdeviceServices;
 
-  @RequestMapping(value = "/member", method = RequestMethod.POST)
-  public ResponseEntity<?> registerMemberDevice(@RequestBody FCMDevice fcmDevice) {
+	@RequestMapping(value = "/member", method = RequestMethod.POST)
+	public ResponseEntity<?> registerMemberDevice(@RequestBody FCMDevice fcmDevice) {
 
-    User loggedInUser = getLoggedInUserByAppKey();
+		User loggedInUser = getLoggedInUserByAppKey();
 
-    fcmDevice.setUserId(loggedInUser.getUserIdPk());
+		fcmDevice.setUserId(loggedInUser.getUserIdPk());
 
-    FCMDevice oldFcmDevice = FCMdeviceServices.getDeviceDetailsByUserId(fcmDevice.getUserId());
+		FCMDevice oldFcmDevice = FCMdeviceServices.getDeviceDetailsByUserId(fcmDevice.getUserId());
 
-    if (oldFcmDevice != null) {
-      fcmDevice.setDeviceId(oldFcmDevice.getDeviceId());
-      fcmDevice.setCreatedUpdated(
-          new CreatedUpdated(oldFcmDevice.getCreatedUpdated(), fcmDevice.getUserId()));
-    } else {
-      fcmDevice.setCreatedUpdated(new CreatedUpdated(fcmDevice.getUserId()));
-    }
+		if (oldFcmDevice != null) {
+			fcmDevice.setDeviceId(oldFcmDevice.getDeviceId());
+			fcmDevice.setCreatedUpdated(new CreatedUpdated(oldFcmDevice.getCreatedUpdated(), fcmDevice.getUserId()));
+		} else {
+			fcmDevice.setCreatedUpdated(new CreatedUpdated(fcmDevice.getUserId()));
+		}
 
-    logger.info(fcmDevice);
+		logger.info(fcmDevice);
 
-    FCMdeviceServices.saveOrUpdateFCMDevice(fcmDevice);
+		FCMdeviceServices.saveOrUpdateFCMDevice(fcmDevice);
 
-    return sendSuccessResponse("Ready for registration !");
-  }
+		return sendSuccessResponse("Ready for registration !");
+	}
 
-  @RequestMapping(value = "/mess", method = RequestMethod.POST)
-  public ResponseEntity<?> registerMessOwnerDeviceDevice(@RequestBody FCMDevice fcmDevice) {
+	@RequestMapping(value = "/mess", method = RequestMethod.POST)
+	public ResponseEntity<?> registerMessOwnerDeviceDevice(@RequestBody FCMDevice fcmDevice) {
 
-    Mess mess = getLoggedInMessByAppKey();
+		Mess mess = getLoggedInMessByAppKey();
 
-    fcmDevice.setUserId(mess.getMessOwner().getUserIdPk());
+		fcmDevice.setUserId(mess.getMessOwner().getUserIdPk());
 
-    FCMDevice oldFcmDevice = FCMdeviceServices.getDeviceDetailsByUserId(fcmDevice.getUserId());
+		FCMDevice oldFcmDevice = FCMdeviceServices.getDeviceDetailsByUserId(fcmDevice.getUserId());
 
-    if (oldFcmDevice != null) {
-      fcmDevice.setDeviceId(oldFcmDevice.getDeviceId());
-      fcmDevice.setCreatedUpdated(
-          new CreatedUpdated(oldFcmDevice.getCreatedUpdated(), fcmDevice.getUserId()));
-    } else {
-      fcmDevice.setCreatedUpdated(new CreatedUpdated(fcmDevice.getUserId()));
-    }
+		if (oldFcmDevice != null) {
+			fcmDevice.setDeviceId(oldFcmDevice.getDeviceId());
+			fcmDevice.setCreatedUpdated(new CreatedUpdated(oldFcmDevice.getCreatedUpdated(), fcmDevice.getUserId()));
+		} else {
+			fcmDevice.setCreatedUpdated(new CreatedUpdated(fcmDevice.getUserId()));
+		}
 
-    logger.info(fcmDevice);
+		logger.info(fcmDevice);
 
-    FCMdeviceServices.saveOrUpdateFCMDevice(fcmDevice);
+		FCMdeviceServices.saveOrUpdateFCMDevice(fcmDevice);
 
-    return sendSuccessResponse("Ready for registration !");
-  }
+		return sendSuccessResponse("Ready for registration !");
+	}
 }

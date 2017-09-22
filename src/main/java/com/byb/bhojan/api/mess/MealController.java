@@ -104,6 +104,8 @@ public class MealController extends BaseController {
 
 		int lastMealcount = memberMealServices.getMealCountForMember(member);
 
+		logger.info("lastMealcount" + lastMealcount);
+
 		if (lastMealcount == -1) {
 			lastMealcount = memberMealCoupenServices.getActiveMealCoupenByMember(member).getMealCoupen().getValidity();
 		}
@@ -120,6 +122,8 @@ public class MealController extends BaseController {
 		memberMeal.setRemainingMealCount(lastMealcount - 1);
 		memberMeal.setMealFor(ProjectConstant.MEAL_FOR_SELF);
 		memberMeal.setCreatedUpdated(new CreatedUpdated(mess.getMessOwner().getUserIdPk()));
+
+		logger.info(memberMeal);
 
 		if (memberMeal.getRemainingMealCount() == 0) {
 			MemberMealCoupen activeMealCoupen = memberMealCoupenServices.getActiveMealCoupenByMember(member);
