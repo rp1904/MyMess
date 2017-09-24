@@ -7,18 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.byb.bhojan.model.CreatedUpdated;
-import com.byb.bhojan.model.Mess;
-import com.byb.bhojan.model.User;
 import com.byb.bhojan.dao.MembershipRequestDao;
 import com.byb.bhojan.dao.UserDao;
+import com.byb.bhojan.model.CreatedUpdated;
 import com.byb.bhojan.model.MealCoupen;
 import com.byb.bhojan.model.MemberMealCoupen;
 import com.byb.bhojan.model.MembershipRequest;
 import com.byb.bhojan.services.MealCoupenServices;
 import com.byb.bhojan.services.MemberMealCoupenServices;
 import com.byb.bhojan.services.MembershipRequestServices;
-import com.byb.bhojan.util.Dates;
+import com.byb.bhojan.util.DateUtils;
 import com.byb.bhojan.util.ProjectConstant;
 
 @Service
@@ -44,14 +42,8 @@ public class MembershipRequestServicesImpl implements MembershipRequestServices 
 	}
 
 	@Override
-	public int saveMembershipRequests(Mess mess, User loggedInMember) {
+	public int saveMembershipRequests(MembershipRequest newMembershipRequest) {
 		// TODO Auto-generated method stub
-		MembershipRequest newMembershipRequest = new MembershipRequest();
-		newMembershipRequest.setMember(loggedInMember);
-		newMembershipRequest.setMess(mess);
-		newMembershipRequest.setRequestStatus(ProjectConstant.MEMBERSHIP_REQUEST_PENDING);
-		newMembershipRequest.setCreatedUpdated(new CreatedUpdated(loggedInMember.getUserIdPk()));
-
 		return membershipRequestDao.saveMembershipRequests(newMembershipRequest);
 	}
 
@@ -96,12 +88,11 @@ public class MembershipRequestServicesImpl implements MembershipRequestServices 
 			MemberMealCoupen memberMealCoupen = new MemberMealCoupen();
 			memberMealCoupen.setMember(membershipRequest.getMember());
 			memberMealCoupen.setMealCoupen(mealCoupen);
-			memberMealCoupen.setExpiryDate(Dates.getDateAfterDays(new Date(), mealCoupen.getValidity()));
+			memberMealCoupen.setExpiryDate(DateUtils.getDateAfterDays(new Date(), mealCoupen.getValidity()));
 			memberMealCoupen.setNoOfMeals(mealCoupen.getNoOfMeals());
 			memberMealCoupen.setRemainingMealCount(mealCoupen.getNoOfMeals());
 			memberMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE);
-			memberMealCoupen
-					.setCreatedUpdated(new CreatedUpdated(membershipRequest.getMess().getMessOwner().getUserIdPk()));
+			memberMealCoupen.setCreatedUpdated(new CreatedUpdated(membershipRequest.getMess().getMessOwner().getUserIdPk()));
 
 			memberMealCoupenServices.saveMemberMealCoupen(memberMealCoupen);
 

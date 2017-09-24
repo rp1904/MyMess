@@ -31,7 +31,7 @@ import com.byb.bhojan.services.MemberMealCoupenServices;
 import com.byb.bhojan.services.MemberMealServices;
 import com.byb.bhojan.services.UserServices;
 import com.byb.bhojan.services.impl.AndroidPush;
-import com.byb.bhojan.util.Dates;
+import com.byb.bhojan.util.DateUtils;
 import com.byb.bhojan.util.ProjectConstant;
 
 @RestController
@@ -87,7 +87,7 @@ public class MessMembersController extends BaseController {
 		MemberMealCoupen memberMealCoupen = new MemberMealCoupen();
 		memberMealCoupen.setMember(savedMember);
 		memberMealCoupen.setMealCoupen(mealCoupen);
-		memberMealCoupen.setExpiryDate(Dates.getDateAfterDays(new Date(), mealCoupen.getValidity()));
+		memberMealCoupen.setExpiryDate(DateUtils.getDateAfterDays(new Date(), mealCoupen.getValidity()));
 		memberMealCoupen.setNoOfMeals(mealCoupen.getNoOfMeals());
 		memberMealCoupen.setRemainingMealCount(mealCoupen.getNoOfMeals());
 		memberMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE);
@@ -188,10 +188,10 @@ public class MessMembersController extends BaseController {
 
 		MemberMealCoupen activeMemberMealCoupen = memberMealCoupenServices.getActiveMealCoupenByMember(member);
 		if (activeMemberMealCoupen != null) {
-			newMemberMealCoupen.setExpiryDate(Dates.getDateAfterDays(activeMemberMealCoupen.getExpiryDate(), mealCoupen.getValidity()));
+			newMemberMealCoupen.setExpiryDate(DateUtils.getDateAfterDays(activeMemberMealCoupen.getExpiryDate(), mealCoupen.getValidity()));
 			newMemberMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_WAITING);
 		} else {
-			newMemberMealCoupen.setExpiryDate(Dates.getDateAfterDays(new Date(), mealCoupen.getValidity()));
+			newMemberMealCoupen.setExpiryDate(DateUtils.getDateAfterDays(new Date(), mealCoupen.getValidity()));
 			newMemberMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE);
 		}
 

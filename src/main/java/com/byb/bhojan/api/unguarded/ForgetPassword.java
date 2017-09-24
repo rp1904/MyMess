@@ -15,7 +15,7 @@ import com.byb.bhojan.api.comman.BaseController;
 import com.byb.bhojan.model.User;
 import com.byb.bhojan.services.UserServices;
 import com.byb.bhojan.services.impl.EmailService;
-import com.byb.bhojan.util.Dates;
+import com.byb.bhojan.util.DateUtils;
 import com.byb.bhojan.util.EmailTemplates;
 import com.byb.bhojan.util.EncryptionUtils;
 import com.byb.bhojan.util.ProjectConstant;
@@ -50,7 +50,7 @@ public class ForgetPassword extends BaseController {
 
 			String resetPassWebPage = "/web/resetpassword?token=";
 
-			Long expiresOnMillis = Dates.getMillisAfterHours(new Date(), Integer.parseInt(forgetPasswordLinkLifetime));
+			Long expiresOnMillis = DateUtils.getMillisAfterHours(new Date(), Integer.parseInt(forgetPasswordLinkLifetime));
 
 			String token = user.getUserIdPk() + ProjectConstant.STRING_SEPERATOR + expiresOnMillis;
 

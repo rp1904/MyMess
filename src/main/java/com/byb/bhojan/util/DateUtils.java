@@ -1,9 +1,11 @@
 package com.byb.bhojan.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
-public class Dates {
+public class DateUtils {
 
 	public static Date getEndOfDay(Date date) {
 
@@ -39,7 +41,7 @@ public class Dates {
 
 		return calendar.getTime();
 	}
-	
+
 	public static Long getMillisAfterHours(Date date, int hrs) {
 
 		Calendar calendar = Calendar.getInstance();
@@ -48,6 +50,18 @@ public class Dates {
 		calendar.add(Calendar.HOUR_OF_DAY, hrs);
 
 		return calendar.getTimeInMillis();
+	}
+
+	public static String getFormatedDate(Date date, String format) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		return sdf.format(date);
+	}
+
+	public static long getDiffInDaysBetweenDates(Date fromDate, Date toDate) {
+
+		long diff = fromDate.getTime() - toDate.getTime();
+
+		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
 
 }

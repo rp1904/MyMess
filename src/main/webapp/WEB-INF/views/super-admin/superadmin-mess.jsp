@@ -25,11 +25,12 @@
       <div class="row">
         <div class="col-xs-12">
         
-        <div id="invalidid-error-alert" class="alert alert-danger" role="alert">
-		  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		  <strong>Error!</strong> Invalid Mess Id !
-		</div>
-        
+        <c:if test="${not empty error}">
+	        <div class="alert alert-danger" role="alert">
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  <strong>Error!</strong> Invalid Mess Id !
+			</div>
+        </c:if>
           <div class="box">
             <div class="box-body">
               <table id="example" class="table table-bordered table-striped">
@@ -48,6 +49,9 @@
             </div>
             <!-- /.box-body -->
           </div>
+          <form id="get_mess_members_form" action="mess-members" method="GET">
+          		<input type="hidden" id='messId' name="messId"/>
+          </form>
           <!-- /.box -->
         </div>
         <!-- /.col -->
@@ -64,11 +68,11 @@
 <!-- ./wrapper -->
 <script>
 $(document).ready(function() {
-	if(error === "invalid_id") {		
-		$("#invalidid-error-alert").fadeTo(2000, 500).slideUp(500, function(){
-		    $("#invalidid-error-alert").slideUp(2000);
-		});
-	}
+// 	if(error === "invalid_id") {		
+// 		$("#invalidid-error-alert").fadeTo(2000, 500).slideUp(500, function(){
+// 		    $("#invalidid-error-alert").slideUp(2000);
+// 		});
+// 	}
 
 	
     var messTable = $('#example').DataTable({
@@ -103,7 +107,9 @@ $(document).ready(function() {
         
     	var data = messTable.row( $(this).parents('tr') ).data();
 		if(this.id === 'btn-3') {
-			window.location = 'mess-members?messId=' + data.messIdPk;
+// 			window.location = 'mess-members?messId=' + data.messIdPk;
+			$('#messId').val(data.messIdPk);
+			$('#get_mess_members_form').submit();
 		}        
     });
   

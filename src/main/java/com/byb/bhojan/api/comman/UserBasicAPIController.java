@@ -15,7 +15,7 @@ import com.byb.bhojan.model.CreatedUpdated;
 import com.byb.bhojan.model.Otp;
 import com.byb.bhojan.model.User;
 import com.byb.bhojan.services.OtpServices;
-import com.byb.bhojan.util.Dates;
+import com.byb.bhojan.util.DateUtils;
 import com.byb.bhojan.util.ProjectConstant;
 import com.byb.bhojan.util.RandomStringGenerator;
 
@@ -54,7 +54,7 @@ public class UserBasicAPIController extends BaseController {
 		otp.setOtpValue(RandomStringGenerator.getRandomNumber_MaxLen9(5));
 		otp.setOtpFor(ProjectConstant.OTP_FOR_PASSWORD_RESET);
 		otp.setStatus(ProjectConstant.OTP_ACTIVE);
-		otp.setExpiresOn(Dates.getTimeStampAfterHours(new Date(), Integer.parseInt(otpLifeTime)));
+		otp.setExpiresOn(DateUtils.getTimeStampAfterHours(new Date(), Integer.parseInt(otpLifeTime)));
 		otp.setCreatedUpdated(new CreatedUpdated(user.getUserIdPk()));
 
 		otpServices.saveOtp(otp);

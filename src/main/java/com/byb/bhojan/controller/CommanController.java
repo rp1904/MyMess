@@ -135,9 +135,7 @@ public class CommanController {
 	}
 
 	@RequestMapping(value = "/web/login", method = RequestMethod.GET)
-	public ModelAndView login(@ModelAttribute("superAdmin") User superAdmin,
-			@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "logout", required = false) String logout) {
+	public ModelAndView login(@ModelAttribute("superAdmin") User superAdmin, @RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout) {
 
 		ModelAndView model = new ModelAndView();
 		if (error != null) {

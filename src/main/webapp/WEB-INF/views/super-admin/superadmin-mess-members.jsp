@@ -25,12 +25,7 @@
     <section class="content">
       <div class="row">
         <div class="col-xs-12">
-        
-        <div id="invalidid-error-alert" class="alert alert-danger" role="alert">
-		  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		  <strong>Error!</strong> Invalid Member Id !
-		</div>
-        
+       
           <div class="box">
             <div class="box-body">
             <input type="hidden" id="messId" value="${messId}">
@@ -49,6 +44,12 @@
             </div>
             <!-- /.box-body -->
           </div>
+          
+          <form id="get_member_details_form" action="member-details" method="POST">
+          		<input type="hidden" id='messId' name="messId"/>
+          		<input type="hidden" id='memberId' name="memberId"/>
+          </form>
+          
           <!-- /.box -->
         </div>
         <!-- /.col -->
@@ -65,11 +66,6 @@
 <!-- ./wrapper -->
 <script>
 $(document).ready(function() {
-	if(error === "invalid_id") {		
-		$("#invalidid-error-alert").fadeTo(2000, 500).slideUp(500, function(){
-		    $("#invalidid-error-alert").slideUp(2000);
-		});
-	}
 
     var messMemberTable = $('#example').DataTable({
       "processing": true,
@@ -100,9 +96,12 @@ $(document).ready(function() {
         var data = messMemberTable.row( $(this).parents('tr') ).data();
         
 		if(this.id == 'btn-1') {
-			window.location = 'member-details?memberId=' + data.userIdPk + '&messId=' + $('#messId').val();
+// 			window.location = 'member-details?memberId=' + data.userIdPk + '&messId=' + $('#messId').val();
+			$('#memberId').val(data.userIdPk);
+			$('#messId').val($('#messId').val());
+			$('#get_member_details_form').submit();
 		}        
-    } );
+    });
   
   });
 </script>

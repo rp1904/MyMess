@@ -97,4 +97,10 @@ public class UserProfile implements Serializable {
 		this.address = address;
 	}
 
+	@Override
+	public String toString() {
+		return "UserProfile [userProfileIdPk=" + userProfileIdPk + ", firstName=" + firstName + ", lastName=" + lastName + ", fullName=" + fullName + ", profileImageUrl=" + profileImageUrl + ", profileImageThumbnailUrl=" + profileImageThumbnailUrl + ", address=" + address
+				+ "]";
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.byb.bhojan.api.mess;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -27,6 +28,7 @@ import com.byb.bhojan.services.MemberMealServices;
 import com.byb.bhojan.services.MessServices;
 import com.byb.bhojan.services.UserServices;
 import com.byb.bhojan.services.impl.AndroidPush;
+import com.byb.bhojan.util.DateUtils;
 import com.byb.bhojan.util.ProjectConstant;
 
 @RestController
@@ -102,44 +104,78 @@ public class MealController extends BaseController {
 			return sendErrorResponse("Meal Already Consumed !");
 		}
 
-		int lastMealcount = memberMealServices.getMealCountForMember(member);
+		//--------------------------------------------------------------------------------------------------------------		
 
-		logger.info("lastMealcount" + lastMealcount);
+		MemberMealCoupen activeMealCoupen = memberMealCoupenServices.getActiveMealCoupenByMember(member);
 
-		if (lastMealcount == -1) {
-			lastMealcount = memberMealCoupenServices.getActiveMealCoupenByMember(member).getMealCoupen().getValidity();
+		logger.info(activeMealCoupen);
+
+		if (activeMealCoupen == null) {
+			return sendErrorResponse("No active meal coupen found !");
 		}
 
-		if (lastMealcount == 0) {
-			return sendErrorResponse("No Meals Availabel In " + member.getUserProfile().getFullName() + " Account !");
+		if (activeMealCoupen.getExpiryDate().getTime() < new Date().getTime()) {
+			return sendErrorResponse("This meal coupen is expired !");
 		}
+
+		int lastMealcount = activeMealCoupen.getRemainingMealCount();
+
+		if (lastMealcount <= 0) {
+			return sendErrorResponse("No meals availabel in " + member.getUserProfile().getFullName() + " account !");
+		} else {
+			activeMealCoupen.setRemainingMealCount(lastMealcount - 1);
+		}
+
+		if (activeMealCoupen.getRemainingMealCount() == 0) {
+			activeMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_CONSUMED);
+		}
+
+		activeMealCoupen.setCreatedUpdated(new CreatedUpdated(mess.getMessOwner().getUserIdPk()));
+		memberMealCoupenServices.updateMemberMealCoupen(activeMealCoupen);
+
+		//--------------------------------------------------------------------------------------------------------------
 
 		MemberMeal memberMeal = new MemberMeal();
 		memberMeal.setMeal(meal);
 		memberMeal.setMember(member);
 		memberMeal.setMealType(mealType);
 		memberMeal.setReadBy(origin);
-		memberMeal.setRemainingMealCount(lastMealcount - 1);
+		memberMeal.setRemainingMealCount(activeMealCoupen.getRemainingMealCount());
 		memberMeal.setMealFor(ProjectConstant.MEAL_FOR_SELF);
 		memberMeal.setCreatedUpdated(new CreatedUpdated(mess.getMessOwner().getUserIdPk()));
 
-		logger.info(memberMeal);
-
-		if (memberMeal.getRemainingMealCount() == 0) {
-			MemberMealCoupen activeMealCoupen = memberMealCoupenServices.getActiveMealCoupenByMember(member);
-			activeMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_CONSUMED);
-			activeMealCoupen.setCreatedUpdated(new CreatedUpdated(mess.getMessOwner().getUserIdPk()));
-			memberMealCoupenServices.updateMemberMealCoupen(activeMealCoupen);
-		}
-
 		memberMealServices.saveMemberMeal(memberMeal);
 
+		//Notify member
 		String title = "Your Meal Coupen Updated !";
 		String msg = "You have " + memberMeal.getRemainingMealCount() + " meals left in your account.";
-
 		notification.sendPushNotification(title, msg, member.getUserIdPk());
 
-		return sendSuccessResponse(member.getUserProfile().getFullName());
+		String mealCoupenCountClass = "alert-status success";
+		String mealCoupenExpiryClass = "alert-status success";
+
+		long dayCount = 0;
+
+		if (activeMealCoupen.getRemainingMealCount() < 5) {
+			mealCoupenCountClass = "alert-status danger";
+		}
+
+		if (DateUtils.getDateAfterDays(new Date(), 4).getTime() > activeMealCoupen.getExpiryDate().getTime()) {
+			mealCoupenExpiryClass = "alert-status danger";
+		}
+
+		dayCount = DateUtils.getDiffInDaysBetweenDates(activeMealCoupen.getExpiryDate(), new Date());
+
+		// @formatter:off
+		String responseMsg = "<strong>" + member.getUserProfile().getFullName() + "</strong>"
+				+ "<span class='"+mealCoupenCountClass+"'>Remaining meals: " + activeMealCoupen.getRemainingMealCount() + "</span>"
+				+ "<span class='"+mealCoupenExpiryClass+"'>Remaining Days: " + dayCount	+ "</span>"
+				+ "<span class='"+mealCoupenExpiryClass+"'>Expires on: " 
+				+ DateUtils.getFormatedDate(activeMealCoupen.getExpiryDate(), ProjectConstant.DF_dd_MMM_yyyy)
+				+ "</span>";
+		// @formatter:on
+
+		return sendSuccessResponse(responseMsg);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

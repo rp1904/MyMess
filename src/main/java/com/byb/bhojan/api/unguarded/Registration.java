@@ -1,7 +1,5 @@
 package com.byb.bhojan.api.unguarded;
 
-import java.util.Random;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +18,7 @@ import com.byb.bhojan.model.User;
 import com.byb.bhojan.services.MessServices;
 import com.byb.bhojan.services.UserServices;
 import com.byb.bhojan.util.ProjectConstant;
+import com.byb.bhojan.util.RandomStringGenerator;
 import com.byb.bhojan.validators.MessValidator;
 import com.byb.bhojan.validators.UserValidator;
 
@@ -85,15 +84,7 @@ public class Registration extends BaseController {
 			return sendErrorResponse("Mobile Already Registered With Us !");
 		}
 
-		StringBuilder messCode = new StringBuilder("MM-");
-		messCode.append(mess.getMessName().substring(0, 2).toUpperCase() + "-");
-		Random r = new Random();
-		int Low = 111;
-		int High = 999;
-		int newID = r.nextInt(High - Low) + Low;
-		messCode.append(newID);
-
-		mess.setMessId(messCode.toString());
+		mess.setMessId(RandomStringGenerator.getMessCode(mess.getMessName()));
 		mess.getMessOwner().setUserRole(userServices.getUserRoleById(ProjectConstant.USER_ROLE_ID_MESS));
 		CreatedUpdated createdUpdated = new CreatedUpdated(ProjectConstant.CREATEDBY_SELF);
 		mess.setCreatedUpdated(createdUpdated);
