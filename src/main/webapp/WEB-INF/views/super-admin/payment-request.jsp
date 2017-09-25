@@ -77,18 +77,20 @@
  </div>
 <!-- ./wrapper -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 <script>
 $(document).ready(function() {
 	var list = [];
 
-    $('#datepicker').datepicker({
-        defaultDate: new Date(),
-        autoclose: true,
-        format: 'dd/mm/yyyy',
-        startDate: '0d',
-        todayHighlight: true
-    });
+	$('#datepicker').datepicker({
+		startDate:'now',
+		endDate:'+3d',
+		autoclose: 1,
+		todayHighlight: 1,
+		forceParse: 0,
+		});
+
+		$('#datepicker').datepicker('setDate', new Date());
+		$('#datepicker').datepicker('update');
 
     var rows_selected = [];
     var messTable = $('#example').DataTable({
@@ -241,16 +243,17 @@ $(document).ready(function() {
         
         if (list.length < 1) {
         	//Please select mess for payment
-        	bootbox.alert("Please select mess for payment !");
+        	 bootbox_alert_small("Please select mess for payment !");
         	 return false;
         } else if ($('#datepicker').val().trim() === "") {
         	//Please select last date for payment
-        	bootbox.alert("Please select last date for payment !");
+        	 bootbox_alert_small("Please select last date for payment !");
         	 return false;
         } else {
 				bootbox.prompt({
 				    title: "Please enter your yassword to continue !",
 				    inputType: 'password',
+				    size: 'small',
 				    callback: function (result) {
 				        console.log(result);
 				        authenticate(result);
@@ -276,7 +279,7 @@ $(document).ready(function() {
 			        	$('#paymentDetailList').val(list);
 			        	$('#make_payment_req_form').submit();
 			        } else {
-			        	bootbox.alert(data.message);
+			        	bootbox_danger_small(data.message);
 			        }
 			    },
 			    error: function( jqXhr, textStatus, errorThrown ){
