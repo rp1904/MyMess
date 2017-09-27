@@ -240,6 +240,7 @@
 <!-- DataTables -->
 <script src="../../resources/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../../resources/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../../resources/plugins/bootbox/bootbox-4.4.0.min.js"></script>
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- <script src="../../resources/dist/js/pages/dashboard.js"></script> -->
@@ -275,19 +276,35 @@ var error = url.searchParams.get("error");
 		  });
 		  
 		// Will also work for relative and absolute hrefs
-// 		  $('ul.nav a').filter(function() {
-// 			  console.log("URL: " + url);
-// 			  console.log("this.href: " + this.href.split('#')[0]);
-// 			  console.log("parent(): " + $(this).parent().get( 0 ));
-// 		      return this.href.split('#')[0] == url;
-// 		  }).parent().addClass('active');
+		  $('ul.nav a').filter(function() {
+			  console.log("URL: " + url);
+			  console.log("this.href: " + this.href.split('#')[0]);
+			  console.log("parent(): " + $(this).parent().get( 0 ));
+		      return this.href.split('#')[0] == url;
+		  }).parent().addClass('active');
 		
-// 		  var loc = window.location.href;   //loc = name of jsp page
-// 		  var nav_li_id = loc.split(/[/ ]+/).pop();	
-// 		  console.log("ID: " + nav_li_id);
-// 		  $('#'+nav_li_id).parent().parent().addClass('active').siblings().removeClass('active');
-// 		  $('#'+nav_li_id).addClass('active').siblings().removeClass('active');
+		  var loc = window.location.href;   //loc = name of jsp page
+		  var nav_li_id = loc.split(/[/ ]+/).pop();	
+		  console.log("ID: " + nav_li_id);
+		  $('#'+nav_li_id).parent().parent().addClass('active').siblings().removeClass('active');
+		  $('#'+nav_li_id).addClass('active').siblings().removeClass('active');
 	});
+	
+	function bootbox_alert_small(msg) {
+		bootbox.alert({
+			message: msg,
+			className: 'bootbox_default b_alert',
+			size: 'small'
+		});
+	}
+	
+	function bootbox_danger_small(msg) {
+		bootbox.alert({
+			message: msg,
+			className: 'b_danger',
+			size: 'small'
+		});
+	}
 	
 </script>
 

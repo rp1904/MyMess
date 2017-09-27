@@ -55,7 +55,7 @@ public class AdminController {
 
 		model.addObject("projectName", ProjectConstant.PROJECT_NAME);
 
-		model.setViewName("super-admin/superadmin-home");
+		model.setViewName("super-admin/home");
 
 		return model;
 
