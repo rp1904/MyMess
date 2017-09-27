@@ -15,6 +15,10 @@ public class ProjectConstant {
 	public static final String SERVER_KEY = "AAAAMCyTYzA:APA91bEEGdkJ8HE7XN0UvcobqFhDDQ_wEMOPsZsfNSpZARnNjyar-wNF62Sky8HMzsr-8yRiv3T1XJ9BfVZ4FSwhqS7Au2_JZIbqRBuflaIjYu5VAFiEKx_EU8Wd8_jeuqjjnmM3qi1T";
 
 	public static final String STRING_SEPERATOR = "RP_WORLD";
+	
+	public static final int DEFAULT_MIN_AMOUNT = 10;
+	
+	public static final int DEFAULT_MAX_AMOUNT = 1000;
 
 	// -------------------------- Date Formats ---------------------------------------------------
 

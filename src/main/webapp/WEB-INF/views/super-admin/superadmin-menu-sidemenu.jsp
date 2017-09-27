@@ -59,7 +59,7 @@
         <li><a href="payment-request"><i class="fa fa-inr"></i> <span>Payment Requests</span></a></li>
         <li><a href="payment"><i class="fa fa-history"></i> <span>Payment History</span></a></li>
         <li class="header"></li>
-        <li><a href="payment"><i class="fa fa-gears"></i> <span>Admin Settings</span></a></li>
+        <li><a href="admin-settings"><i class="fa fa-gears"></i> <span>Admin Settings</span></a></li>
         <li class="header"></li>
         <li><a href="payment"><i class="fa fa-edit"></i> <span>Privacy Policy</span></a></li>
         <li><a href="payment"><i class="fa fa-info-circle"></i> <span>About Us</span></a></li>

@@ -60,6 +60,9 @@ public class Mess implements Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "mess", cascade = CascadeType.MERGE)
 	private List<MealCoupen> mealCoupens;
+	
+	@Column(name = "days_remaining")
+	private int daysRemaining;
 
 	@Embedded
 	private CreatedUpdated createdUpdated;
@@ -136,6 +139,14 @@ public class Mess implements Serializable {
 		this.meals = meals;
 	}
 
+	public int getDaysRemaining() {
+		return daysRemaining;
+	}
+
+	public void setDaysRemaining(int daysRemaining) {
+		this.daysRemaining = daysRemaining;
+	}
+
 	public CreatedUpdated getCreatedUpdated() {
 		return createdUpdated;
 	}
@@ -146,9 +157,8 @@ public class Mess implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Mess [messIdPk=" + messIdPk + ", messId=" + messId + ", messName=" + messName + ", messTagLine="
-				+ messTagLine + ", messProfileImageUrl=" + messProfileImageUrl + ", messProfileImageThumbnailUrl="
-				+ messProfileImageThumbnailUrl + ", createdUpdated=" + createdUpdated + "]";
+		return "Mess [messIdPk=" + messIdPk + ", messId=" + messId + ", messName=" + messName + ", messOwner=" + messOwner + ", messAddress=" + messAddress + ", messTagLine=" + messTagLine + ", messProfileImageUrl=" + messProfileImageUrl
+				+ ", messProfileImageThumbnailUrl=" + messProfileImageThumbnailUrl + ", daysRemaining=" + daysRemaining + ", createdUpdated=" + createdUpdated + "]";
 	}
 
 }

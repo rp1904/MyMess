@@ -11,15 +11,18 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.byb.bhojan.model.AdminSetting;
 import com.byb.bhojan.model.MemberMealCoupen;
 import com.byb.bhojan.model.Mess;
 import com.byb.bhojan.model.User;
+import com.byb.bhojan.services.AdminSettingServices;
 import com.byb.bhojan.services.MemberMealCoupenServices;
 import com.byb.bhojan.services.MessServices;
 import com.byb.bhojan.services.UserServices;
@@ -39,6 +42,9 @@ public class AdminController {
 
 	@Autowired
 	private MemberMealCoupenServices memberMealCoupenServices;
+	
+	@Autowired
+	private AdminSettingServices adminSettingServices;
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView adminHomePage() {
@@ -187,6 +193,36 @@ public class AdminController {
 		}
 
 		return new ModelAndView("super-admin/payment-request");
+	}
+	
+	@RequestMapping(value = "/admin-settings", method = RequestMethod.GET)
+	public ModelAndView getAdminSettingsPage(@ModelAttribute("adminSettings") AdminSetting adminSettings) {
+		
+		adminSettings = adminSettingServices.getAdminSettings();
+		return new ModelAndView("super-admin/payment-request");
+	}
+
+	@RequestMapping(value = "/admin-settings", method = RequestMethod.POST)
+	public ModelAndView updateAdminSettings(@ModelAttribute("adminSettings") User adminSettings) {
+
+		List<Mess> messess = messServices.getAllMessess();
+
+		JSONArray outerObject = new JSONArray();
+		for (Mess mess : messess) {
+			JSONObject innerObject = new JSONObject();
+
+			innerObject.put("messIdPk", mess.getMessIdPk());
+			innerObject.put("messName", mess.getMessName());
+			innerObject.put("amount", "<input id='amount_" + mess.getMessIdPk() + "' class='form-control amount' value='100' min='0' max='1000' type='number'/>");
+			innerObject.put("status", "pending");
+
+			outerObject.add(innerObject);
+
+		}
+
+		JSONObject a = new JSONObject();
+		a.put("data", outerObject);
+		return a;
 	}
 
 }
