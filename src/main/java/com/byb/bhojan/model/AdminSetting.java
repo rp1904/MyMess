@@ -20,6 +20,9 @@ public class AdminSetting implements Serializable {
 
 	@Column(name = "default_payable_amount")
 	private int defaultPayableAmount;
+	
+	@Column(name = "free_trial_days")
+	private int freeTrialDays;
 
 	@Embedded
 	private CreatedUpdated createdUpdated;
@@ -40,6 +43,14 @@ public class AdminSetting implements Serializable {
 		this.defaultPayableAmount = defaultPayableAmount;
 	}
 
+	public int getFreeTrialDays() {
+		return freeTrialDays;
+	}
+
+	public void setFreeTrialDays(int freeTrialDays) {
+		this.freeTrialDays = freeTrialDays;
+	}
+
 	public CreatedUpdated getCreatedUpdated() {
 		return createdUpdated;
 	}
@@ -50,7 +61,7 @@ public class AdminSetting implements Serializable {
 
 	@Override
 	public String toString() {
-		return "AdminSetting [adminSettingId=" + adminSettingId + ", defaultPayableAmount=" + defaultPayableAmount + ", createdUpdated=" + createdUpdated + "]";
+		return "AdminSetting [adminSettingId=" + adminSettingId + ", defaultPayableAmount=" + defaultPayableAmount + ", freeTrialDays=" + freeTrialDays + ", createdUpdated=" + createdUpdated + "]";
 	}
 
 }

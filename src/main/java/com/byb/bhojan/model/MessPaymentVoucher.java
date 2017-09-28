@@ -12,20 +12,17 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "mess_payments")
-public class MessPayment implements Serializable {
+@Table(name = "mess_payment_voucher")
+public class MessPaymentVoucher implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
-	@Column(name = "mess_payment_id")
-	private String messPaymentId;
+	@Column(name = "mess_payment_coupen_id", unique = true)
+	private String messPaymentVoucherId;
 
-	@Column(name = "mess_id")
-	private String mess_id;
-	
 	private String name;
 
 	private double amount;
@@ -37,20 +34,12 @@ public class MessPayment implements Serializable {
 	@Embedded
 	private CreatedUpdated createdUpdated;
 
-	public String getMessPaymentId() {
-		return messPaymentId;
+	public String getMessPaymentVoucherId() {
+		return messPaymentVoucherId;
 	}
 
-	public void setMessPaymentId(String messPaymentId) {
-		this.messPaymentId = messPaymentId;
-	}
-
-	public String getMess_id() {
-		return mess_id;
-	}
-
-	public void setMess_id(String mess_id) {
-		this.mess_id = mess_id;
+	public void setMessPaymentVoucherId(String messPaymentVoucherId) {
+		this.messPaymentVoucherId = messPaymentVoucherId;
 	}
 
 	public String getName() {
@@ -95,8 +84,7 @@ public class MessPayment implements Serializable {
 
 	@Override
 	public String toString() {
-		return "MessPayment [messPaymentId=" + messPaymentId + ", mess_id=" + mess_id + ", name=" + name + ", amount=" + amount + ", days=" + days + ", discount=" + discount + ", createdUpdated=" + createdUpdated + "]";
+		return "MessPaymentVoucher [messPaymentVoucherId=" + messPaymentVoucherId + ", name=" + name + ", amount=" + amount + ", days=" + days + ", discount=" + discount + ", createdUpdated=" + createdUpdated + "]";
 	}
 
-	
 }

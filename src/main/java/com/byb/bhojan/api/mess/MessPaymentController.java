@@ -1,5 +1,7 @@
 package com.byb.bhojan.api.mess;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,16 +14,21 @@ import com.byb.bhojan.api.comman.BaseController;
 import com.byb.bhojan.model.InstamojoPaymentReqResponse;
 import com.byb.bhojan.model.InstamojoPaymentRequest;
 import com.byb.bhojan.model.Mess;
+import com.byb.bhojan.model.MessPaymentVoucher;
 import com.byb.bhojan.services.InstamojoServices;
+import com.byb.bhojan.services.MessPaymentVoucherServices;
 
 @RestController
 @RequestMapping("/api/mess/payment")
-public class MessPayment extends BaseController {
+public class MessPaymentController extends BaseController {
 
-	Logger logger = Logger.getLogger(MessPayment.class);
+	Logger logger = Logger.getLogger(MessPaymentController.class);
 
 	@Autowired
 	private InstamojoServices instamojoServices;
+	
+	@Autowired
+	private MessPaymentVoucherServices messPaymentVoucherServices;
 
 	@RequestMapping(value = "/request", method = RequestMethod.GET)
 	public ResponseEntity<?> makePaymentRequest() {
@@ -42,6 +49,12 @@ public class MessPayment extends BaseController {
 		}
 
 		return sendErrorResponse("Payment Request Failed !");
+	}
+	
+	@RequestMapping(value = "/vouchers", method = RequestMethod.GET)
+	public ResponseEntity<List<MessPaymentVoucher>> getAllMessPaymentVouchers() {
+
+		return new ResponseEntity<List<MessPaymentVoucher>>(messPaymentVoucherServices.getAllVouchers(), HttpStatus.OK);
 	}
 
 }

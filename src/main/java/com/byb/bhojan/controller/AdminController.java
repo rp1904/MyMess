@@ -25,6 +25,7 @@ import com.byb.bhojan.model.Mess;
 import com.byb.bhojan.model.User;
 import com.byb.bhojan.services.AdminSettingServices;
 import com.byb.bhojan.services.MemberMealCoupenServices;
+import com.byb.bhojan.services.MessPaymentVoucherServices;
 import com.byb.bhojan.services.MessServices;
 import com.byb.bhojan.services.UserServices;
 import com.byb.bhojan.util.ProjectConstant;
@@ -46,6 +47,9 @@ public class AdminController {
 
 	@Autowired
 	private AdminSettingServices adminSettingServices;
+	
+	@Autowired
+	private MessPaymentVoucherServices messPaymentVoucherServices;
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView adminHomePage() {
@@ -219,4 +223,26 @@ public class AdminController {
 		return new ModelAndView("super-admin/admin-settings");
 	}
 
+	@RequestMapping(value = "/admin-settings", method = RequestMethod.GET)
+	public ModelAndView getAllVouchers(@ModelAttribute("adminSettings") AdminSetting adminSettings) {
+
+		adminSettings = adminSettingServices.getAdminSettings();
+
+		ModelAndView modelAndView = new ModelAndView("super-admin/admin-settings");
+		modelAndView.addObject("adminSettings", adminSettings);
+
+		logger.info(adminSettings);
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/admin-settings", method = RequestMethod.POST)
+	public ModelAndView updateVoucher(@ModelAttribute("adminSettings") AdminSetting adminSettings) {
+
+		AdminSetting oldAdminSettings = adminSettingServices.getAdminSettings();
+		oldAdminSettings.setCreatedUpdated(new CreatedUpdated(oldAdminSettings.getCreatedUpdated(), "1"));
+		oldAdminSettings.setDefaultPayableAmount(adminSettings.getDefaultPayableAmount());
+		adminSettings = adminSettingServices.updateAdminSettings(oldAdminSettings);
+		return new ModelAndView("super-admin/admin-settings");
+	}
 }

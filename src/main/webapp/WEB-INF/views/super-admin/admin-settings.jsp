@@ -40,6 +40,7 @@
             <!-- form start -->
             <form:form id="admin-settings-form" class="form-horizontal" method="post" action="#" modelAttribute="adminSettings">
               <div class="box-body">
+
                 <div class="form-group">
                   <form:hidden path="adminSettingId"/>
                   <form:label path="defaultPayableAmount" class="col-sm-3 control-label">Default Payable Amount</form:label>
@@ -52,8 +53,16 @@
                     </div>
                     <form:errors path="defaultPayableAmount" cssClass="error"/>
                   </div>
-                  
                 </div>
+                  
+                <div class="form-group">
+                  <form:label path="freeTrialDays" class="col-sm-3 control-label">Free Trial Days</form:label>
+                  <div class="col-sm-2">
+                    <form:input id="freeTrialDays" name="freeTrialDays" path="freeTrialDays"  tabindex="2" class="form-control"/>
+                    <form:errors path="freeTrialDays" cssClass="error"/>
+                  </div>
+                </div>
+
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
