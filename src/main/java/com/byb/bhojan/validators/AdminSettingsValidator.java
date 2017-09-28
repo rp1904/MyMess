@@ -18,17 +18,17 @@ public class AdminSettingsValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		// TODO Auto-generated method stub
-		
+
 		AdminSetting adminSetting = (AdminSetting) target;
-		
+
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "defaultPayableAmount", "NotEmpty.adminSetting.defaultPayableAmount");
-		
+
 		if (adminSetting.getDefaultPayableAmount() < ProjectConstant.DEFAULT_MIN_AMOUNT) {
-			errors.rejectValue("defaultPayableAmount", "Min.adminSetting.defaultPayableAmount", ProjectConstant.DEFAULT_MIN_AMOUNT);
+			errors.rejectValue("defaultPayableAmount", "Min.adminSetting.defaultPayableAmount", String.valueOf(ProjectConstant.DEFAULT_MIN_AMOUNT));
 		}
-		
+
 		if (adminSetting.getDefaultPayableAmount() > ProjectConstant.DEFAULT_MAX_AMOUNT) {
-			errors.rejectValue("defaultPayableAmount", "AlreadyExist.user.mobileno", ProjectConstant.DEFAULT_MAX_AMOUNT);
+			errors.rejectValue("defaultPayableAmount", "AlreadyExist.user.mobileno", String.valueOf(ProjectConstant.DEFAULT_MAX_AMOUNT));
 		}
 
 	}

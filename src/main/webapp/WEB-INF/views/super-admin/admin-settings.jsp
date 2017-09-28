@@ -16,7 +16,7 @@
       <h1>Admin Settings</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Mess</li>
+        <li class="active">Admin Settings</li>
       </ol>
     </section>
 
@@ -34,17 +34,22 @@
           
            <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Horizontal Form</h3>
+              <h3 class="box-title">Edit &nbsp;&nbsp;&nbsp;<i class="fa fa-edit"></i></h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
             <form:form id="admin-settings-form" class="form-horizontal" method="post" action="#" modelAttribute="adminSettings">
               <div class="box-body">
                 <div class="form-group">
-                
-                  <form:label path="defaultPayableAmount" class="col-sm-2 control-label">Default Payable Amount</form:label>
-                  <div class="col-sm-10">
-                    <form:input id="defaultPayableAmount" name="defaultPayableAmount" path="defaultPayableAmount"  tabindex="1" class="form-control"/>
+                  <form:hidden path="adminSettingId"/>
+                  <form:label path="defaultPayableAmount" class="col-sm-3 control-label">Default Payable Amount</form:label>
+                  <div class="col-sm-2">
+                    <div class="input-group">
+                       <form:input id="defaultPayableAmount" name="defaultPayableAmount" path="defaultPayableAmount"  tabindex="1" class="form-control"/>
+                        <div class="input-group-addon">
+                           <i class="fa fa-rupee"></i>
+                        </div>
+                    </div>
                     <form:errors path="defaultPayableAmount" cssClass="error"/>
                   </div>
                   

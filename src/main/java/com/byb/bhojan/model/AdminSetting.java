@@ -11,16 +11,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "admin_settings")
 public class AdminSetting implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "admin_setting_id", unique = true)
 	private int adminSettingId;
-	
+
 	@Column(name = "default_payable_amount")
 	private int defaultPayableAmount;
-	
+
 	@Embedded
 	private CreatedUpdated createdUpdated;
 
@@ -47,6 +47,10 @@ public class AdminSetting implements Serializable {
 	public void setCreatedUpdated(CreatedUpdated createdUpdated) {
 		this.createdUpdated = createdUpdated;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "AdminSetting [adminSettingId=" + adminSettingId + ", defaultPayableAmount=" + defaultPayableAmount + ", createdUpdated=" + createdUpdated + "]";
+	}
+
 }

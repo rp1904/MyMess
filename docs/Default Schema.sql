@@ -9,5 +9,6 @@ INSERT INTO `bhojan_demo`.`user_roles` (`user_role_id`,`role`) VALUES
  INSERT INTO `bhojan_demo`.`users` (`user_id_pk`,`accout_non_expired`,`accout_non_locker`,`created_at`,`created_by`,`updated_at`,`updated_by`,`credentials_non_expired`,`email`,`is_enable`,`mobile_number`,`password`,`user_id`,`mess_id_fk`,`user_profile_id_fk`,`user_role_id_fk`) VALUES  
  ('1','','',NULL,'SELF',NULL,'SELF','','roshanpatil19040@gmail.com','','8308238755','$2a$10$e5KVwe1U1q0Pj/ZU5h6fpOXdInIhQ/0gYcTsSTIqLpuoYgo0dbsju','1',NULL,NULL,1);
  
+ INSERT INTO `bhojan_demo`.`admin_settings` VALUES (1, '2017-01-01 00:00:00', '1', '2017-01-01 00:00:00', '1', 100);
  
  UPDATE users set password='$2a$10$e5KVwe1U1q0Pj/ZU5h6fpOXdInIhQ/0gYcTsSTIqLpuoYgo0dbsju';

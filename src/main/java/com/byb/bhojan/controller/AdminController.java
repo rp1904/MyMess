@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.byb.bhojan.model.AdminSetting;
+import com.byb.bhojan.model.CreatedUpdated;
 import com.byb.bhojan.model.MemberMealCoupen;
 import com.byb.bhojan.model.Mess;
 import com.byb.bhojan.model.User;
@@ -42,7 +43,7 @@ public class AdminController {
 
 	@Autowired
 	private MemberMealCoupenServices memberMealCoupenServices;
-	
+
 	@Autowired
 	private AdminSettingServices adminSettingServices;
 
@@ -194,35 +195,28 @@ public class AdminController {
 
 		return new ModelAndView("super-admin/payment-request");
 	}
-	
+
 	@RequestMapping(value = "/admin-settings", method = RequestMethod.GET)
 	public ModelAndView getAdminSettingsPage(@ModelAttribute("adminSettings") AdminSetting adminSettings) {
-		
+
 		adminSettings = adminSettingServices.getAdminSettings();
-		return new ModelAndView("super-admin/payment-request");
+
+		ModelAndView modelAndView = new ModelAndView("super-admin/admin-settings");
+		modelAndView.addObject("adminSettings", adminSettings);
+
+		logger.info(adminSettings);
+
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "/admin-settings", method = RequestMethod.POST)
-	public ModelAndView updateAdminSettings(@ModelAttribute("adminSettings") User adminSettings) {
+	public ModelAndView updateAdminSettings(@ModelAttribute("adminSettings") AdminSetting adminSettings) {
 
-		List<Mess> messess = messServices.getAllMessess();
-
-		JSONArray outerObject = new JSONArray();
-		for (Mess mess : messess) {
-			JSONObject innerObject = new JSONObject();
-
-			innerObject.put("messIdPk", mess.getMessIdPk());
-			innerObject.put("messName", mess.getMessName());
-			innerObject.put("amount", "<input id='amount_" + mess.getMessIdPk() + "' class='form-control amount' value='100' min='0' max='1000' type='number'/>");
-			innerObject.put("status", "pending");
-
-			outerObject.add(innerObject);
-
-		}
-
-		JSONObject a = new JSONObject();
-		a.put("data", outerObject);
-		return a;
+		AdminSetting oldAdminSettings = adminSettingServices.getAdminSettings();
+		oldAdminSettings.setCreatedUpdated(new CreatedUpdated(oldAdminSettings.getCreatedUpdated(), "1"));
+		oldAdminSettings.setDefaultPayableAmount(adminSettings.getDefaultPayableAmount());
+		adminSettings = adminSettingServices.updateAdminSettings(oldAdminSettings);
+		return new ModelAndView("super-admin/admin-settings");
 	}
 
 }

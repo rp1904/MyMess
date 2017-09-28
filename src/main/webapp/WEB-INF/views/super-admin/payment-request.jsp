@@ -41,7 +41,7 @@
                   <th>Sr No</th>
                   <th>Mess Name</th>
                   <th>Amount</th>
-                  <th>Status</th>
+                  <th>Days Remaining</th>
                   <th><input name="select_all" value="1" type="checkbox"></th>
                 </tr>
                 </thead>
@@ -49,12 +49,6 @@
               <hr>
               <form id="make_payment_req_form" action="#" method="POST" class="form-horizontal">
               	<input type="hidden" id="paymentDetailList" name="paymentDetailList">
-              	<div class="form-group col-sm-6">
-                  <label for="datepicker" class="col-sm-6 control-label">Last Date For Payment <span class="text-danger">*</span></label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" id="datepicker">
-                  </div>
-                </div>
               	<div class="form-group col-offset-1 col-sm-6">
 	              	<button id="make_payment_req_form_btn" class="btn btn-success">Submit</button>
               	</div>
@@ -80,17 +74,6 @@
 <script>
 $(document).ready(function() {
 	var list = [];
-
-	$('#datepicker').datepicker({
-		startDate:'now',
-		endDate:'+3d',
-		autoclose: 1,
-		todayHighlight: 1,
-		forceParse: 0,
-		});
-
-		$('#datepicker').datepicker('setDate', new Date());
-		$('#datepicker').datepicker('update');
 
     var rows_selected = [];
     var messTable = $('#example').DataTable({
