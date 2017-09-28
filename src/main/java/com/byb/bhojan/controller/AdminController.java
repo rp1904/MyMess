@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.byb.bhojan.model.AdminSetting;
 import com.byb.bhojan.model.CreatedUpdated;
 import com.byb.bhojan.model.MemberMealCoupen;
 import com.byb.bhojan.model.Mess;
+import com.byb.bhojan.model.MessPaymentVoucher;
 import com.byb.bhojan.model.User;
 import com.byb.bhojan.services.AdminSettingServices;
 import com.byb.bhojan.services.MemberMealCoupenServices;
@@ -47,7 +49,7 @@ public class AdminController {
 
 	@Autowired
 	private AdminSettingServices adminSettingServices;
-	
+
 	@Autowired
 	private MessPaymentVoucherServices messPaymentVoucherServices;
 
@@ -223,26 +225,49 @@ public class AdminController {
 		return new ModelAndView("super-admin/admin-settings");
 	}
 
-	@RequestMapping(value = "/admin-settings", method = RequestMethod.GET)
-	public ModelAndView getAllVouchers(@ModelAttribute("adminSettings") AdminSetting adminSettings) {
+	@RequestMapping(value = "/vouchers", method = RequestMethod.GET)
+	public ModelAndView getAllVouchers(@ModelAttribute("voucher") MessPaymentVoucher voucher) {
 
-		adminSettings = adminSettingServices.getAdminSettings();
-
-		ModelAndView modelAndView = new ModelAndView("super-admin/admin-settings");
-		modelAndView.addObject("adminSettings", adminSettings);
-
-		logger.info(adminSettings);
-
+		ModelAndView modelAndView = new ModelAndView("super-admin/vouchers");
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/admin-settings", method = RequestMethod.POST)
-	public ModelAndView updateVoucher(@ModelAttribute("adminSettings") AdminSetting adminSettings) {
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/vouchers/list", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+	public @ResponseBody JSONObject loadAllVoucherList() {
 
-		AdminSetting oldAdminSettings = adminSettingServices.getAdminSettings();
-		oldAdminSettings.setCreatedUpdated(new CreatedUpdated(oldAdminSettings.getCreatedUpdated(), "1"));
-		oldAdminSettings.setDefaultPayableAmount(adminSettings.getDefaultPayableAmount());
-		adminSettings = adminSettingServices.updateAdminSettings(oldAdminSettings);
-		return new ModelAndView("super-admin/admin-settings");
+		List<MessPaymentVoucher> messPaymentVouchers = messPaymentVoucherServices.getAllVouchers();
+
+		JSONObject data = new JSONObject();
+		data.put("data", messPaymentVouchers);
+		return data;
+	}
+
+	@RequestMapping(value = "/vouchers", method = RequestMethod.POST)
+	public String addNewVoucher(@ModelAttribute("voucher") MessPaymentVoucher voucher, final RedirectAttributes ra) {
+
+		messPaymentVoucherServices.saveVoucher(voucher);
+
+		ra.addFlashAttribute("type", "success");
+		ra.addFlashAttribute("message", "Coupen \'" + voucher.getName() + "\' added successfully...!");
+
+		return "redirect:vouchers";
+	}
+
+	@RequestMapping(value = "/vouchers", method = RequestMethod.PUT)
+	public String updateVoucher(@ModelAttribute("voucher") MessPaymentVoucher voucher, final RedirectAttributes ra) {
+
+		MessPaymentVoucher oldVoucher = messPaymentVoucherServices.getVoucherById(voucher.getMessPaymentVoucherId());
+
+		oldVoucher.setAmount(voucher.getAmount());
+		oldVoucher.setDays(voucher.getDays());
+		oldVoucher.setDiscount(voucher.getDiscount());
+		oldVoucher.setName(voucher.getName());
+		oldVoucher.setCreatedUpdated(new CreatedUpdated(voucher.getCreatedUpdated(), "1"));
+
+		ra.addFlashAttribute("type", "success");
+		ra.addFlashAttribute("message", "Coupen " + voucher.getName() + " updated successfully...!");
+
+		return "redirect:vouchers";
 	}
 }
