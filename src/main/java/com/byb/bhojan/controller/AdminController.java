@@ -246,6 +246,7 @@ public class AdminController {
 	@RequestMapping(value = "/vouchers", method = RequestMethod.POST)
 	public String addNewVoucher(@ModelAttribute("voucher") MessPaymentVoucher voucher, final RedirectAttributes ra) {
 
+		voucher.setCreatedUpdated(new CreatedUpdated("1"));
 		messPaymentVoucherServices.saveVoucher(voucher);
 
 		ra.addFlashAttribute("type", "success");

@@ -25,6 +25,7 @@ import com.byb.bhojan.model.CreatedUpdated;
 import com.byb.bhojan.model.InstamojoPaymentLogs;
 import com.byb.bhojan.model.InstamojoPaymentReqResponse;
 import com.byb.bhojan.model.InstamojoPaymentRequest;
+import com.byb.bhojan.model.MessPaymentVoucher;
 import com.byb.bhojan.services.InstamojoServices;
 
 @Service
@@ -45,7 +46,7 @@ public class InstamojoServicesImpl implements InstamojoServices {
 	@Value("${instamojo_x_auth_token}")
 	private String instamojo_x_auth_token;
 
-	private Double PAYMENT_ORDER_AMOUNT = 100D;
+	//	private Double PAYMENT_ORDER_AMOUNT = 100D;
 
 	@Value("${instamojo_redirect_url}")
 	private String PAYMENT_ORDER_REDIRECT_URL;
@@ -56,10 +57,9 @@ public class InstamojoServicesImpl implements InstamojoServices {
 	private String PAYMENT_ORDER_PURPOSE = "Monthely Service Charge";
 
 	@Override
-	public InstamojoPaymentReqResponse placePaymentRequest(InstamojoPaymentRequest instamojoPaymentRequest,
-			String messId) {
+	public InstamojoPaymentReqResponse placePaymentRequest(InstamojoPaymentRequest instamojoPaymentRequest, String messId, MessPaymentVoucher voucher) {
 
-		instamojoPaymentRequest.setAmount(PAYMENT_ORDER_AMOUNT);
+		instamojoPaymentRequest.setAmount(voucher.getAmount());
 		instamojoPaymentRequest.setRedirect_url(PAYMENT_ORDER_REDIRECT_URL);
 		instamojoPaymentRequest.setWebhook(PAYMENT_ORDER_WEBHOOK_URL);
 		instamojoPaymentRequest.setPurpose(PAYMENT_ORDER_PURPOSE);
@@ -103,8 +103,7 @@ public class InstamojoServicesImpl implements InstamojoServices {
 
 			if (response.getStatusLine().getStatusCode() == 201) {
 
-				InstamojoPaymentReqResponse paymentReqResponse = new ObjectMapper().readValue(result.toString(),
-						InstamojoPaymentReqResponse.class);
+				InstamojoPaymentReqResponse paymentReqResponse = new ObjectMapper().readValue(result.toString(), InstamojoPaymentReqResponse.class);
 
 				paymentReqResponse.setCreatedUpdated(new CreatedUpdated(messId));
 				paymentReqResponse.setMessId(messId);
