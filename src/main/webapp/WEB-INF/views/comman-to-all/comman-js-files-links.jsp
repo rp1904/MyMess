@@ -290,6 +290,7 @@ var error = url.searchParams.get("error");
 	
 	function showAutoCloseAlert(type, message) {
 		$("#alert-div").addClass("alert-" + type);
+		$("#alert-div").removeClass("hidden");
 		$("#alert-msg").text(message);
 		$("#alert-div").fadeTo(5000,100).slideUp(500, function(){
 		    $("#alert-div").slideUp(500);

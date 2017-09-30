@@ -25,7 +25,7 @@
       <div class="row">
         <div class="col-xs-12">
         
-	        <div id="alert-div" class="alert fade out" role="alert">
+	        <div id="alert-div" class="alert fade out hidden" role="alert">
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			  <strong id="alert-msg"></strong>
 			</div>
