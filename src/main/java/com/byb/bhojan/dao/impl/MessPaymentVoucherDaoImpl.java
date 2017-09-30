@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -41,6 +42,7 @@ public class MessPaymentVoucherDaoImpl implements MessPaymentVoucherDao {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(MessPaymentVoucher.class);
+		criteria.addOrder(Order.asc("amount"));
 		return criteria.list();
 	}
 

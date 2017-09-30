@@ -8,15 +8,21 @@
 body {
 	background-color: #F9A92F;
 }
+
 h1 {
 	
-    margin-top:15%;
+	font-size: 70px;
+    margin-top:35%;
     color: green;
     font-family: verdana;
     text-align: center;
+    
 
 }
-p  {
+
+h2 {
+	
+	font-size: 45px;
     color: green;
     font-family: courier;
     text-align: center;
@@ -27,7 +33,7 @@ p  {
 
 <h1>Success !</h1>
 
-<p>Payment Id: ${paymentId} </p>
+<h2>Payment Id: ${paymentId} </h2>
 
 </body>
 </html>

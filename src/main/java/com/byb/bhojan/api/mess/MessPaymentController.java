@@ -59,7 +59,10 @@ public class MessPaymentController extends BaseController {
 	@RequestMapping(value = "/vouchers", method = RequestMethod.GET)
 	public ResponseEntity<List<MessPaymentVoucher>> getAllMessPaymentVouchers() {
 
-		return new ResponseEntity<List<MessPaymentVoucher>>(messPaymentVoucherServices.getAllVouchers(), HttpStatus.OK);
+		List<MessPaymentVoucher> vouchers = messPaymentVoucherServices.getAllVouchers();
+		vouchers.remove(0);
+
+		return new ResponseEntity<List<MessPaymentVoucher>>(vouchers, HttpStatus.OK);
 	}
 
 }
