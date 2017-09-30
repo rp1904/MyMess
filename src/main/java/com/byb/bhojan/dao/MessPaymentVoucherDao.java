@@ -7,10 +7,12 @@ import com.byb.bhojan.model.MessPaymentVoucher;
 public interface MessPaymentVoucherDao {
 
 	public void saveVoucher(MessPaymentVoucher messPaymentVoucher);
-	
+
 	public void updateVoucher(MessPaymentVoucher messPaymentVoucher);
 
 	public MessPaymentVoucher getVoucherById(String voucherId);
-	
+
 	public List<MessPaymentVoucher> getAllVouchers();
+
+	public void deleteVoucher(MessPaymentVoucher voucher);
 }

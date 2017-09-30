@@ -25,14 +25,17 @@
       <div class="row">
         <div class="col-xs-12">
         
-        <c:if test="${not empty type}">
-	        <div class="alert alert-${type}" role="alert">
+	        <div id="alert-div" class="alert fade out" role="alert">
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			  <strong>${message}</strong>
+			  <strong id="alert-msg"></strong>
 			</div>
-        </c:if>
           
           <div class="box">
+	        <div class="box-header">
+	        	<button type="button" class="btn btn-warning pull-right" id="addNewVoucher">
+	        		<i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Add New Coupen
+	        	</button>
+	        </div>
             <div class="box-body">
               <table id="voucherTable" class="table table-bordered table-striped">
                 <thead>
@@ -42,13 +45,14 @@
                   <th>Voucher Name</th>
                   <th>Days</th>
                   <th>Amount</th>
-                  <th>Discount</th>
+                  <th>Discount (%)</th>
+                  <th>Amount To Pay</th>
                   <th>Action</th>
                 </tr>
                 </thead>
               </table>
             </div>
-           
+           </div>
         </div>
         <!-- /.col -->
       </div>
@@ -76,13 +80,19 @@ $(document).ready(function() {
                   { "data": "days" },
                   { "data": "amount" },
                   { "data": "discount" },
+                  { "data": null ,
+                	"render": function ( data, type, row, meta ) {
+		                      return data.amount - (data.discount * 0.01 * data.amount);  
+		                      }
+                  },
                   { "data": null, "orderable": false, "width": "10%"}
               ],
        "columnDefs": [ {
            "targets": -1,
            "data": null,
            "className": 'text-center',
-           "defaultContent": "<i id='btn-1' data-toggle='tooltip' title='Edit Coupen' role='button' class='fa fa-edit gi-1_3x'></i>" 
+           "defaultContent": "<i data-toggle='tooltip' title='Edit Coupen' role='button' class='fa fa-edit gi-1_3x btn-1'></i>" +
+           					 "<i data-toggle='tooltip' title='Delete Coupen' role='button' class='fa fa-trash gi-1_3x btn-2'></i>" 
        } ]
     });
     
@@ -95,13 +105,108 @@ $(document).ready(function() {
     $('#voucherTable tbody').on( 'click', 'i', function () {
         
     	var data = voucherTable.row( $(this).parents('tr') ).data();
-		if(this.id === 'btn-1') {
-			console.log(data);
-			$('#myModalHorizontal').modal('toggle');
+		if($(this).hasClass('btn-1')) {
+			
+			if(data.messPaymentVoucherId === '1') {
+				$("#amount").prop('readonly', true);
+				$("#discount").prop('readonly', true);
+			} else {
+				$("#amount").prop('readonly', false);
+				$("#discount").prop('readonly', false);
+			}
+			
+			$('#voucherModal').modal('toggle');
+			flushFormValuse();
+			$("#voucherModalTitle").text("Edit Coupen");
+			$("#voucherForm").attr("action", "vouchers-edit");
+			$("#messPaymentVoucherId").val(data.messPaymentVoucherId);
+			$("#name").val(data.name);
+			$("#amount").val(data.amount);
+			$("#days").val(data.days);
+			$("#discount").val(data.discount);
+			$("#voucherFormButton").text("Update");
 
-		}        
+		}    
+		
+		if($(this).hasClass('btn-2')) {
+			if(data.messPaymentVoucherId === '1') {
+				bootbox.alert("This voucher can not be deleted !");
+				return false;
+			}
+			
+			bootbox.confirm({
+			    title: "Confirm Delete",
+			    message: "Are you sure want to delete this voucher ? <br> This cannot be undone.",
+			    buttons: {
+			        cancel: {
+			            label: '<i class="fa fa-times"></i> Cancel'
+			        },
+			        confirm: {
+			            label: '<i class="fa fa-check"></i> Confirm'
+			        }
+			    },
+			    callback: function (result) {
+			        console.log('This was logged in the callback: ' + result);
+			        if(result) {
+			        	deleteVoucher(data.messPaymentVoucherId);
+			        }
+			    }
+			});
+		}
     });
   
+    $("#addNewVoucher").on("click", function(){
+    	$('#voucherModal').modal('toggle');
+    	flushFormValuse();
+		$("#voucherModalTitle").text("Add New Coupen");
+		$("#voucherForm").attr("action", "vouchers");
+		$("#voucherFormButton").text("Save");
+		
+    });
+    
+    function flushFormValuse() {
+    	$("#voucherModalTitle").text("");
+		$("#voucherForm").attr("action", "");
+		$("#messPaymentVoucherId").val("");
+		$("#name").val("");
+		$("#amount").val("");
+		$("#days").val("");
+		$("#discount").val("");
+		$("#voucherFormButton").text("");
+    }
+    
+    $('#voucherForm').on('submit', function(e){
+    	e.preventDefault();
+        var $this = $(this);
+
+        $.ajax({
+            url: $this.prop('action'),
+            method: 'POST',
+            data: $this.serialize(),
+        }).done(function(response){
+        	
+        	$('#voucherModal').modal('toggle');
+        	voucherTable.ajax.reload();
+        	showAutoCloseAlert(response.type, response.message);
+        	
+        }).error(function(err){
+			consloe.log(err);
+        });
+    });
+    
+    function deleteVoucher(voucherId) {
+    	$.ajax({
+            url: "vouchers-delete",
+            data: {voucherId: voucherId},
+        }).done(function(response){
+        	
+        	voucherTable.ajax.reload();
+        	showAutoCloseAlert(response.type, response.message);
+        	
+        }).error(function(err){
+			consloe.log(err);
+        });
+    }
   
 });
 </script>
@@ -109,74 +214,63 @@ $(document).ready(function() {
 </body>
 </html>
 
-<!-- Modal -->
-<div class="modal fade" id="myModalHorizontal" tabindex="-1" role="dialog" 
-     aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- Add Modal -->
+<div class="modal fade" id="voucherModal" tabindex="-1" role="dialog" aria-labelledby="voucher" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <button type="button" class="close" 
-                   data-dismiss="modal">
-                       <span aria-hidden="true">&times;</span>
-                       <span class="sr-only">Close</span>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    Add New Voucher
-                </h4>
+                <h4 class="modal-title" id="voucherModalTitle"></h4>
             </div>
+			
+			<form:form id="voucherForm" class="form-horizontal" role="form" modelAttribute="voucher" action="vouchers">
+	            
+	            <!-- Modal Body -->
+	            <div class="modal-body">
+	                    <form:hidden path="messPaymentVoucherId" />
+	
+	                    <div class="form-group">
+	                        <form:label class="col-sm-3 control-label" path="name">Voucher Name</form:label>
+	                        <div class="col-sm-7">
+	                            <form:input path="name" tabindex="1" class="form-control" />
+	                        </div>
+	                    </div>
+	
+	                    <div class="form-group">
+	                        <form:label class="col-sm-3 control-label" path="amount">Amount</form:label>
+	                        <div class="col-sm-7">
+	                            <form:input path="amount" tabindex="1" class="form-control" />
+	                        </div>
+	                    </div>
+	
+	                    <div class="form-group">
+	                        <form:label class="col-sm-3 control-label" path="days">Days</form:label>
+	                        <div class="col-sm-7">
+	                            <form:input path="days" tabindex="1" class="form-control" />
+	                        </div>
+	                    </div>
+	
+	                    <div class="form-group">
+	                        <form:label class="col-sm-3 control-label" path="discount">Discount</form:label>
+	                        <div class="col-sm-7">
+	                            <form:input path="discount" tabindex="1" class="form-control" />
+	                        </div>
+	                    </div>
+	                
+	            </div>
+	
+	            <!-- Modal Footer -->
+	            <div class="modal-footer">
+		            <button type="submit" class="btn btn-success" id="voucherFormButton"></button>
+		            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+	            </div>
             
-            <!-- Modal Body -->
-            <div class="modal-body">
-                
-                <form:form class="form-horizontal" role="form" modelAttribute="voucher" method="POST" action="#">
-                  
-                  <form:hidden path="messPaymentVoucherId"/>
-                  
-                  <div class="form-group">
-                    <form:label  class="col-sm-3 control-label" path="name">Voucher Name</form:label>
-                    <div class="col-sm-7">
-                        <form:input path="name"  tabindex="1" class="form-control"/>
-                    </div>
-                  </div>
-                  
-                  <div class="form-group">
-                    <form:label  class="col-sm-3 control-label" path="amount">Amount</form:label>
-                    <div class="col-sm-7">
-                        <form:input path="amount" tabindex="1" class="form-control"/>
-                    </div>
-                  </div>
-                  
-                  <div class="form-group">
-                    <form:label  class="col-sm-3 control-label" path="days">Days</form:label>
-                    <div class="col-sm-7">
-                        <form:input path="days"  tabindex="1" class="form-control"/>
-                    </div>
-                  </div>
-                  
-                  <div class="form-group">
-                    <form:label  class="col-sm-3 control-label" path="discount">Discount</form:label>
-                    <div class="col-sm-7">
-                        <form:input path="discount"  tabindex="1" class="form-control"/>
-                    </div>
-                  </div>
-                  
-                  
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn btn-success">Add</button>
-                    </div>
-                  </div>
-                </form:form>
-            </div>
+            </form:form>
             
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
-                   Close
-                </button>
-             
-</div>
-</div>
-</div>
+        </div>
+    </div>
 </div>

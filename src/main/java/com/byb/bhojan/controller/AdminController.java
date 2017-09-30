@@ -8,8 +8,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,21 +54,14 @@ public class AdminController {
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView adminHomePage() {
 
-		SimpleGrantedAuthority grantedAuthority = (SimpleGrantedAuthority) (SecurityContextHolder.getContext().getAuthentication().getAuthorities()).toArray()[0];
+		//		SimpleGrantedAuthority grantedAuthority = (SimpleGrantedAuthority) (SecurityContextHolder.getContext().getAuthentication().getAuthorities()).toArray()[0];
+		//		String role = grantedAuthority.getAuthority();
+		//		String EmailIdOrMobNo = SecurityContextHolder.getContext().getAuthentication().getName();
 
-		ModelAndView model = new ModelAndView();
-
-		String role = grantedAuthority.getAuthority();
-		String EmailIdOrMobNo = SecurityContextHolder.getContext().getAuthentication().getName();
-
-		logger.info("Role: " + role);
-		logger.info("EmailIdOrMobNo: " + EmailIdOrMobNo);
-
-		model.addObject("projectName", ProjectConstant.PROJECT_NAME);
-
-		model.setViewName("super-admin/home");
-
-		return model;
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("projectName", ProjectConstant.PROJECT_NAME);
+		modelAndView.setViewName("super-admin/home");
+		return modelAndView;
 
 	}
 
@@ -243,20 +234,22 @@ public class AdminController {
 		return data;
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/vouchers", method = RequestMethod.POST)
-	public String addNewVoucher(@ModelAttribute("voucher") MessPaymentVoucher voucher, final RedirectAttributes ra) {
+	public @ResponseBody JSONObject addNewVoucher(@ModelAttribute("voucher") MessPaymentVoucher voucher) {
 
 		voucher.setCreatedUpdated(new CreatedUpdated("1"));
 		messPaymentVoucherServices.saveVoucher(voucher);
 
-		ra.addFlashAttribute("type", "success");
-		ra.addFlashAttribute("message", "Coupen \'" + voucher.getName() + "\' added successfully...!");
-
-		return "redirect:vouchers";
+		JSONObject result = new JSONObject();
+		result.put("type", ProjectConstant.STATUS_SUCCESS);
+		result.put("message", "Voucher \'" + voucher.getName() + "\' added successfully...!");
+		return result;
 	}
 
-	@RequestMapping(value = "/vouchers", method = RequestMethod.PUT)
-	public String updateVoucher(@ModelAttribute("voucher") MessPaymentVoucher voucher, final RedirectAttributes ra) {
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/vouchers-edit", method = RequestMethod.POST)
+	public @ResponseBody JSONObject updateVoucher(@ModelAttribute("voucher") MessPaymentVoucher voucher, final RedirectAttributes ra) {
 
 		MessPaymentVoucher oldVoucher = messPaymentVoucherServices.getVoucherById(voucher.getMessPaymentVoucherId());
 
@@ -264,11 +257,35 @@ public class AdminController {
 		oldVoucher.setDays(voucher.getDays());
 		oldVoucher.setDiscount(voucher.getDiscount());
 		oldVoucher.setName(voucher.getName());
-		oldVoucher.setCreatedUpdated(new CreatedUpdated(voucher.getCreatedUpdated(), "1"));
+		oldVoucher.setCreatedUpdated(new CreatedUpdated(oldVoucher.getCreatedUpdated(), "1"));
 
-		ra.addFlashAttribute("type", "success");
-		ra.addFlashAttribute("message", "Coupen " + voucher.getName() + " updated successfully...!");
+		messPaymentVoucherServices.updateVoucher(oldVoucher);
 
-		return "redirect:vouchers";
+		JSONObject result = new JSONObject();
+		result.put("type", ProjectConstant.STATUS_SUCCESS);
+		result.put("message", "Voucher \'" + voucher.getName() + "\' updated successfully...!");
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/vouchers-delete", method = RequestMethod.GET)
+	public @ResponseBody JSONObject deleteVoucher(@RequestParam("voucherId") String voucherId) {
+
+		MessPaymentVoucher voucher = messPaymentVoucherServices.getVoucherById(voucherId);
+
+		JSONObject result = new JSONObject();
+
+		if (voucher.getMessPaymentVoucherId().equals("1")) {
+			result.put("type", ProjectConstant.STATUS_DANGER);
+			result.put("message", "Voucher \'" + voucher.getName() + "\' can not be deleted...!");
+			return result;
+		}
+
+		result.put("type", ProjectConstant.STATUS_SUCCESS);
+		result.put("message", "Voucher \'" + voucher.getName() + "\' deleted successfully...!");
+
+		messPaymentVoucherServices.deleteVoucher(voucher);
+
+		return result;
 	}
 }

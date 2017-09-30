@@ -15,8 +15,8 @@ import com.byb.bhojan.services.MessPaymentVoucherServices;
 public class MessPaymentVoucherServicesImpl implements MessPaymentVoucherServices {
 
 	@Autowired
-	private MessPaymentVoucherDao messPaymentVoucherDao; 
-	
+	private MessPaymentVoucherDao messPaymentVoucherDao;
+
 	@Override
 	public void saveVoucher(MessPaymentVoucher messPaymentVoucher) {
 		// TODO Auto-generated method stub
@@ -40,6 +40,12 @@ public class MessPaymentVoucherServicesImpl implements MessPaymentVoucherService
 	public List<MessPaymentVoucher> getAllVouchers() {
 		// TODO Auto-generated method stub
 		return messPaymentVoucherDao.getAllVouchers();
+	}
+
+	@Override
+	public void deleteVoucher(MessPaymentVoucher voucher) {
+		// TODO Auto-generated method stub
+		messPaymentVoucherDao.deleteVoucher(voucher);
 	}
 
 }

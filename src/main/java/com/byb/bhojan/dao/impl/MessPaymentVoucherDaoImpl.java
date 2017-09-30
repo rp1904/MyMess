@@ -16,7 +16,7 @@ public class MessPaymentVoucherDaoImpl implements MessPaymentVoucherDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	@Override
 	public void saveVoucher(MessPaymentVoucher messPaymentVoucher) {
 		// TODO Auto-generated method stub
@@ -42,6 +42,12 @@ public class MessPaymentVoucherDaoImpl implements MessPaymentVoucherDao {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(MessPaymentVoucher.class);
 		return criteria.list();
+	}
+
+	@Override
+	public void deleteVoucher(MessPaymentVoucher voucher) {
+		// TODO Auto-generated method stub
+		sessionFactory.getCurrentSession().delete(voucher);
 	}
 
 }
