@@ -6,10 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "instamojo_payment_logs")
@@ -18,6 +21,11 @@ public class InstamojoPaymentLog implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
+	@Column(name = "instamojo_payment_log_id", unique = true)
+	private String instamojoPaymentLogId;
+
 	private String payment_id;
 
 	@OneToOne(fetch = FetchType.EAGER)
@@ -62,6 +70,14 @@ public class InstamojoPaymentLog implements Serializable {
 
 	@Embedded
 	private CreatedUpdated createdUpdated;
+
+	public String getInstamojoPaymentLogId() {
+		return instamojoPaymentLogId;
+	}
+
+	public void setInstamojoPaymentLogId(String instamojoPaymentLogId) {
+		this.instamojoPaymentLogId = instamojoPaymentLogId;
+	}
 
 	public String getPayment_id() {
 		return payment_id;
@@ -217,9 +233,9 @@ public class InstamojoPaymentLog implements Serializable {
 
 	@Override
 	public String toString() {
-		return "InstamojoPaymentLog [payment_id=" + payment_id + ", mess=" + mess + ", payment_request_id=" + payment_request_id + ", amount=" + amount + ", buyer=" + buyer + ", buyer_name=" + buyer_name + ", buyer_phone=" + buyer_phone + ", currency=" + currency
-				+ ", fees=" + fees + ", longurl=" + longurl + ", mac=" + mac + ", purpose=" + purpose + ", shorturl=" + shorturl + ", status=" + status + ", voucherName=" + voucherName + ", voucherAmount=" + voucherAmount + ", voucherDays=" + voucherDays
-				+ ", voucherDiscount=" + voucherDiscount + ", createdUpdated=" + createdUpdated + "]";
+		return "InstamojoPaymentLog [instamojoPaymentLogId=" + instamojoPaymentLogId + ", payment_id=" + payment_id + ", mess=" + mess + ", payment_request_id=" + payment_request_id + ", amount=" + amount + ", buyer=" + buyer + ", buyer_name=" + buyer_name
+				+ ", buyer_phone=" + buyer_phone + ", currency=" + currency + ", fees=" + fees + ", longurl=" + longurl + ", mac=" + mac + ", purpose=" + purpose + ", shorturl=" + shorturl + ", status=" + status + ", voucherName=" + voucherName
+				+ ", voucherAmount=" + voucherAmount + ", voucherDays=" + voucherDays + ", voucherDiscount=" + voucherDiscount + ", createdUpdated=" + createdUpdated + "]";
 	}
 
 }
