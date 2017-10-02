@@ -67,4 +67,10 @@ public class MessServicesImpl implements MessServices {
 		return messDao.getAllMessess();
 	}
 
+	@Override
+	public void updateMess(Mess mess) {
+		// TODO Auto-generated method stub
+		messDao.updateMess(mess);
+	}
+
 }

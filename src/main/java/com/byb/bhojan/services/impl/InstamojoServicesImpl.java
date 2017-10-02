@@ -21,19 +21,32 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.byb.bhojan.dao.InstamojoDao;
+import com.byb.bhojan.model.AdminSetting;
 import com.byb.bhojan.model.CreatedUpdated;
 import com.byb.bhojan.model.InstamojoPaymentLog;
 import com.byb.bhojan.model.InstamojoPaymentReqResponse;
 import com.byb.bhojan.model.InstamojoPaymentRequest;
 import com.byb.bhojan.model.Mess;
 import com.byb.bhojan.model.MessPaymentVoucher;
+import com.byb.bhojan.services.AdminSettingServices;
 import com.byb.bhojan.services.InstamojoServices;
+import com.byb.bhojan.services.MessServices;
+import com.byb.bhojan.util.ProjectConstant;
 
 @Service
 @Transactional
 public class InstamojoServicesImpl implements InstamojoServices {
 
 	Logger logger = Logger.getLogger(InstamojoServicesImpl.class);
+
+	@Autowired
+	public MessServices messServices;
+
+	@Autowired
+	private AdminSettingServices adminSettingServices;
+
+	@Autowired
+	private AndroidPush notification;
 
 	@Autowired
 	private InstamojoDao instamojoDao;
@@ -152,6 +165,22 @@ public class InstamojoServicesImpl implements InstamojoServices {
 		instamojoDao.updateInstamojoPaymentLog(instamojoPaymentLog);
 
 		instamojoDao.updateInstamojoPaymentRequestStatusById(instamojoPaymentLog);
+
+		AdminSetting adminSetting = adminSettingServices.getAdminSettings();
+
+		Mess mess = instamojoPaymentLog.getMess();
+		mess.setDaysRemaining(mess.getDaysRemaining() + adminSetting.getFreeTrialDays());
+
+		messServices.updateMess(mess);
+
+		String title = ProjectConstant.PROJECT_NAME + " Payment Success!";
+		// @formatter:off
+		String msg = "Congratulations ! You have just purchased a voucher of Rs. " 
+			   + instamojoPaymentLog.getAmount() 
+			   + ". Enjoy our servise for next " + mess.getDaysRemaining()
+			   + " days.";
+		// @formatter:on
+		notification.sendPushNotification(title, msg, mess.getMessIdPk());
 	}
 
 	@Override

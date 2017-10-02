@@ -20,4 +20,6 @@ public interface MessDao {
 
 	public List<Mess> getAllMessess();
 
+	public void updateMess(Mess mess);
+
 }

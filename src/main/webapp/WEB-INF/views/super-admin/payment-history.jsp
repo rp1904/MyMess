@@ -83,14 +83,14 @@ $(document).ready(function() {
       "order": [[ 8, "desc" ]],
       "columns": [
                   { "data": "logId", "visible": false },
-                  { "data": null, "orderable": false, "width": "7%"},
+                  { "data": null, "orderable": false, "width": "6%" },
                   { "data": "messName" },
                   { "data": "transactionId" },
                   { "data": "amountPaid" },
                   { "data": "fees" },
                   { "data": "amountReceived" },
                   { "data": "status" },
-                  { "data": "purchasedDateTime" }
+                  { "data": "purchasedDateTime", "width": "15%" }
               ]
     });
     

@@ -18,4 +18,6 @@ public interface MessServices {
 
 	public List<Mess> getAllMessess();
 
+	public void updateMess(Mess mess);
+
 }

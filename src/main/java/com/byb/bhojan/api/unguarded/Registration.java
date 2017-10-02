@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.byb.bhojan.api.comman.BaseController;
+import com.byb.bhojan.model.AdminSetting;
 import com.byb.bhojan.model.CreatedUpdated;
 import com.byb.bhojan.model.Mess;
 import com.byb.bhojan.model.User;
+import com.byb.bhojan.services.AdminSettingServices;
 import com.byb.bhojan.services.MessServices;
 import com.byb.bhojan.services.UserServices;
 import com.byb.bhojan.util.ProjectConstant;
@@ -39,6 +41,9 @@ public class Registration extends BaseController {
 
 	@Autowired
 	private MessValidator messValidator;
+
+	@Autowired
+	private AdminSettingServices adminSettingServices;
 
 	@InitBinder("member")
 	private void memberValidatorInitBinder(WebDataBinder binder) {
@@ -89,6 +94,10 @@ public class Registration extends BaseController {
 		CreatedUpdated createdUpdated = new CreatedUpdated(ProjectConstant.CREATEDBY_SELF);
 		mess.setCreatedUpdated(createdUpdated);
 		mess.getMessOwner().setCreatedUpdated(createdUpdated);
+
+		AdminSetting adminSetting = adminSettingServices.getAdminSettings();
+
+		mess.setDaysRemaining(adminSetting.getFreeTrialDays());
 
 		messServices.saveMess(mess);
 

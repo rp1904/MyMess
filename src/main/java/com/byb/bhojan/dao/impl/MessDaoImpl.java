@@ -90,4 +90,10 @@ public class MessDaoImpl implements MessDao {
 		return criteria.list();
 	}
 
+	@Override
+	public void updateMess(Mess mess) {
+		// TODO Auto-generated method stub
+		sessionFactory.getCurrentSession().update(mess);
+	}
+
 }
