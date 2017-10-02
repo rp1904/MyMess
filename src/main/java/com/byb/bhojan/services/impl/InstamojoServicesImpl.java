@@ -169,7 +169,7 @@ public class InstamojoServicesImpl implements InstamojoServices {
 		AdminSetting adminSetting = adminSettingServices.getAdminSettings();
 
 		Mess mess = instamojoPaymentLog.getMess();
-		mess.setDaysRemaining(mess.getDaysRemaining() + adminSetting.getFreeTrialDays());
+		mess.setDaysRemaining(mess.getDaysRemaining() + instamojoPaymentLog.getVoucherDays());
 
 		messServices.updateMess(mess);
 
