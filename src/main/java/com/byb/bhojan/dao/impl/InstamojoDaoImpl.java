@@ -82,6 +82,7 @@ public class InstamojoDaoImpl implements InstamojoDao {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(InstamojoPaymentLog.class);
 		criteria.add(Restrictions.eq("mess", mess));
+		criteria.add(Restrictions.isNotNull("amount"));
 		criteria.addOrder(Order.desc("createdUpdated.updatedAt"));
 		return criteria.list();
 	}

@@ -16,7 +16,7 @@
       <h1>Payment History</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Mess</li>
+        <li class="active">Payment History</li>
       </ol>
     </section>
 
