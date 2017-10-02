@@ -82,6 +82,7 @@ public class MessPaymentController extends BaseController {
 
 			InstamojoPaymentLog instamojoPaymentLog = new InstamojoPaymentLog();
 			instamojoPaymentLog.setMess(mess);
+			instamojoPaymentLog.setPayment_request_id(response.getPayment_request().getId());
 			instamojoPaymentLog.setVoucherName(voucher.getName());
 			instamojoPaymentLog.setVoucherAmount(voucher.getAmount());
 			instamojoPaymentLog.setVoucherDays(voucher.getDays());
