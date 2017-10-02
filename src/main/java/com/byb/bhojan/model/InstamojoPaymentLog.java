@@ -5,20 +5,24 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "instamojo_payment_logs")
-public class InstamojoPaymentLogs implements Serializable {
+public class InstamojoPaymentLog implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String payment_id;
 
-	@Column(name = "mess_id")
-	private String messId;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "mess_id_fk")
+	private Mess mess;
 
 	private String payment_request_id;
 
@@ -44,6 +48,18 @@ public class InstamojoPaymentLogs implements Serializable {
 
 	private String status;
 
+	@Column(name = "voucher_name")
+	private String voucherName;
+
+	@Column(name = "voucher_amount")
+	private double voucherAmount;
+
+	@Column(name = "voucher_days")
+	private int voucherDays;
+
+	@Column(name = "voucher_discount")
+	private double voucherDiscount;
+
 	@Embedded
 	private CreatedUpdated createdUpdated;
 
@@ -55,12 +71,12 @@ public class InstamojoPaymentLogs implements Serializable {
 		this.payment_id = payment_id;
 	}
 
-	public String getMessId() {
-		return messId;
+	public Mess getMess() {
+		return mess;
 	}
 
-	public void setMessId(String messId) {
-		this.messId = messId;
+	public void setMess(Mess mess) {
+		this.mess = mess;
 	}
 
 	public String getPayment_request_id() {
@@ -159,6 +175,38 @@ public class InstamojoPaymentLogs implements Serializable {
 		this.status = status;
 	}
 
+	public String getVoucherName() {
+		return voucherName;
+	}
+
+	public void setVoucherName(String voucherName) {
+		this.voucherName = voucherName;
+	}
+
+	public double getVoucherAmount() {
+		return voucherAmount;
+	}
+
+	public void setVoucherAmount(double voucherAmount) {
+		this.voucherAmount = voucherAmount;
+	}
+
+	public int getVoucherDays() {
+		return voucherDays;
+	}
+
+	public void setVoucherDays(int voucherDays) {
+		this.voucherDays = voucherDays;
+	}
+
+	public double getVoucherDiscount() {
+		return voucherDiscount;
+	}
+
+	public void setVoucherDiscount(double voucherDiscount) {
+		this.voucherDiscount = voucherDiscount;
+	}
+
 	public CreatedUpdated getCreatedUpdated() {
 		return createdUpdated;
 	}
@@ -169,11 +217,9 @@ public class InstamojoPaymentLogs implements Serializable {
 
 	@Override
 	public String toString() {
-		return "InstamojoPaymentLogs [payment_id=" + payment_id + ", messId=" + messId + ", payment_request_id="
-				+ payment_request_id + ", amount=" + amount + ", buyer=" + buyer + ", buyer_name=" + buyer_name
-				+ ", buyer_phone=" + buyer_phone + ", currency=" + currency + ", fees=" + fees + ", longurl=" + longurl
-				+ ", mac=" + mac + ", purpose=" + purpose + ", shorturl=" + shorturl + ", status=" + status
-				+ ", createdUpdated=" + createdUpdated + "]";
+		return "InstamojoPaymentLog [payment_id=" + payment_id + ", mess=" + mess + ", payment_request_id=" + payment_request_id + ", amount=" + amount + ", buyer=" + buyer + ", buyer_name=" + buyer_name + ", buyer_phone=" + buyer_phone + ", currency=" + currency
+				+ ", fees=" + fees + ", longurl=" + longurl + ", mac=" + mac + ", purpose=" + purpose + ", shorturl=" + shorturl + ", status=" + status + ", voucherName=" + voucherName + ", voucherAmount=" + voucherAmount + ", voucherDays=" + voucherDays
+				+ ", voucherDiscount=" + voucherDiscount + ", createdUpdated=" + createdUpdated + "]";
 	}
 
 }

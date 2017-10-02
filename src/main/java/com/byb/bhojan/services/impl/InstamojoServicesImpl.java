@@ -22,9 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.byb.bhojan.dao.InstamojoDao;
 import com.byb.bhojan.model.CreatedUpdated;
-import com.byb.bhojan.model.InstamojoPaymentLogs;
+import com.byb.bhojan.model.InstamojoPaymentLog;
 import com.byb.bhojan.model.InstamojoPaymentReqResponse;
 import com.byb.bhojan.model.InstamojoPaymentRequest;
+import com.byb.bhojan.model.Mess;
 import com.byb.bhojan.model.MessPaymentVoucher;
 import com.byb.bhojan.services.InstamojoServices;
 
@@ -45,8 +46,6 @@ public class InstamojoServicesImpl implements InstamojoServices {
 
 	@Value("${instamojo_x_auth_token}")
 	private String instamojo_x_auth_token;
-
-	//	private Double PAYMENT_ORDER_AMOUNT = 100D;
 
 	@Value("${instamojo_redirect_url}")
 	private String PAYMENT_ORDER_REDIRECT_URL;
@@ -112,7 +111,7 @@ public class InstamojoServicesImpl implements InstamojoServices {
 
 				instamojoDao.savePaymentRequestResponse(paymentReqResponse);
 
-				logger.info(paymentReqResponse);
+				//				logger.info(paymentReqResponse);
 
 				return paymentReqResponse;
 			}
@@ -129,33 +128,54 @@ public class InstamojoServicesImpl implements InstamojoServices {
 	}
 
 	@Override
-	public void saveInstamojoPaymentLogs(Map<String, String> instamojoPaymentLogMap, String messIdPk) {
+	public void updateInstamojoPaymentLog(Map<String, String> instamojoPaymentLogMap) {
 		// TODO Auto-generated method stub
 
-		InstamojoPaymentLogs instamojoPaymentLogs = new InstamojoPaymentLogs();
+		InstamojoPaymentLog instamojoPaymentLog = getInstamojoPaymentLogByPaymentReqId(instamojoPaymentLogMap.get("payment_request_id"));
 
-		instamojoPaymentLogs.setMessId(messIdPk);
-		instamojoPaymentLogs.setPayment_id(instamojoPaymentLogMap.get("payment_id"));
-		instamojoPaymentLogs.setAmount(instamojoPaymentLogMap.get("amount"));
-		instamojoPaymentLogs.setBuyer(instamojoPaymentLogMap.get("buyer"));
-		instamojoPaymentLogs.setBuyer_name(instamojoPaymentLogMap.get("buyer_name"));
-		instamojoPaymentLogs.setBuyer_phone(instamojoPaymentLogMap.get("buyer_phone"));
-		instamojoPaymentLogs.setCurrency(instamojoPaymentLogMap.get("currency"));
-		instamojoPaymentLogs.setFees(instamojoPaymentLogMap.get("fees"));
-		instamojoPaymentLogs.setLongurl(instamojoPaymentLogMap.get("longurl"));
-		instamojoPaymentLogs.setMac(instamojoPaymentLogMap.get("mac"));
-		instamojoPaymentLogs.setPayment_request_id(instamojoPaymentLogMap.get("payment_request_id"));
-		instamojoPaymentLogs.setPurpose(instamojoPaymentLogMap.get("purpose"));
-		instamojoPaymentLogs.setShorturl(instamojoPaymentLogMap.get("shorturl"));
-		instamojoPaymentLogs.setStatus(instamojoPaymentLogMap.get("status"));
+		instamojoPaymentLog.setPayment_id(instamojoPaymentLogMap.get("payment_id"));
+		instamojoPaymentLog.setAmount(instamojoPaymentLogMap.get("amount"));
+		instamojoPaymentLog.setBuyer(instamojoPaymentLogMap.get("buyer"));
+		instamojoPaymentLog.setBuyer_name(instamojoPaymentLogMap.get("buyer_name"));
+		instamojoPaymentLog.setBuyer_phone(instamojoPaymentLogMap.get("buyer_phone"));
+		instamojoPaymentLog.setCurrency(instamojoPaymentLogMap.get("currency"));
+		instamojoPaymentLog.setFees(instamojoPaymentLogMap.get("fees"));
+		instamojoPaymentLog.setLongurl(instamojoPaymentLogMap.get("longurl"));
+		instamojoPaymentLog.setMac(instamojoPaymentLogMap.get("mac"));
+		instamojoPaymentLog.setPayment_request_id(instamojoPaymentLogMap.get("payment_request_id"));
+		instamojoPaymentLog.setPurpose(instamojoPaymentLogMap.get("purpose"));
+		instamojoPaymentLog.setShorturl(instamojoPaymentLogMap.get("shorturl"));
+		instamojoPaymentLog.setStatus(instamojoPaymentLogMap.get("status"));
 
-		instamojoPaymentLogs.setCreatedUpdated(new CreatedUpdated(messIdPk));
+		instamojoPaymentLog.setCreatedUpdated(new CreatedUpdated(instamojoPaymentLog.getMess().getMessIdPk()));
 
-		logger.info(instamojoPaymentLogs);
+		instamojoDao.updateInstamojoPaymentLog(instamojoPaymentLog);
 
-		instamojoDao.saveInstamojoPaymentLogs(instamojoPaymentLogs);
+		instamojoDao.updateInstamojoPaymentRequestStatusById(instamojoPaymentLog);
+	}
 
-		instamojoDao.updateInstamojoPaymentRequestStatusById(instamojoPaymentLogs);
+	@Override
+	public List<InstamojoPaymentLog> getPaymentHistoryForAllMesses() {
+		// TODO Auto-generated method stub
+		return instamojoDao.getPaymentHistoryForAllMesses();
+	}
+
+	@Override
+	public List<InstamojoPaymentLog> getPaymentHistoryByMess(Mess mess) {
+		// TODO Auto-generated method stub
+		return instamojoDao.getPaymentHistoryByMess(mess);
+	}
+
+	@Override
+	public void saveInstamojoPaymentLog(InstamojoPaymentLog instamojoPaymentLog) {
+		// TODO Auto-generated method stub
+		instamojoDao.saveInstamojoPaymentLog(instamojoPaymentLog);
+	}
+
+	@Override
+	public InstamojoPaymentLog getInstamojoPaymentLogByPaymentReqId(String paymentReqId) {
+		// TODO Auto-generated method stub
+		return instamojoDao.getInstamojoPaymentLogByPaymentReqId(paymentReqId);
 	}
 
 }

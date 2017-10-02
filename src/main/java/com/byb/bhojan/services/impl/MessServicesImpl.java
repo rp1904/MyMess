@@ -19,8 +19,8 @@ public class MessServicesImpl implements MessServices {
 	@Autowired
 	private MessDao messDao;
 
-	@Autowired
-	private EmailService emailService;
+	//	@Autowired
+	//	private EmailService emailService;
 
 	@Override
 	public Mess getActiveMessByMessId(String messId) {

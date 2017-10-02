@@ -11,11 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.byb.bhojan.model.Mess;
-import com.byb.bhojan.model.User;
 import com.byb.bhojan.services.InstamojoServices;
-import com.byb.bhojan.services.MessServices;
-import com.byb.bhojan.services.UserServices;
 
 @Controller
 @RequestMapping("/unguarded/instamojo")
@@ -26,26 +22,12 @@ public class InstamojoController {
 	@Autowired
 	private InstamojoServices instamojoServices;
 
-	@Autowired
-	private MessServices messServices;
-
-	@Autowired
-	private UserServices userServices;
-
 	@RequestMapping(value = "/webhook", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public void instamojoWebhook(@RequestParam Map<String, String> instamojoPaymentLogMap) {
 
 		logger.info("webhook resp: " + instamojoPaymentLogMap);
 
-		User messOwner = userServices.getUserByEmail(instamojoPaymentLogMap.get("buyer"));
-
-		logger.info(messOwner);
-
-		Mess mess = messServices.getMessByOwnerIdPk(messOwner.getUserIdPk());
-
-		logger.info(mess);
-
-		instamojoServices.saveInstamojoPaymentLogs(instamojoPaymentLogMap, mess.getMessIdPk());
+		instamojoServices.updateInstamojoPaymentLog(instamojoPaymentLogMap);
 	}
 
 	@RequestMapping(value = "/redirect", method = RequestMethod.GET)
