@@ -34,7 +34,7 @@
           <div class="box">
             <div class="box-body">
             
-              <table id="paymentHistoryTable" class="table table-bordered table-striped">
+              <table id="paymentHistory" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>Log Id</th>
@@ -44,6 +44,7 @@
                   <th>Amount Paid</th>
                   <th>Instamojo Fees</th>
                   <th>Amount Received</th>
+                  <th>Status</th>
                   <th>Date</th>
                 </tr>
                 </thead>
@@ -76,7 +77,7 @@
 <script>
 $(document).ready(function() {
 
-    var paymentHistoryTable = $('#paymentHistoryTable').DataTable({
+    var paymentHistoryTable = $('#paymentHistory').DataTable({
       "processing": true,
       "ajax": "payment-history/list",
       "columns": [
