@@ -34,16 +34,25 @@ public class AppSettingController extends BaseController {
 
 		int remainingDays = mess.getDaysRemaining();
 
+		logger.info("Remaining Days: " + remainingDays);
+
 		if (remainingDays < 1) {
 			resultData.put("showVouchers", true);
 			resultData.put("showSkip", false);
 			resultData.put("showMessage", "Please make payment to continue with our servise.");
+
+			return sendSuccessResponseWithData("Success", resultData);
 		}
 
 		if (remainingDays <= adminSetting.getNotifyBeforeDays()) {
 			resultData.put("showVouchers", true);
 			resultData.put("showSkip", true);
-			resultData.put("showMessage", "You have " + remainingDays + " days left in your account. Please make payment to avoid discouninuation of servise.");
+			String day_days = " days ";
+			if (remainingDays <= 1) {
+				day_days = " day ";
+			}
+
+			resultData.put("showMessage", "You have " + remainingDays + day_days + "left in your account. Please make payment to avoid discouninuation of servise.");
 		} else {
 			resultData.put("showVouchers", false);
 			resultData.put("showSkip", true);
