@@ -180,7 +180,7 @@ public class InstamojoServicesImpl implements InstamojoServices {
 			   + ". Enjoy our servise for next " + mess.getDaysRemaining()
 			   + " days.";
 		// @formatter:on
-		notification.sendPushNotification(title, msg, mess.getMessIdPk());
+		notification.sendPushNotification(title, msg, mess.getMessOwner().getUserIdPk());
 	}
 
 	@Override
