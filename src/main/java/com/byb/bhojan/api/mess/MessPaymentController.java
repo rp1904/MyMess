@@ -88,7 +88,7 @@ public class MessPaymentController extends BaseController {
 			instamojoPaymentLog.setVoucherDiscount(voucher.getDiscount());
 			instamojoPaymentLog.setCreatedUpdated(new CreatedUpdated(mess.getMessIdPk()));
 			instamojoServices.saveInstamojoPaymentLog(instamojoPaymentLog);
-
+			logger.info(instamojoPaymentLog);
 			return new ResponseEntity<InstamojoPaymentReqResponse>(response, HttpStatus.OK);
 		}
 
