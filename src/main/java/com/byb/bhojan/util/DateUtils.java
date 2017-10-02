@@ -3,6 +3,7 @@ package com.byb.bhojan.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
@@ -54,6 +55,7 @@ public class DateUtils {
 
 	public static String getFormatedDate(Date date, String format) {
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
 		return sdf.format(date);
 	}
 

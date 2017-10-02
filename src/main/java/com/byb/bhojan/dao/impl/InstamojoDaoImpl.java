@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -70,6 +71,7 @@ public class InstamojoDaoImpl implements InstamojoDao {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(InstamojoPaymentLog.class);
 		criteria.add(Restrictions.isNotNull("amount"));
+		criteria.addOrder(Order.desc("createdUpdated.updatedAt"));
 		return criteria.list();
 	}
 
@@ -80,6 +82,7 @@ public class InstamojoDaoImpl implements InstamojoDao {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(InstamojoPaymentLog.class);
 		criteria.add(Restrictions.eq("mess", mess));
+		criteria.addOrder(Order.desc("createdUpdated.updatedAt"));
 		return criteria.list();
 	}
 

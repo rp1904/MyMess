@@ -82,7 +82,7 @@ $(document).ready(function() {
       "ajax": "payment-history/list",
       "columns": [
                   { "data": "logId", "visible": false },
-                  { "data": null, "orderable": false, "width": "10%"},
+                  { "data": null, "orderable": false, "width": "7%"},
                   { "data": "messName" },
                   { "data": "transactionId" },
                   { "data": "amountPaid" },
