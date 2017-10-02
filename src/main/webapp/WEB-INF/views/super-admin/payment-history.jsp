@@ -80,7 +80,7 @@ $(document).ready(function() {
     var paymentHistoryTable = $('#paymentHistory').DataTable({
       "processing": true,
       "ajax": "payment-history/list",
-      "order": [[ -1, "desc" ]],
+      "order": [[ 8, "desc" ]],
       "columns": [
                   { "data": "logId", "visible": false },
                   { "data": null, "orderable": false, "width": "7%"},
