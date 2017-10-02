@@ -1,6 +1,5 @@
 package com.byb.bhojan.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -19,15 +18,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.byb.bhojan.model.AdminSetting;
 import com.byb.bhojan.model.CreatedUpdated;
+import com.byb.bhojan.model.InstamojoPaymentLog;
 import com.byb.bhojan.model.MemberMealCoupen;
 import com.byb.bhojan.model.Mess;
 import com.byb.bhojan.model.MessPaymentVoucher;
 import com.byb.bhojan.model.User;
 import com.byb.bhojan.services.AdminSettingServices;
+import com.byb.bhojan.services.InstamojoServices;
 import com.byb.bhojan.services.MemberMealCoupenServices;
 import com.byb.bhojan.services.MessPaymentVoucherServices;
 import com.byb.bhojan.services.MessServices;
 import com.byb.bhojan.services.UserServices;
+import com.byb.bhojan.util.DateUtils;
 import com.byb.bhojan.util.ProjectConstant;
 
 @Controller
@@ -50,6 +52,9 @@ public class AdminController {
 
 	@Autowired
 	private MessPaymentVoucherServices messPaymentVoucherServices;
+
+	@Autowired
+	private InstamojoServices instamojoServices;
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView adminHomePage() {
@@ -139,58 +144,40 @@ public class AdminController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/payment-request", method = RequestMethod.GET)
+	@RequestMapping(value = "/payment-history", method = RequestMethod.GET)
 	public ModelAndView getMessPaymentRequestListPage() {
-		return new ModelAndView("super-admin/payment-request");
+		return new ModelAndView("super-admin/payment-history");
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/payment-request/list", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-	public @ResponseBody JSONObject loadMessPaymentRequestList() {
+	@RequestMapping(value = "/payment-history/list", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+	public @ResponseBody JSONObject loadMessPaymentLogs() {
 
-		List<Mess> messess = messServices.getAllMessess();
+		JSONArray result = new JSONArray();
+		List<InstamojoPaymentLog> instamojoPaymentLogs = instamojoServices.getPaymentHistoryForAllMesses();
 
-		JSONArray outerObject = new JSONArray();
-		for (Mess mess : messess) {
-			JSONObject innerObject = new JSONObject();
+		for (InstamojoPaymentLog paymentLog : instamojoPaymentLogs) {
 
-			innerObject.put("messIdPk", mess.getMessIdPk());
-			innerObject.put("messName", mess.getMessName());
-			innerObject.put("amount", "<input id='amount_" + mess.getMessIdPk() + "' class='form-control amount' value='100' min='0' max='1000' type='number'/>");
-			innerObject.put("status", "pending");
+			JSONObject innerObj = new JSONObject();
 
-			outerObject.add(innerObject);
+			innerObj.put("logId", paymentLog.getInstamojoPaymentLogId());
+			innerObj.put("messName", paymentLog.getMess().getMessName());
+			innerObj.put("transactionId", paymentLog.getPayment_id());
+			innerObj.put("amountPaid", paymentLog.getAmount());
+			innerObj.put("fees", paymentLog.getFees());
 
+			double amountReceived = Double.parseDouble(paymentLog.getAmount()) - Double.parseDouble(paymentLog.getFees());
+
+			innerObj.put("amountReceived", amountReceived);
+			innerObj.put("status", paymentLog.getStatus());
+			innerObj.put("purchasedDateTime", DateUtils.getFormatedDate(paymentLog.getCreatedUpdated().getUpdatedAt(), ProjectConstant.DF_dd_MMM_yyyy_hh_mm_a));
+
+			result.add(innerObj);
 		}
 
 		JSONObject a = new JSONObject();
-		a.put("data", outerObject);
+		a.put("data", result);
 		return a;
-	}
-
-	@RequestMapping(value = "/payment-request", method = RequestMethod.POST)
-	public ModelAndView getMessPaymentRequestList(@RequestParam("paymentDetailList") String paymentDetailString) {
-
-		List<String> paymentDetailList = Arrays.asList(paymentDetailString.split("\\s*,\\s*"));
-		logger.info("paymentDetailList: " + paymentDetailList);
-		for (String paymentDetail : paymentDetailList) {
-			logger.info("paymentDetail: " + paymentDetail);
-			try {
-				String messIdPk = paymentDetail.split("=")[0];
-				String amount = paymentDetail.split("=")[1];
-
-				logger.info("messIdPk: " + messIdPk);
-				logger.info("amount: " + amount);
-			} catch (Exception e) {
-				// TODO: handle exception
-				ModelAndView modelAndView = new ModelAndView("super-admin/payment-request");
-				modelAndView.addObject("error", "invalid_selection");
-				modelAndView.addObject("error_msg", "Invalid Selection !");
-				return modelAndView;
-			}
-		}
-
-		return new ModelAndView("super-admin/payment-request");
 	}
 
 	@RequestMapping(value = "/admin-settings", method = RequestMethod.GET)

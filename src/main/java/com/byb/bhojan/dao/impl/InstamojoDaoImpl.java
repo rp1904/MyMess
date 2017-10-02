@@ -69,6 +69,7 @@ public class InstamojoDaoImpl implements InstamojoDao {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(InstamojoPaymentLog.class);
+		criteria.add(Restrictions.isNotNull("amount"));
 		return criteria.list();
 	}
 

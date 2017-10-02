@@ -53,7 +53,7 @@ public class InstamojoServicesImpl implements InstamojoServices {
 	@Value("${instamojo_webhook}")
 	private String PAYMENT_ORDER_WEBHOOK_URL;
 
-	private String PAYMENT_ORDER_PURPOSE = "Monthely Service Charge";
+	private String PAYMENT_ORDER_PURPOSE = "Service Charge";
 
 	@Override
 	public InstamojoPaymentReqResponse placePaymentRequest(InstamojoPaymentRequest instamojoPaymentRequest, String messId, MessPaymentVoucher voucher) {
