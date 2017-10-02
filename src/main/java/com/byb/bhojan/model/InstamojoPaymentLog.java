@@ -233,9 +233,9 @@ public class InstamojoPaymentLog implements Serializable {
 
 	@Override
 	public String toString() {
-		return "InstamojoPaymentLog [instamojoPaymentLogId=" + instamojoPaymentLogId + ", payment_id=" + payment_id + ", mess=" + mess + ", payment_request_id=" + payment_request_id + ", amount=" + amount + ", buyer=" + buyer + ", buyer_name=" + buyer_name
-				+ ", buyer_phone=" + buyer_phone + ", currency=" + currency + ", fees=" + fees + ", longurl=" + longurl + ", mac=" + mac + ", purpose=" + purpose + ", shorturl=" + shorturl + ", status=" + status + ", voucherName=" + voucherName
-				+ ", voucherAmount=" + voucherAmount + ", voucherDays=" + voucherDays + ", voucherDiscount=" + voucherDiscount + ", createdUpdated=" + createdUpdated + "]";
+		return "InstamojoPaymentLog [instamojoPaymentLogId=" + instamojoPaymentLogId + ", payment_id=" + payment_id + ", payment_request_id=" + payment_request_id + ", amount=" + amount + ", buyer=" + buyer + ", buyer_name=" + buyer_name + ", buyer_phone=" + buyer_phone
+				+ ", currency=" + currency + ", fees=" + fees + ", longurl=" + longurl + ", mac=" + mac + ", purpose=" + purpose + ", shorturl=" + shorturl + ", status=" + status + ", voucherName=" + voucherName + ", voucherAmount=" + voucherAmount
+				+ ", voucherDays=" + voucherDays + ", voucherDiscount=" + voucherDiscount + ", createdUpdated=" + createdUpdated + "]";
 	}
 
 }
