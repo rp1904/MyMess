@@ -2,6 +2,7 @@ package com.byb.bhojan.dao.impl;
 
 import java.util.Date;
 import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,6 +10,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import com.byb.bhojan.dao.MemberMealCoupenDao;
 import com.byb.bhojan.model.MemberMealCoupen;
 import com.byb.bhojan.model.User;
@@ -90,16 +92,18 @@ public class MemberMealCoupenDaoImpl implements MemberMealCoupenDao {
 	}
 
 	@Override
-	public int updateExpiredMemberMealCoupen(Date currentDate) {
+	public int updateExpiredMemberMealCoupen() {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
-		//@formatter off
+		// @formatter:off
 		String hqlUpdate = "UPDATE MemberMealCoupen mmc SET mmc.status = :NEW_STATUS, " 
 				+ "mmc.createdUpdated.updatedBy = :UPDATED_BY, mmc.createdUpdated.updatedAt = :UPDATED_AT  " 
 				+ "WHERE mmc.status = :OLD_STATUS AND mmc.expiryDate < :CURRENT_DATE";
-		//@formatter on
-		int updatedEntities = session.createQuery(hqlUpdate).setParameter("NEW_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_EXPIRED).setParameter("UPDATED_BY", "1").setParameter("UPDATED_AT", currentDate)
-				.setParameter("OLD_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE).setParameter("CURRENT_DATE", currentDate).executeUpdate();
+		int updatedEntities = session.createQuery(hqlUpdate).setParameter("NEW_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_EXPIRED)
+				.setParameter("UPDATED_BY", "1").setParameter("UPDATED_AT", new Date())
+				.setParameter("OLD_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE)
+				.setParameter("CURRENT_DATE", new Date()).executeUpdate();
+		// @formatter:on
 
 		return updatedEntities;
 

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import com.byb.bhojan.dao.MessDao;
 import com.byb.bhojan.model.Mess;
-import com.byb.bhojan.util.ProjectConstant;
 
 @Repository
 public class MessDaoImpl implements MessDao {
@@ -102,14 +101,13 @@ public class MessDaoImpl implements MessDao {
 	public int updateMessRemainingDays() {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
-		//@formatter off
+		//@formatter:off
 		String hqlUpdate = "UPDATE Mess m SET m.daysRemaining = m.daysRemaining - 1, " 
 				+ "m.createdUpdated.updatedBy = :UPDATED_BY, m.createdUpdated.updatedAt = :UPDATED_AT  " 
 				+ "WHERE m.daysRemaining > 0";
-		//@formatter on
-		
-		int updatedEntities = session.createQuery(hqlUpdate).setParameter("UPDATED_BY", "1").setParameter("UPDATED_AT", new Date()).executeUpdate();
-		
+		int updatedEntities = session.createQuery(hqlUpdate).setParameter("UPDATED_BY", "1")
+				.setParameter("UPDATED_AT", new Date()).executeUpdate();
+		//@formatter:on
 		return updatedEntities;
 	}
 
