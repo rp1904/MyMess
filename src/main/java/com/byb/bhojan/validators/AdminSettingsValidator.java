@@ -5,7 +5,6 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.byb.bhojan.model.AdminSetting;
-import com.byb.bhojan.util.ProjectConstant;
 
 public class AdminSettingsValidator implements Validator {
 
@@ -21,14 +20,15 @@ public class AdminSettingsValidator implements Validator {
 
 		AdminSetting adminSetting = (AdminSetting) target;
 
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "defaultPayableAmount", "NotEmpty.adminSetting.defaultPayableAmount");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "freeTrialDays", "NotEmpty.adminSetting.freeTrialDays");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "notifyBeforeDays", "NotEmpty.adminSetting.notifyBeforeDays");
 
-		if (adminSetting.getDefaultPayableAmount() < ProjectConstant.DEFAULT_MIN_AMOUNT) {
-			errors.rejectValue("defaultPayableAmount", "Min.adminSetting.defaultPayableAmount", String.valueOf(ProjectConstant.DEFAULT_MIN_AMOUNT));
+		if (adminSetting.getFreeTrialDays() < 1 || adminSetting.getFreeTrialDays() > 30) {
+			errors.rejectValue("freeTrialDays", "MinMax.adminSetting.freeTrialDays");
 		}
-
-		if (adminSetting.getDefaultPayableAmount() > ProjectConstant.DEFAULT_MAX_AMOUNT) {
-			errors.rejectValue("defaultPayableAmount", "AlreadyExist.user.mobileno", String.valueOf(ProjectConstant.DEFAULT_MAX_AMOUNT));
+		
+		if (adminSetting.getNotifyBeforeDays() < 0 || adminSetting.getNotifyBeforeDays() > 5) {
+			errors.rejectValue("notifyBeforeDays", "MinMax.adminSetting.notifyBeforeDays");
 		}
 
 	}

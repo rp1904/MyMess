@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +32,7 @@ import com.byb.bhojan.services.MessServices;
 import com.byb.bhojan.services.UserServices;
 import com.byb.bhojan.util.DateUtils;
 import com.byb.bhojan.util.ProjectConstant;
+import com.byb.bhojan.validators.AdminSettingsValidator;
 
 @Controller
 @RequestMapping("/web/admin")
@@ -194,12 +196,23 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/admin-settings", method = RequestMethod.POST)
-	public ModelAndView updateAdminSettings(@ModelAttribute("adminSettings") AdminSetting adminSettings) {
+	public ModelAndView updateAdminSettings(@ModelAttribute("adminSettings") AdminSetting adminSettings, BindingResult result) {
 
+		AdminSettingsValidator adminSettingsValidator = new AdminSettingsValidator();
+		
+		adminSettingsValidator.validate(adminSettings, result);
+		
+		if(result.hasErrors()) {
+			logger.info("In updateAdminSettings has errors");
+			return new ModelAndView("super-admin/admin-settings");
+		}
+		
 		AdminSetting oldAdminSettings = adminSettingServices.getAdminSettings();
 		oldAdminSettings.setCreatedUpdated(new CreatedUpdated(oldAdminSettings.getCreatedUpdated(), "1"));
-		oldAdminSettings.setDefaultPayableAmount(adminSettings.getDefaultPayableAmount());
+		oldAdminSettings.setFreeTrialDays(adminSettings.getFreeTrialDays());
+		oldAdminSettings.setNotifyBeforeDays(adminSettings.getNotifyBeforeDays());
 		adminSettings = adminSettingServices.updateAdminSettings(oldAdminSettings);
+		
 		return new ModelAndView("super-admin/admin-settings");
 	}
 
