@@ -73,4 +73,10 @@ public class MessServicesImpl implements MessServices {
 		messDao.updateMess(mess);
 	}
 
+	@Override
+	public int updateMessRemainingDays() {
+		// TODO Auto-generated method stub
+		return messDao.updateMessRemainingDays();
+	}
+
 }

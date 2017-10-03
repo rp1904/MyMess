@@ -17,97 +17,92 @@ import com.byb.bhojan.util.ProjectConstant;
 @Repository
 public class MemberMealCoupenDaoImpl implements MemberMealCoupenDao {
 
-  @Autowired
-  private SessionFactory sessionFactory;
+	@Autowired
+	private SessionFactory sessionFactory;
 
-  @Override
-  public void saveMemberMealCoupen(MemberMealCoupen memberMealCoupen) {
-    // TODO Auto-generated method stub
-    Session session = sessionFactory.getCurrentSession();
-    session.save(memberMealCoupen);
-  }
+	@Override
+	public void saveMemberMealCoupen(MemberMealCoupen memberMealCoupen) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		session.save(memberMealCoupen);
+	}
 
-  @Override
-  public void updateMemberMealCoupen(MemberMealCoupen memberMealCoupen) {
-    // TODO Auto-generated method stub
-    Session session = sessionFactory.getCurrentSession();
-    session.update(memberMealCoupen);
-  }
+	@Override
+	public void updateMemberMealCoupen(MemberMealCoupen memberMealCoupen) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		session.update(memberMealCoupen);
+	}
 
-  @Override
-  public MemberMealCoupen getActiveMealCoupenByMember(User member) {
-    // TODO Auto-generated method stub
-    Session session = sessionFactory.getCurrentSession();
-    Criteria criteria = session.createCriteria(MemberMealCoupen.class);
-    criteria.add(Restrictions.eq("member", member));
-    criteria.add(Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE));
-    return (MemberMealCoupen) criteria.uniqueResult();
-  }
+	@Override
+	public MemberMealCoupen getActiveMealCoupenByMember(User member) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(MemberMealCoupen.class);
+		criteria.add(Restrictions.eq("member", member));
+		criteria.add(Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE));
+		return (MemberMealCoupen) criteria.uniqueResult();
+	}
 
-  @Override
-  public MemberMealCoupen getWaitingMealCoupenByMember(User member) {
-    // TODO Auto-generated method stub
-    Session session = sessionFactory.getCurrentSession();
-    Criteria criteria = session.createCriteria(MemberMealCoupen.class);
-    criteria.add(Restrictions.eq("member", member));
-    criteria.add(Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_WAITING));
-    return (MemberMealCoupen) criteria.uniqueResult();
-  }
+	@Override
+	public MemberMealCoupen getWaitingMealCoupenByMember(User member) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(MemberMealCoupen.class);
+		criteria.add(Restrictions.eq("member", member));
+		criteria.add(Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_WAITING));
+		return (MemberMealCoupen) criteria.uniqueResult();
+	}
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public List<MemberMealCoupen> getNonWaitingMealCoupensByMember(User member) {
-    // TODO Auto-generated method stub
-    Session session = sessionFactory.getCurrentSession();
-    Criteria criteria = session.createCriteria(MemberMealCoupen.class);
-    criteria.add(Restrictions.eq("member", member));
-    criteria.add(Restrictions.ne("status", ProjectConstant.MEAL_COUPEN_STATUS_WAITING));
-    criteria.addOrder(Order.desc("createdUpdated.updatedAt"));
-    return criteria.list();
-  }
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<MemberMealCoupen> getNonWaitingMealCoupensByMember(User member) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(MemberMealCoupen.class);
+		criteria.add(Restrictions.eq("member", member));
+		criteria.add(Restrictions.ne("status", ProjectConstant.MEAL_COUPEN_STATUS_WAITING));
+		criteria.addOrder(Order.desc("createdUpdated.updatedAt"));
+		return criteria.list();
+	}
 
+	@Override
+	public MemberMealCoupen getLastExpiredOrConsumedMealCoupenByMember(User member) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(MemberMealCoupen.class);
+		criteria.add(Restrictions.eq("member", member));
+		criteria.add(Restrictions.or(Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_EXPIRED), Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_CONSUMED)));
+		criteria.addOrder(Order.desc("createdUpdated.updatedAt"));
+		criteria.setMaxResults(1);
+		return (MemberMealCoupen) criteria.uniqueResult();
+	}
 
-  @Override
-  public MemberMealCoupen getLastExpiredOrConsumedMealCoupenByMember(User member) {
-    // TODO Auto-generated method stub
-    Session session = sessionFactory.getCurrentSession();
-    Criteria criteria = session.createCriteria(MemberMealCoupen.class);
-    criteria.add(Restrictions.eq("member", member));
-    criteria
-        .add(Restrictions.or(Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_EXPIRED),
-            Restrictions.eq("status", ProjectConstant.MEAL_COUPEN_STATUS_CONSUMED)));
-    criteria.addOrder(Order.desc("createdUpdated.updatedAt"));
-    criteria.setMaxResults(1);
-    return (MemberMealCoupen) criteria.uniqueResult();
-  }
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<MemberMealCoupen> getMealCoupenHistoryByMember(User member) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(MemberMealCoupen.class);
+		criteria.add(Restrictions.eq("member", member));
+		criteria.addOrder(Order.desc("createdUpdated.updatedAt"));
+		return criteria.list();
+	}
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public List<MemberMealCoupen> getMealCoupenHistoryByMember(User member) {
-    // TODO Auto-generated method stub
-    Session session = sessionFactory.getCurrentSession();
-    Criteria criteria = session.createCriteria(MemberMealCoupen.class);
-    criteria.add(Restrictions.eq("member", member));
-    criteria.addOrder(Order.desc("createdUpdated.updatedAt"));
-    return criteria.list();
-  }
+	@Override
+	public int updateExpiredMemberMealCoupen(Date currentDate) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		//@formatter off
+		String hqlUpdate = "UPDATE MemberMealCoupen mmc SET mmc.status = :NEW_STATUS, " 
+				+ "mmc.createdUpdated.updatedBy = :UPDATED_BY, mmc.createdUpdated.updatedAt = :UPDATED_AT  " 
+				+ "WHERE mmc.status = :OLD_STATUS AND mmc.expiryDate < :CURRENT_DATE";
+		//@formatter on
+		int updatedEntities = session.createQuery(hqlUpdate).setParameter("NEW_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_EXPIRED).setParameter("UPDATED_BY", "1").setParameter("UPDATED_AT", currentDate)
+				.setParameter("OLD_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE).setParameter("CURRENT_DATE", currentDate).executeUpdate();
 
-  @Override
-  public int updateExpiredMemberMealCoupen(Date currentDate) {
-    // TODO Auto-generated method stub
-    Session session = sessionFactory.getCurrentSession();
-    String hqlUpdate = "UPDATE MemberMealCoupen mmc SET mmc.status = :NEW_STATUS, "
-        + "mmc.createdUpdated.updatedBy = :UPDATED_BY, mmc.createdUpdated.updatedAt = :UPDATED_AT  "
-        + "WHERE mmc.status = :OLD_STATUS AND mmc.expiryDate < :CURRENT_DATE";
+		return updatedEntities;
 
-    int updatedEntities = session.createQuery(hqlUpdate)
-        .setParameter("NEW_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_EXPIRED)
-        .setParameter("UPDATED_BY", "1").setParameter("UPDATED_AT", currentDate)
-        .setParameter("OLD_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE)
-        .setParameter("CURRENT_DATE", currentDate).executeUpdate();
-
-    return updatedEntities;
-
-  }
+	}
 
 }

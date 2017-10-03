@@ -17,6 +17,8 @@ public interface MessServices {
 	public boolean isMessNameAlreadyRegistered(String messName);
 
 	public List<Mess> getAllMessess();
+	
+	public int updateMessRemainingDays();
 
 	public void updateMess(Mess mess);
 

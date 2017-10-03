@@ -250,7 +250,7 @@ var error = url.searchParams.get("error");
 		  });
 
 		  $("#modal-btn-yes").on("click", function(){
-			  window.location = 'login?logout';
+			  window.location = '../login?logout';
 		  });
 		  
 		  $("#modal-btn-no").on("click", function(){

@@ -22,4 +22,6 @@ public interface MessDao {
 
 	public void updateMess(Mess mess);
 
+	public int updateMessRemainingDays();
+
 }
