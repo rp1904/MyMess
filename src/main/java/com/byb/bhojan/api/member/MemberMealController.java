@@ -37,8 +37,7 @@ public class MemberMealController extends BaseController {
 	private MemberMealServices memberMealServices;
 
 	@RequestMapping(value = "/{start}/{limit}", method = RequestMethod.GET)
-	public ResponseEntity<?> getMealList(Principal principal, @PathVariable("start") int start,
-			@PathVariable("limit") int limit) {
+	public ResponseEntity<?> getMealList(Principal principal, @PathVariable("start") int start, @PathVariable("limit") int limit) {
 
 		User member = getLoggedInUserByAppKey();
 
@@ -54,7 +53,9 @@ public class MemberMealController extends BaseController {
 
 		List<Meal> meals = mealServices.getOpenedMealsByMessId(mess.getMessIdPk());
 
-		if (meals != null) {
+		logger.info(meals);
+
+		if (meals != null && meals.size() > 0) {
 			return new ResponseEntity<List<Meal>>(meals, HttpStatus.OK);
 		}
 

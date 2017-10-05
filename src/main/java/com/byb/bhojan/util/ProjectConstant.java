@@ -4,6 +4,8 @@ public class ProjectConstant {
 
 	public static final String PROJECT_NAME = "BHOJAN";
 
+	public static final String COMPANY_NAME = "BitByBit";
+
 	public static final String PROJECT_SUPPORT_EMAIL = "help.mybhojan@gmail.com";
 
 	public static final String BASE_URL = "base_url";
@@ -103,6 +105,14 @@ public class ProjectConstant {
 
 	public static String getProjectName() {
 		return PROJECT_NAME;
+	}
+
+	public static String getCompanyName() {
+		return COMPANY_NAME;
+	}
+
+	public static String getProjectSupportEmail() {
+		return PROJECT_SUPPORT_EMAIL;
 	}
 
 }
