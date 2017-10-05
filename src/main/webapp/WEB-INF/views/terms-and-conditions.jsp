@@ -21,11 +21,11 @@
 <br />
 <h3>OVERVIEW</h3>
 
-<p>This application is operated by <strong><%=ProjectConstant.COMPANY_NAME%></strong>.</p>
+<p>This application is operated by <strong>BitByBit</strong>.</p>
 
-<p>Throughout the site/app, the terms &ldquo;we&rdquo;, &ldquo;us&rdquo; and &ldquo;our&rdquo; refer to <strong><%=ProjectConstant.COMPANY_NAME%></strong>.</p>
+<p>Throughout the site/app, the terms &ldquo;we&rdquo;, &ldquo;us&rdquo; and &ldquo;our&rdquo; refer to <strong>BitByBit</strong>.</p>
 
-<p><strong><%=ProjectConstant.COMPANY_NAME%> </strong>offers this website, including all information, tools and services available from this site to you, the user, conditioned upon your acceptance of all terms, conditions, policies and notices stated here.</p>
+<p><strong>BitByBit </strong>offers this website, including all information, tools and services available from this site to you, the user, conditioned upon your acceptance of all terms, conditions, policies and notices stated here.</p>
 
 <p>By visiting our site/app and/or purchasing something from us, you engage in our &ldquo;Service&rdquo; and agree to be bound by the following terms and conditions (&ldquo;Terms of Service&rdquo;, &ldquo;Terms&rdquo;), including those additional terms and conditions and policies referenced herein and/or available by hyperlink. These Terms of Service apply&nbsp; to all users of the app, including without limitation users who are browsers, vendors, customers, merchants, and/ or contributors of content.</p>
 
@@ -126,13 +126,13 @@ We are and shall be under no obligation (1) to maintain any comments in confiden
 
 <p>You expressly agree that your use of, or inability to use, the service is at your sole risk. The service and all products and services delivered to you through the service are (except as expressly stated by us) provided &#39;as is&#39; and &#39;as available&#39; for your use, without any representation, warranties or conditions of any kind, either express or implied, including all implied warranties or conditions of merchantability, merchantable quality, fitness for a particular purpose, durability, title, and non-infringement.</p>
 
-<p>In no case shall <strong><%=ProjectConstant.COMPANY_NAME%></strong>, our directors, officers, employees, affiliates, agents, contractors, interns, suppliers, service providers or licensors be liable for any injury, loss, claim, or any direct, indirect, incidental, punitive, special, or consequential damages of any kind, including, without limitation lost profits, lost revenue, lost savings, loss of data, replacement costs, or any similar damages, whether based in contract, tort (including negligence), strict liability or otherwise, arising from your use of any of the service or any products procured using the service, or for any other claim related in any way to your use of the service or any product, including, but not limited to, any errors or omissions in any content, or any loss or damage of any kind incurred as a result of the use of the service or any content (or product) posted, transmitted, or otherwise made available via the service, even if advised of their possibility. Because some states or jurisdictions do not allow the exclusion or the limitation of liability for consequential or incidental damages, in such states or jurisdictions, our liability shall be limited to the maximum extent permitted by law.</p>
+<p>In no case shall <strong>BitByBit</strong>, our directors, officers, employees, affiliates, agents, contractors, interns, suppliers, service providers or licensors be liable for any injury, loss, claim, or any direct, indirect, incidental, punitive, special, or consequential damages of any kind, including, without limitation lost profits, lost revenue, lost savings, loss of data, replacement costs, or any similar damages, whether based in contract, tort (including negligence), strict liability or otherwise, arising from your use of any of the service or any products procured using the service, or for any other claim related in any way to your use of the service or any product, including, but not limited to, any errors or omissions in any content, or any loss or damage of any kind incurred as a result of the use of the service or any content (or product) posted, transmitted, or otherwise made available via the service, even if advised of their possibility. Because some states or jurisdictions do not allow the exclusion or the limitation of liability for consequential or incidental damages, in such states or jurisdictions, our liability shall be limited to the maximum extent permitted by law.</p>
 
 <p>&nbsp;</p>
 
 <p><strong>SECTION 9 - INDEMNIFICATION</strong></p>
 
-<p>You agree to indemnify, defend and hold harmless <strong><%=ProjectConstant.COMPANY_NAME%> </strong>and our parent, subsidiaries, affiliates, partners, officers, directors, agents, contractors, licensors, service providers, subcontractors, suppliers, interns and employees, harmless from any claim or demand, including reasonable attorneys&rsquo; fees, made by any third-party due to or arising out of your breach of these Terms of Service or the documents they incorporate by reference, or your violation of any law or the rights of a third-party.</p>
+<p>You agree to indemnify, defend and hold harmless <strong>BitByBit </strong>and our parent, subsidiaries, affiliates, partners, officers, directors, agents, contractors, licensors, service providers, subcontractors, suppliers, interns and employees, harmless from any claim or demand, including reasonable attorneys&rsquo; fees, made by any third-party due to or arising out of your breach of these Terms of Service or the documents they incorporate by reference, or your violation of any law or the rights of a third-party.</p>
 
 <p><br />
 <strong>SECTION 10 - SEVERABILITY</strong></p>
@@ -160,7 +160,7 @@ We are and shall be under no obligation (1) to maintain any comments in confiden
 <p><br />
 <strong>SECTION 13 - GOVERNING LAW</strong></p>
 
-<p>These Terms of Service and any separate agreements whereby we provide you Services shall be governed by and construed in accordance with the laws of <strong><%=ProjectConstant.COMPANY_NAME%></strong>.</p>
+<p>These Terms of Service and any separate agreements whereby we provide you Services shall be governed by and construed in accordance with the laws of <strong>BitByBit</strong>.</p>
 
 <p><br />
 <strong>SECTION 14 - CHANGES TO TERMS OF SERVICE</strong></p>
@@ -172,7 +172,7 @@ We are and shall be under no obligation (1) to maintain any comments in confiden
 <p><br />
 <strong>SECTION 15 - CONTACT INFORMATION</strong></p>
 
-<p>Questions about the Terms of Service should be sent to us at <%=ProjectConstant.PROJECT_SUPPORT_EMAIL%>.</p>
+<p>Questions about the Terms of Service should be sent to us at help.mybhojan@gmail.com.</p>
 
 
 </body>

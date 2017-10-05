@@ -168,8 +168,8 @@ public class MealController extends BaseController {
 
 		// @formatter:off
 		String responseMsg = "<strong>" + member.getUserProfile().getFullName() + "</strong>"
-				+ "<span class='"+mealCoupenCountClass+"'>Remaining meals: " + activeMealCoupen.getRemainingMealCount() + "</span>"
-				+ "<span class='"+mealCoupenExpiryClass+"'>Remaining Days: " + dayCount	+ "</span>"
+				+ "<span class='"+mealCoupenCountClass+"'>Meals Left: " + activeMealCoupen.getRemainingMealCount() + "</span>"
+				+ "<span class='"+mealCoupenExpiryClass+"'>Days Left: " + dayCount	+ "</span>"
 				+ "<span class='"+mealCoupenExpiryClass+"'>Expires on: " 
 				+ DateUtils.getFormatedDate(activeMealCoupen.getExpiryDate(), ProjectConstant.DF_dd_MMM_yyyy)
 				+ "</span>";

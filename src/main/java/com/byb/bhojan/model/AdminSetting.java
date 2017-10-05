@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +24,14 @@ public class AdminSetting implements Serializable {
 
 	@Column(name = "notify_before_days")
 	private int notifyBeforeDays;
+
+	@Lob
+	@Column(name = "privacy_policy")
+	private String privacyPolicy;
+
+	@Lob
+	@Column(name = "terms_and_conditions")
+	private String termsAndConditions;
 
 	@Embedded
 	private CreatedUpdated createdUpdated;
@@ -59,10 +68,25 @@ public class AdminSetting implements Serializable {
 		this.notifyBeforeDays = notifyBeforeDays;
 	}
 
+	public String getPrivacyPolicy() {
+		return privacyPolicy;
+	}
+
+	public void setPrivacyPolicy(String privacyPolicy) {
+		this.privacyPolicy = privacyPolicy;
+	}
+
+	public String getTermsAndConditions() {
+		return termsAndConditions;
+	}
+
+	public void setTermsAndConditions(String termsAndConditions) {
+		this.termsAndConditions = termsAndConditions;
+	}
+
 	@Override
 	public String toString() {
 		return "AdminSetting [adminSettingId=" + adminSettingId + ", freeTrialDays=" + freeTrialDays + ", notifyBeforeDays=" + notifyBeforeDays + ", createdUpdated=" + createdUpdated + "]";
 	}
-
 
 }
