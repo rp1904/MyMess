@@ -9,6 +9,8 @@
 	<br> All rights reserved.
 </footer>
 
+<form id="logOutForm"></form>
+
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
 	<!-- Create the tabs -->
@@ -251,8 +253,13 @@ var error = url.searchParams.get("error");
 
 		  $("#modal-btn-yes").on("click", function(){
 // 			  window.location = '../login?logout';
-			  var logOutForm = $('<form action="' + baseUrl + '/web/logout" method="POST"></form>');
-			  logOutForm.submit();
+			  
+			  $('#logOutForm').attr({
+				  action: baseUrl + '/web/logout',
+				  method: 'POST'  
+			   }).submit();
+			  
+			 
 		  });
 		  
 		  $("#modal-btn-no").on("click", function(){
@@ -262,8 +269,8 @@ var error = url.searchParams.get("error");
 		// Will also work for relative and absolute hrefs
 		  $('ul.nav a').filter(function() {
 			  console.log("URL: " + url);
-			  console.log("this.href: " + this.href.split('#')[0]);
-			  console.log("parent(): " + $(this).parent().get( 0 ));
+// 			  console.log("this.href: " + this.href.split('#')[0]);
+// 			  console.log("parent(): " + $(this).parent().get( 0 ));
 		      return this.href.split('#')[0] == url;
 		  }).parent().addClass('active');
 		
