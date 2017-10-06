@@ -20,4 +20,6 @@ public interface MealServices {
 
 	public List<Meal> getOpenedMealsByMessId(String messIdPk);
 
+	public Meal getDefaultMealByMessIdPk(String messIdPk);
+
 }

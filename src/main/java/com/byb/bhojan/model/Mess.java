@@ -60,9 +60,12 @@ public class Mess implements Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "mess", cascade = CascadeType.MERGE)
 	private List<MealCoupen> mealCoupens;
-	
+
 	@Column(name = "days_remaining")
 	private int daysRemaining;
+
+	@Column(name = "is_nonveg_prepare")
+	private boolean isNonvegPrepare;
 
 	@Embedded
 	private CreatedUpdated createdUpdated;
