@@ -22,5 +22,7 @@ public interface MemberMealCoupenServices {
 	public List<MemberMealCoupen> getMealCoupenHistoryByMember(User member);
 
 	public int updateExpiredMemberMealCoupen();
+	
+	public int updateWaitingMemberMealCoupen();
 
 }

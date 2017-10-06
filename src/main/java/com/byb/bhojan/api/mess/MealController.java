@@ -128,6 +128,11 @@ public class MealController extends BaseController {
 
 		if (activeMealCoupen.getRemainingMealCount() == 0) {
 			activeMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_CONSUMED);
+			
+			MemberMealCoupen waitingMemberMealCoupen = memberMealCoupenServices.getWaitingMealCoupenByMember(member);
+			waitingMemberMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE);
+			waitingMemberMealCoupen.setCreatedUpdated(new CreatedUpdated(waitingMemberMealCoupen.getCreatedUpdated(), mess.getMessOwner().getUserIdPk()));
+			memberMealCoupenServices.updateMemberMealCoupen(waitingMemberMealCoupen);
 		}
 
 		activeMealCoupen.setCreatedUpdated(new CreatedUpdated(mess.getMessOwner().getUserIdPk()));

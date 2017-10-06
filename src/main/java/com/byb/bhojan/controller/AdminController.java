@@ -74,7 +74,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/mess", method = RequestMethod.GET)
 	public ModelAndView getMessListPage() {
-		return new ModelAndView("super-admin/superadmin-mess");
+		return new ModelAndView("super-admin/mess");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -98,12 +98,12 @@ public class AdminController {
 		Mess mess = messServices.getActiveMessByMessIdPk(messId);
 
 		if (mess == null) {
-			ModelAndView modelAndView = new ModelAndView("super-admin/superadmin-mess");
+			ModelAndView modelAndView = new ModelAndView("super-admin/mess");
 			modelAndView.addObject("error", "invalid_id");
 			return modelAndView;
 		}
 
-		ModelAndView modelAndView = new ModelAndView("super-admin/superadmin-mess-members");
+		ModelAndView modelAndView = new ModelAndView("super-admin/mess-members");
 
 		modelAndView.addObject("messId", messId);
 		modelAndView.addObject("messName", mess.getMessName());
@@ -138,7 +138,7 @@ public class AdminController {
 
 		Mess mess = userServices.getMessByMember(member);
 
-		ModelAndView modelAndView = new ModelAndView("super-admin/superadmin-member-details");
+		ModelAndView modelAndView = new ModelAndView("super-admin/member-details");
 
 		modelAndView.addObject("memberMealCoupen", memberMealCoupen);
 		modelAndView.addObject("mess", mess);

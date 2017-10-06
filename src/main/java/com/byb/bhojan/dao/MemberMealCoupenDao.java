@@ -23,4 +23,6 @@ public interface MemberMealCoupenDao {
 
 	public int updateExpiredMemberMealCoupen();
 
+	public int updateWaitingMemberMealCoupen();
+
 }

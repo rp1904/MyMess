@@ -67,4 +67,10 @@ public class MemberMealCoupenServicesImpl implements MemberMealCoupenServices {
 		return memberMealCoupenDao.getLastExpiredOrConsumedMealCoupenByMember(member);
 	}
 
+	@Override
+	public int updateWaitingMemberMealCoupen() {
+		// TODO Auto-generated method stub
+		return memberMealCoupenDao.updateWaitingMemberMealCoupen();
+	}
+
 }

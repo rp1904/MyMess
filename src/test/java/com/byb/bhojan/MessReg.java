@@ -105,6 +105,7 @@ public class MessReg {
 				CreatedUpdated createdUpdated = new CreatedUpdated(ProjectConstant.CREATEDBY_SELF);
 				mess.setCreatedUpdated(createdUpdated);
 				mess.getMessOwner().setCreatedUpdated(createdUpdated);
+				mess.setDaysRemaining(15);
 				messServices.saveMess(mess);
 
 				MealCoupen mealCoupen = new MealCoupen();

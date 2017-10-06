@@ -109,4 +109,22 @@ public class MemberMealCoupenDaoImpl implements MemberMealCoupenDao {
 
 	}
 
+	@Override
+	public int updateWaitingMemberMealCoupen() {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		// @formatter:off
+		String hqlUpdate = "UPDATE MemberMealCoupen mmc SET mmc.status = :NEW_STATUS, " 
+				+ "mmc.createdUpdated.updatedBy = :UPDATED_BY, mmc.createdUpdated.updatedAt = :UPDATED_AT  " 
+				+ "WHERE mmc.status = :OLD_STATUS AND mmc.member IN ("
+				+ ")";
+		int updatedEntities = session.createQuery(hqlUpdate).setParameter("NEW_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE)
+				.setParameter("UPDATED_BY", "1").setParameter("UPDATED_AT", new Date())
+				.setParameter("OLD_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_WAITING)
+				.executeUpdate();
+		// @formatter:on
+
+		return updatedEntities;
+	}
+
 }

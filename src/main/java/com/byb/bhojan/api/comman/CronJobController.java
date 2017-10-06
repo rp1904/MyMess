@@ -32,8 +32,11 @@ public class CronJobController extends BaseController {
 		int updateCount = messServices.updateMessRemainingDays();
 		resp.append(" Updated Mess Count: " + updateCount);
 
-		int updatedMealCoupens = memberMealCoupenServices.updateExpiredMemberMealCoupen();
-		resp.append(". Updated Meal Coupens: " + updatedMealCoupens);
+		int expiredMealCoupons = memberMealCoupenServices.updateExpiredMemberMealCoupen();
+		resp.append(". Expired Meal Coupons: " + expiredMealCoupons);
+				
+		int waitingToActiveMealCoupons = memberMealCoupenServices.updateWaitingMemberMealCoupen();
+		resp.append(". Waiting To Active Meal Coupons: " + waitingToActiveMealCoupons);
 
 		logger.info(resp.toString());
 

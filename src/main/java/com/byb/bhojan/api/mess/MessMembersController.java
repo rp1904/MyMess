@@ -174,7 +174,9 @@ public class MessMembersController extends BaseController {
 	}
 
 	@RequestMapping(value = "/renew-mealcoupen", method = RequestMethod.POST)
-	public ResponseEntity<?> renewMealCoupen(@RequestParam(required = true, value = "memberId") String memberId, @RequestParam(required = true, value = "coupenId") String coupenId) {
+	public ResponseEntity<?> renewMealCoupen(
+			@RequestParam(required = true, value = "memberId") String memberId, 
+			@RequestParam(required = true, value = "coupenId") String coupenId) {
 
 		User member = userServices.getMemberByMemberId(memberId);
 		MealCoupen mealCoupen = mealCoupenServices.getMealCoupenById(coupenId);
