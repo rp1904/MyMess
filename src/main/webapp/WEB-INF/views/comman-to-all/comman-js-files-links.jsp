@@ -267,18 +267,15 @@ var error = url.searchParams.get("error");
 		  });
 		  
 		// Will also work for relative and absolute hrefs
-		  $('ul.nav a').filter(function() {
-			  console.log("URL: " + url);
-// 			  console.log("this.href: " + this.href.split('#')[0]);
-// 			  console.log("parent(): " + $(this).parent().get( 0 ));
-		      return this.href.split('#')[0] == url;
+		  var i = $('ul.sidebar-menu a').filter(function() {
+			  console.log("URL: " + url.toString().split(/[/ ]+/).pop());
+			  var url1 = url.toString().split(/[/ ]+/).pop();
+			  var href1 = this.href.split(/[/ ]+/).pop().split('#')[0];
+			  console.log("href: " + this.href.split(/[/ ]+/).pop().split('#')[0]);
+			  console.log(href1 == url1);
+		      return href1 == url1;
 		  }).parent().addClass('active');
-		
-		  var loc = window.location.href;   //loc = name of jsp page
-		  var nav_li_id = loc.split(/[/ ]+/).pop();	
-		  console.log("ID: " + nav_li_id);
-		  $('#'+nav_li_id).parent().parent().addClass('active').siblings().removeClass('active');
-		  $('#'+nav_li_id).addClass('active').siblings().removeClass('active');
+		  console.log(i);
 	});
 	
 	function bootbox_alert_small(msg) {
