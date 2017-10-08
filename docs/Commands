@@ -1,3 +1,2 @@
-commands
-
-mvn clean -o -Pprod package && rm -rf opt/tomcat/webapps/bhojan opt/tomcat/webapps/bhojan.war && cp /home/ubuntu/Bhojan/MyMess/target/bhojan.war /home/ubuntu/opt/apache-tomcat-8.5.15/webapps/ && systemctl stop tomcat && systemctl start tomcat && tail -f opt/tomcat/logs/catalina.out
+SELECT DISTINCT(m2.member_id_fk) FROM prodtest.members_mealcoupens m1 INNER JOIN prodtest.members_mealcoupens m2 ON m1.member_id_fk=m2.member_id_fk
+WHERE m1.status='WAITING' AND m2.status='EXPIRED';
