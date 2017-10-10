@@ -1,2 +1,6 @@
-SELECT DISTINCT(m2.member_id_fk) FROM prodtest.members_mealcoupens m1 INNER JOIN prodtest.members_mealcoupens m2 ON m1.member_id_fk=m2.member_id_fk
-WHERE m1.status='WAITING' AND m2.status='EXPIRED';
+"UPDATE MemberMealCoupen mmc SET mmc.status = :NEW_STATUS, " 
+				+ "mmc.createdUpdated.updatedBy = :UPDATED_BY, mmc.createdUpdated.updatedAt = :UPDATED_AT  " 
+				+ "WHERE mmc.status = :OLD_STATUS AND mmc.member IN ("
+				+ ")";
+
+SELECT * FROM members_mealcoupens m where m.status='EXPIRED' AND updated_at = '2017-09-20 00:01:01';
