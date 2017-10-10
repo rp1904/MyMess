@@ -101,6 +101,10 @@ public class ProjectConstant {
 	public static final String STATUS_SUCCESS = "success";
 	public static final String STATUS_DANGER = "danger";
 
+	// ----------------- Validator Patterns ---------------------------
+
+	public static final String STRING_PATTERN = "[a-zA-Z]+";
+	public static final String INTEGER_PATTERN = "[0-9]+";
 	// --------------------------------------------------------------------------------------------
 
 	public static String getProjectName() {

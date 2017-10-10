@@ -96,7 +96,10 @@
 	.mlr_10px { 
 		margin: 0 10px;
 	}
-
+	
+	.error {
+		color:red;
+	}
   </style>
 
   
