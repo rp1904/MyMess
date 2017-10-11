@@ -200,4 +200,10 @@ public class InstamojoServicesImpl implements InstamojoServices {
 		return instamojoDao.getInstamojoPaymentLogByPaymentReqId(paymentReqId);
 	}
 
+	@Override
+	public double getTotalPaymentDone() {
+		// TODO Auto-generated method stub
+		return instamojoDao.getTotalPaymentDone();
+	}
+
 }

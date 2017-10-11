@@ -25,4 +25,6 @@ public interface InstamojoDao {
 
 	public InstamojoPaymentLog getInstamojoPaymentLogByPaymentReqId(String paymentReqId);
 
+	public double getTotalPaymentDone();
+
 }

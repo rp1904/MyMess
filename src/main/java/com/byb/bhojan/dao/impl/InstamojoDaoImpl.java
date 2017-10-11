@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -94,6 +95,16 @@ public class InstamojoDaoImpl implements InstamojoDao {
 		Criteria criteria = session.createCriteria(InstamojoPaymentLog.class);
 		criteria.add(Restrictions.eq("payment_request_id", paymentReqId));
 		return (InstamojoPaymentLog) criteria.uniqueResult();
+	}
+
+	@Override
+	public double getTotalPaymentDone() {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(InstamojoPaymentLog.class);
+		criteria.add(Restrictions.isNotNull("amount"));
+		criteria.setProjection(Projections.sum("amount"));
+		return (double) criteria.uniqueResult();
 	}
 
 }

@@ -68,6 +68,9 @@ public class AdminController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("projectName", ProjectConstant.PROJECT_NAME);
 		modelAndView.setViewName("super-admin/home");
+
+		modelAndView.addObject("totalEarnings", instamojoServices.getTotalPaymentDone());
+
 		return modelAndView;
 
 	}
@@ -199,20 +202,20 @@ public class AdminController {
 	public ModelAndView updateAdminSettings(@ModelAttribute("adminSettings") AdminSetting adminSettings, BindingResult result) {
 
 		AdminSettingsValidator adminSettingsValidator = new AdminSettingsValidator();
-		
+
 		adminSettingsValidator.validate(adminSettings, result);
-		
-		if(result.hasErrors()) {
+
+		if (result.hasErrors()) {
 			logger.info("In updateAdminSettings has errors");
 			return new ModelAndView("super-admin/admin-settings");
 		}
-		
+
 		AdminSetting oldAdminSettings = adminSettingServices.getAdminSettings();
 		oldAdminSettings.setCreatedUpdated(new CreatedUpdated(oldAdminSettings.getCreatedUpdated(), "1"));
 		oldAdminSettings.setFreeTrialDays(adminSettings.getFreeTrialDays());
 		oldAdminSettings.setNotifyBeforeDays(adminSettings.getNotifyBeforeDays());
 		adminSettings = adminSettingServices.updateAdminSettings(oldAdminSettings);
-		
+
 		return new ModelAndView("super-admin/admin-settings");
 	}
 

@@ -15,7 +15,5 @@ public interface MessPaymentVoucherServices {
 	public List<MessPaymentVoucher> getAllVouchers();
 
 	public void deleteVoucher(MessPaymentVoucher voucher);
-	
-	public double getTotalPaymentDone();
 
 }

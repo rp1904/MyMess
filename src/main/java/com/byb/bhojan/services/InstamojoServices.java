@@ -23,4 +23,6 @@ public interface InstamojoServices {
 
 	public List<InstamojoPaymentLog> getPaymentHistoryByMess(Mess mess);
 
+	public double getTotalPaymentDone();
+
 }
