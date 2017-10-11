@@ -2,6 +2,7 @@ package com.byb.bhojan.dao.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,6 +21,8 @@ import com.byb.bhojan.model.Mess;
 
 @Repository
 public class InstamojoDaoImpl implements InstamojoDao {
+
+	Logger logger = Logger.getLogger(InstamojoDaoImpl.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -104,7 +107,9 @@ public class InstamojoDaoImpl implements InstamojoDao {
 		Criteria criteria = session.createCriteria(InstamojoPaymentLog.class);
 		criteria.add(Restrictions.isNotNull("amount"));
 		criteria.setProjection(Projections.sum("amount"));
-		return (double) criteria.uniqueResult();
+		String total = (String) criteria.uniqueResult();
+		logger.info("Total: " + total);
+		return Double.parseDouble(total);
 	}
 
 }
