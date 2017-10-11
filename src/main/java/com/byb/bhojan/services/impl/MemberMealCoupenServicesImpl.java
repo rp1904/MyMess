@@ -1,5 +1,6 @@
 package com.byb.bhojan.services.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -38,9 +39,9 @@ public class MemberMealCoupenServicesImpl implements MemberMealCoupenServices {
 	}
 
 	@Override
-	public int updateExpiredMemberMealCoupen() {
+	public int updateExpiredMemberMealCoupen(Date updatedAt) {
 		// TODO Auto-generated method stub
-		return memberMealCoupenDao.updateExpiredMemberMealCoupen();
+		return memberMealCoupenDao.updateExpiredMemberMealCoupen(updatedAt);
 	}
 
 	@Override
@@ -68,9 +69,9 @@ public class MemberMealCoupenServicesImpl implements MemberMealCoupenServices {
 	}
 
 	@Override
-	public int updateWaitingMemberMealCoupen() {
+	public int updateWaitingMemberMealCoupen(Date updatedAt) {
 		// TODO Auto-generated method stub
-		return memberMealCoupenDao.updateWaitingMemberMealCoupen();
+		return memberMealCoupenDao.updateWaitingMemberMealCoupen(updatedAt);
 	}
 
 }

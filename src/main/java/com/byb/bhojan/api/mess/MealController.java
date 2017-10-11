@@ -111,7 +111,7 @@ public class MealController extends BaseController {
 		logger.info(activeMealCoupen);
 
 		if (activeMealCoupen == null) {
-			return sendErrorResponse("No active meal coupen found !");
+			return sendErrorResponse("No active meal coupon found !");
 		}
 
 		if (activeMealCoupen.getExpiryDate().getTime() < new Date().getTime()) {
@@ -154,7 +154,7 @@ public class MealController extends BaseController {
 		memberMealServices.saveMemberMeal(memberMeal);
 
 		//Notify member
-		String title = "Your Meal Coupen Updated !";
+		String title = "Your Meal Coupon Updated !";
 		String msg = "You have " + memberMeal.getRemainingMealCount() + " meals left in your account.";
 		notification.sendPushNotification(title, msg, member.getUserIdPk());
 

@@ -1,5 +1,6 @@
 package com.byb.bhojan.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.byb.bhojan.model.MemberMealCoupen;
@@ -21,8 +22,8 @@ public interface MemberMealCoupenDao {
 
 	public List<MemberMealCoupen> getMealCoupenHistoryByMember(User member);
 
-	public int updateExpiredMemberMealCoupen();
+	public int updateExpiredMemberMealCoupen(Date updatedAt);
 
-	public int updateWaitingMemberMealCoupen();
+	public int updateWaitingMemberMealCoupen(Date updatedAt);
 
 }

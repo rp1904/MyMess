@@ -1,0 +1,14 @@
+Cronjobs
+Syntax: 
+  mm hh dd mt wd  command
+
+  mm minute 0-59
+  hh hour 0-23
+  dd day of month 1-31
+  mt month 1-12
+  wd day of week 0-7 (Sunday = 0 or 7)
+  command: what you want to run
+  all numeric values can be replaced by * which means all
+
+
+1. 1 0 * * * * wget -q -O /dev/null "http://localhost:8080/bhojan/cron-job/every-midnight"

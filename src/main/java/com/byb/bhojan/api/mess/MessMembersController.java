@@ -174,10 +174,9 @@ public class MessMembersController extends BaseController {
 	}
 
 	@RequestMapping(value = "/renew-mealcoupen", method = RequestMethod.POST)
-	public ResponseEntity<?> renewMealCoupen(
-			@RequestParam(required = true, value = "memberId") String memberId, 
-			@RequestParam(required = true, value = "coupenId") String coupenId) {
+	public ResponseEntity<?> renewMealCoupen(@RequestParam(required = true, value = "memberId") String memberId, @RequestParam(required = true, value = "coupenId") String coupenId) {
 
+		Mess mess = getLoggedInMessByAppKey();
 		User member = userServices.getMemberByMemberId(memberId);
 		MealCoupen mealCoupen = mealCoupenServices.getMealCoupenById(coupenId);
 
@@ -186,7 +185,7 @@ public class MessMembersController extends BaseController {
 		newMemberMealCoupen.setMealCoupen(mealCoupen);
 		newMemberMealCoupen.setNoOfMeals(mealCoupen.getNoOfMeals());
 		newMemberMealCoupen.setRemainingMealCount(mealCoupen.getNoOfMeals());
-		newMemberMealCoupen.setCreatedUpdated(new CreatedUpdated("1"));
+		newMemberMealCoupen.setCreatedUpdated(new CreatedUpdated(mess.getMessOwner().getUserIdPk()));
 
 		MemberMealCoupen activeMemberMealCoupen = memberMealCoupenServices.getActiveMealCoupenByMember(member);
 		if (activeMemberMealCoupen != null) {
@@ -198,13 +197,13 @@ public class MessMembersController extends BaseController {
 		}
 
 		memberMealCoupenServices.saveMemberMealCoupen(newMemberMealCoupen);
+		memberMealCoupenHistoryServices.saveMemberMealCoupen(member.getUserIdPk(), mealCoupen.getCoupenId());
 
-		logger.info(newMemberMealCoupen);
-		String title = "New Meal Coupen Added !";
-		String msg = "New meal coupen '" + newMemberMealCoupen.getMealCoupen().toShortString() + "' is added in your account.";
+		String title = "New Meal Coupon Added !";
+		String msg = "New meal coupon '" + newMemberMealCoupen.getMealCoupen().toShortString() + "' is added in your account.";
 
 		notification.sendPushNotification(title, msg, member.getUserIdPk());
 
-		return sendSuccessResponseWithData("New Meal Coupen Allocated Successfully !", newMemberMealCoupen);
+		return sendSuccessResponseWithData("New meal coupon added successfully !", newMemberMealCoupen);
 	}
 }

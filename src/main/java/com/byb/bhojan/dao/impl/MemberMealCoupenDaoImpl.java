@@ -92,7 +92,7 @@ public class MemberMealCoupenDaoImpl implements MemberMealCoupenDao {
 	}
 
 	@Override
-	public int updateExpiredMemberMealCoupen() {
+	public int updateExpiredMemberMealCoupen(Date updatedAt) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
 		// @formatter:off
@@ -100,9 +100,9 @@ public class MemberMealCoupenDaoImpl implements MemberMealCoupenDao {
 				+ "mmc.createdUpdated.updatedBy = :UPDATED_BY, mmc.createdUpdated.updatedAt = :UPDATED_AT  " 
 				+ "WHERE mmc.status = :OLD_STATUS AND mmc.expiryDate < :CURRENT_DATE";
 		int updatedEntities = session.createQuery(hqlUpdate).setParameter("NEW_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_EXPIRED)
-				.setParameter("UPDATED_BY", "1").setParameter("UPDATED_AT", new Date())
+				.setParameter("UPDATED_BY", "1").setParameter("UPDATED_AT", updatedAt)
 				.setParameter("OLD_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE)
-				.setParameter("CURRENT_DATE", new Date()).executeUpdate();
+				.setParameter("CURRENT_DATE", updatedAt).executeUpdate();
 		// @formatter:on
 
 		return updatedEntities;
@@ -110,16 +110,20 @@ public class MemberMealCoupenDaoImpl implements MemberMealCoupenDao {
 	}
 
 	@Override
-	public int updateWaitingMemberMealCoupen() {
+	public int updateWaitingMemberMealCoupen(Date updatedAt) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
+
 		// @formatter:off
-		String hqlUpdate = "UPDATE MemberMealCoupen mmc SET mmc.status = :NEW_STATUS, " 
-				+ "mmc.createdUpdated.updatedBy = :UPDATED_BY, mmc.createdUpdated.updatedAt = :UPDATED_AT  " 
-				+ "WHERE mmc.status = :OLD_STATUS AND mmc.member IN ("
+		String updateQuery = "UPDATE members_mealcoupens mmc SET mmc.status = :NEW_STATUS, " 
+				+ "mmc.updated_by = :UPDATED_BY, mmc.updated_at = :UPDATED_AT " 
+				+ "WHERE mmc.status = :OLD_STATUS AND mmc.member_id_fk IN ("
+				+ "SELECT mmc1.member_id_fk members_mealcoupens mmc1 "
+				+ "WHERE mmc1.status = :OLD_STATUS AND mmc1.updated_at = :UPDATED_AT "
 				+ ")";
-		int updatedEntities = session.createQuery(hqlUpdate).setParameter("NEW_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE)
-				.setParameter("UPDATED_BY", "1").setParameter("UPDATED_AT", new Date())
+		int updatedEntities = session.createSQLQuery(updateQuery)
+				.setParameter("NEW_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE)
+				.setParameter("UPDATED_BY", "1").setParameter("UPDATED_AT", updatedAt)
 				.setParameter("OLD_STATUS", ProjectConstant.MEAL_COUPEN_STATUS_WAITING)
 				.executeUpdate();
 		// @formatter:on
