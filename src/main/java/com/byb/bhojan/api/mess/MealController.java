@@ -114,7 +114,7 @@ public class MealController extends BaseController {
 			return sendErrorResponse("No active meal coupon found !");
 		}
 
-		if (activeMealCoupen.getExpiryDate().getTime() < new Date().getTime()) {
+		if (DateUtils.getEndOfDay(activeMealCoupen.getExpiryDate()).getTime() < new Date().getTime()) {
 			return sendErrorResponse("This meal coupen is expired !");
 		}
 
