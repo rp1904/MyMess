@@ -49,9 +49,9 @@ public class MessPaymentVoucherServicesImpl implements MessPaymentVoucherService
 	}
 
 	@Override
-	public int getTotalVoucherCount() {
+	public long getTotalVoucherCount() {
 		// TODO Auto-generated method stub
-		messPaymentVoucherDao.getTotalVoucherCount();
+		return messPaymentVoucherDao.getTotalVoucherCount();
 	}
 
 }

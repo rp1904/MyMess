@@ -16,5 +16,5 @@ public interface MessPaymentVoucherDao {
 
 	public void deleteVoucher(MessPaymentVoucher voucher);
 
-	public int getTotalVoucherCount();
+	public long getTotalVoucherCount();
 }

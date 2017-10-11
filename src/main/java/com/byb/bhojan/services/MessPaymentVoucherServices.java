@@ -16,6 +16,6 @@ public interface MessPaymentVoucherServices {
 
 	public void deleteVoucher(MessPaymentVoucher voucher);
 
-	public int getTotalVoucherCount();
+	public long getTotalVoucherCount();
 
 }

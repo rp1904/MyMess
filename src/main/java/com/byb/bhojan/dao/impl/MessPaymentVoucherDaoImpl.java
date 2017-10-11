@@ -54,9 +54,9 @@ public class MessPaymentVoucherDaoImpl implements MessPaymentVoucherDao {
 	}
 
 	@Override
-	public int getTotalVoucherCount() {
+	public long getTotalVoucherCount() {
 		// TODO Auto-generated method stub
-		return (int) sessionFactory.getCurrentSession().createCriteria(MessPaymentVoucher.class).setProjection(Projections.rowCount()).uniqueResult();
+		return (long) sessionFactory.getCurrentSession().createCriteria(MessPaymentVoucher.class).setProjection(Projections.rowCount()).uniqueResult();
 	}
 
 }

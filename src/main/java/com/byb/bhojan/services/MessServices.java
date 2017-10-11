@@ -6,8 +6,8 @@ import com.byb.bhojan.model.Mess;
 
 public interface MessServices {
 
-	public int getTotalActiveMessCount();
-	
+	public long getTotalActiveMessCount();
+
 	public Mess getActiveMessByMessIdPk(String messIdPk);
 
 	public Mess getActiveMessByMessId(String messId);
@@ -19,7 +19,7 @@ public interface MessServices {
 	public boolean isMessNameAlreadyRegistered(String messName);
 
 	public List<Mess> getAllMessess();
-	
+
 	public int updateMessRemainingDays();
 
 	public void updateMess(Mess mess);

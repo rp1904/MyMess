@@ -24,6 +24,6 @@ public interface MessDao {
 
 	public int updateMessRemainingDays();
 
-	public int getTotalActiveMessCount();
+	public long getTotalActiveMessCount();
 
 }

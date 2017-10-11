@@ -30,11 +30,11 @@ public class MessDaoImpl implements MessDao {
 		criteria.add(Restrictions.eq("messIdPk", messIdPk));
 		return (Mess) criteria.uniqueResult();
 	}
-	
+
 	@Override
-	public int getTotalActiveMessCount() {
+	public long getTotalActiveMessCount() {
 		// TODO Auto-generated method stub
-		return (int) sessionFactory.getCurrentSession().createCriteria(Mess.class).setProjection(Projections.rowCount()).uniqueResult();
+		return (long) sessionFactory.getCurrentSession().createCriteria(Mess.class).setProjection(Projections.rowCount()).uniqueResult();
 	}
 
 	@Override

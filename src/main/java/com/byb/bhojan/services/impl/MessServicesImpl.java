@@ -80,7 +80,7 @@ public class MessServicesImpl implements MessServices {
 	}
 
 	@Override
-	public int getTotalActiveMessCount() {
+	public long getTotalActiveMessCount() {
 		// TODO Auto-generated method stub
 		return messDao.getTotalActiveMessCount();
 	}
