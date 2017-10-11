@@ -69,7 +69,10 @@ public class AdminController {
 		modelAndView.addObject("projectName", ProjectConstant.PROJECT_NAME);
 		modelAndView.setViewName("super-admin/home");
 
+		modelAndView.addObject("totalMess", messServices.getTotalActiveMessCount());
+		modelAndView.addObject("totalMembers", userServices.getTotalActiveMemberCount());
 		modelAndView.addObject("totalEarnings", instamojoServices.getTotalPaymentDone());
+		modelAndView.addObject("messVouchers", messPaymentVoucherServices.getTotalVoucherCount());
 
 		return modelAndView;
 

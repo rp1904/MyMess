@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -53,9 +54,9 @@ public class MessPaymentVoucherDaoImpl implements MessPaymentVoucherDao {
 	}
 
 	@Override
-	public double getTotalPaymentDone() {
+	public int getTotalVoucherCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return (int) sessionFactory.getCurrentSession().createCriteria(MessPaymentVoucher.class).setProjection(Projections.rowCount()).uniqueResult();
 	}
 
 }

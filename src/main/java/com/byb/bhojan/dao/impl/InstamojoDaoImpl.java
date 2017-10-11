@@ -108,7 +108,9 @@ public class InstamojoDaoImpl implements InstamojoDao {
 		criteria.add(Restrictions.isNotNull("amount"));
 		criteria.setProjection(Projections.sum("amount"));
 		String total = (String) criteria.uniqueResult();
-		logger.info("Total: " + total);
+		if (total == null) {
+			return 0.0d;
+		}
 		return Double.parseDouble(total);
 	}
 
