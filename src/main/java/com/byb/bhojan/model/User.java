@@ -192,11 +192,8 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [userIdPk=" + userIdPk + ", userId=" + userId + ", userProfile=" + userProfile + ", userRole="
-				+ userRole + ", mess=" + mess + ", email=" + email + ", mobileNumber=" + mobileNumber + ", password="
-				+ password + ", confirmPassword=" + confirmPassword + ", isEnable=" + isEnable + ", accoutNonExpired="
-				+ accoutNonExpired + ", credentialsNonExpired=" + credentialsNonExpired + ", accoutNonLocker="
-				+ accoutNonLocker + ", createdUpdated=" + createdUpdated + "]";
+		return "User [userIdPk=" + userIdPk + ", userId=" + userId + ", userProfile=" + userProfile + ", userRole=" + userRole + ", email=" + email + ", mobileNumber=" + mobileNumber + ", password=" + password + ", confirmPassword=" + confirmPassword + ", isEnable="
+				+ isEnable + ", accoutNonExpired=" + accoutNonExpired + ", credentialsNonExpired=" + credentialsNonExpired + ", accoutNonLocker=" + accoutNonLocker + ", createdUpdated=" + createdUpdated + "]";
 	}
 
 }

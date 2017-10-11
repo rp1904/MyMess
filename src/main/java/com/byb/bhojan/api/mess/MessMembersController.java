@@ -87,7 +87,7 @@ public class MessMembersController extends BaseController {
 		MemberMealCoupen memberMealCoupen = new MemberMealCoupen();
 		memberMealCoupen.setMember(savedMember);
 		memberMealCoupen.setMealCoupen(mealCoupen);
-		memberMealCoupen.setExpiryDate(DateUtils.getDateAfterDays(new Date(), mealCoupen.getValidity()));
+		memberMealCoupen.setExpiryDate(DateUtils.getDateAfterDays(new Date(), mealCoupen.getValidity() - 1));
 		memberMealCoupen.setNoOfMeals(mealCoupen.getNoOfMeals());
 		memberMealCoupen.setRemainingMealCount(mealCoupen.getNoOfMeals());
 		memberMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE);
@@ -189,10 +189,10 @@ public class MessMembersController extends BaseController {
 
 		MemberMealCoupen activeMemberMealCoupen = memberMealCoupenServices.getActiveMealCoupenByMember(member);
 		if (activeMemberMealCoupen != null) {
-			newMemberMealCoupen.setExpiryDate(DateUtils.getDateAfterDays(activeMemberMealCoupen.getExpiryDate(), mealCoupen.getValidity()));
+			newMemberMealCoupen.setExpiryDate(DateUtils.getDateAfterDays(activeMemberMealCoupen.getExpiryDate(), mealCoupen.getValidity() - 1));
 			newMemberMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_WAITING);
 		} else {
-			newMemberMealCoupen.setExpiryDate(DateUtils.getDateAfterDays(new Date(), mealCoupen.getValidity()));
+			newMemberMealCoupen.setExpiryDate(DateUtils.getDateAfterDays(new Date(), mealCoupen.getValidity() - 1));
 			newMemberMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_ACTIVE);
 		}
 
