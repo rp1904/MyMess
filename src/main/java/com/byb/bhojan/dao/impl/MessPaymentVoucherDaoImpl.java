@@ -52,4 +52,10 @@ public class MessPaymentVoucherDaoImpl implements MessPaymentVoucherDao {
 		sessionFactory.getCurrentSession().delete(voucher);
 	}
 
+	@Override
+	public double getTotalPaymentDone() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

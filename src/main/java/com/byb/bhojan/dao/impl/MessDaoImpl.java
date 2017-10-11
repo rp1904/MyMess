@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +29,12 @@ public class MessDaoImpl implements MessDao {
 		Criteria criteria = session.createCriteria(Mess.class);
 		criteria.add(Restrictions.eq("messIdPk", messIdPk));
 		return (Mess) criteria.uniqueResult();
+	}
+	
+	@Override
+	public int getTotalActiveMessCount() {
+		// TODO Auto-generated method stub
+		return (int) sessionFactory.getCurrentSession().createCriteria(Mess.class).setProjection(Projections.rowCount()).uniqueResult();
 	}
 
 	@Override

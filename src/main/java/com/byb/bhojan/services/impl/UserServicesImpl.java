@@ -171,4 +171,10 @@ public class UserServicesImpl implements UserServices {
 		return userDao.getSuperAdminDetails();
 	}
 
+	@Override
+	public long getTotalActiveMemberCount() {
+		// TODO Auto-generated method stub
+		return userDao.getTotalActiveMemberCount();
+	}
+
 }

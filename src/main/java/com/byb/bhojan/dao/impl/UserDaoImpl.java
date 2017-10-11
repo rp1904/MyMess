@@ -12,6 +12,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -227,5 +228,15 @@ public class UserDaoImpl implements UserDao {
 		criteria.createAlias("userRole", "ur").add(Restrictions.eq("ur.userRoleId", ProjectConstant.USER_ROLE_ID_SUPERADMIN));
 		User sa = (User) criteria.uniqueResult();
 		return sa;
+	}
+
+	@Override
+	public long getTotalActiveMemberCount() {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(User.class);
+		criteria.add(Restrictions.eq("userRole.userRoleId", ProjectConstant.USER_ROLE_ID_MEMBER));
+		criteria.setProjection(Projections.rowCount());
+		return (long) criteria.uniqueResult();
 	}
 }

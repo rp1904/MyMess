@@ -79,4 +79,10 @@ public class MessServicesImpl implements MessServices {
 		return messDao.updateMessRemainingDays();
 	}
 
+	@Override
+	public int getTotalActiveMessCount() {
+		// TODO Auto-generated method stub
+		return messDao.getTotalActiveMessCount();
+	}
+
 }

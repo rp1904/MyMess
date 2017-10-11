@@ -6,6 +6,8 @@ import com.byb.bhojan.model.Mess;
 
 public interface MessServices {
 
+	public int getTotalActiveMessCount();
+	
 	public Mess getActiveMessByMessIdPk(String messIdPk);
 
 	public Mess getActiveMessByMessId(String messId);

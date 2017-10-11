@@ -48,4 +48,10 @@ public class MessPaymentVoucherServicesImpl implements MessPaymentVoucherService
 		messPaymentVoucherDao.deleteVoucher(voucher);
 	}
 
+	@Override
+	public double getTotalPaymentDone() {
+		// TODO Auto-generated method stub
+		return messPaymentVoucherDao.getTotalPaymentDone();
+	}
+
 }

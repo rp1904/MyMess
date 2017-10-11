@@ -46,4 +46,6 @@ public interface UserServices {
 	public List<AppMember> getMemberListForAppByMessIdPk(String messIdPk);
 
 	public User getSuperAdminDetails();
+	
+	public long getTotalActiveMemberCount();
 }

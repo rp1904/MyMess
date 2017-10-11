@@ -43,4 +43,6 @@ public interface UserDao {
 
 	public User getSuperAdminDetails();
 
+	public long getTotalActiveMemberCount();
+
 }
