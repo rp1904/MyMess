@@ -61,8 +61,8 @@
         <li class="header">Settings</li>
         <li><a href="${contextPath}/web/admin/admin-settings"><i class="fa fa-gears"></i> <span>Admin Settings</span></a></li>
         <li class="header">Help</li>
-        <li><a href="${contextPath}/web/privacy-policy"><i class="fa fa-edit"></i> <span>Privacy Policy</span></a></li>
-        <li><a href="${contextPath}/web/terms-and-conditions"><i class="fa fa-edit"></i> <span>Terms And Conditions</span></a></li>
+        <li><a href="${contextPath}/web/admin/privacy-policy"><i class="fa fa-edit"></i> <span>Privacy Policy</span></a></li>
+        <li><a href="${contextPath}/web/admin/terms-and-conditions"><i class="fa fa-edit"></i> <span>Terms And Conditions</span></a></li>
         
       </ul>
     </section>

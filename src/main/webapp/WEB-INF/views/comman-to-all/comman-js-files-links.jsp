@@ -243,9 +243,6 @@ var error = url.searchParams.get("error");
 
 	$(document).ready(function() {
 		
-
-		console.log("Context Path: " + ${contextPath});
-		
 		console.log("Redirect Error: " + error);
 		
 		$('body').addClass('hold-transition skin-blue sidebar-mini');
