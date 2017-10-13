@@ -326,7 +326,7 @@ public class AdminController {
 
 		ModelAndView modelAndView = new ModelAndView("super-admin/terms-and-conditions");
 		AdminSetting oldAdminSettings = adminSettingServices.getAdminSettings();
-		oldAdminSettings.setPrivacyPolicy(adminSettings.getTermsAndConditions());
+		oldAdminSettings.setTermsAndConditions(adminSettings.getTermsAndConditions());
 		adminSettingServices.updateAdminSettings(oldAdminSettings);
 		return modelAndView;
 	}
