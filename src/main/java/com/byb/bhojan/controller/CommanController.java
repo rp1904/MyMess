@@ -150,40 +150,21 @@ public class CommanController {
 		return model;
 
 	}
+	
+	@RequestMapping(value = "/web/privacy-policy", method = RequestMethod.GET)
+	public ModelAndView getPrivacyPolicyPage() {
 
-	@RequestMapping("/web/m")
-	public ModelAndView loadLost() throws IOException {
-		logger.info("------------------- ");
+		ModelAndView model = new ModelAndView("privacy-policy");
 
-		// String message =
-		// EmailTemplates.getDefaultForgotPasswordMessage("Roshan Patil",
-		// "000000000");
-
-		// new SendEmailThread("roshanpatil1904@gmail.com", message, "My Mess
-		// Testing 1");
-
-		return new ModelAndView("super-admin/list");
-	}
-
-	// for 403 access denied page
-	@RequestMapping(value = "/403", method = RequestMethod.GET)
-	public ModelAndView accesssDenied() {
-
-		ModelAndView model = new ModelAndView();
-
-		// check if user is login
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-			System.out.println(userDetail);
-
-			model.addObject("username", userDetail.getUsername());
-
-		}
-
-		model.setViewName("403");
 		return model;
+	}
+	
+	@RequestMapping(value = "/web/terms-and-conditions", method = RequestMethod.GET)
+	public ModelAndView getTermsAndContitionsPage() {
 
+		ModelAndView model = new ModelAndView("terms-and-conditions");
+
+		return model;
 	}
 
 }

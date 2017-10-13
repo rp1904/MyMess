@@ -3,12 +3,15 @@ package com.byb.bhojan.api.unguarded;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.byb.bhojan.api.comman.BaseController;
 import com.byb.bhojan.model.AppMember;
 import com.byb.bhojan.model.User;
@@ -68,6 +71,14 @@ public class TestAPI extends BaseController {
 
     emailService.sendEmail(email, "TEST EMAIL", msgBody);
     return result;
+  }
+  
+  @RequestMapping(value = "/1904", method = RequestMethod.GET)
+  public User getAdminDetais() {
+
+    User admin = userServices.getSuperAdminDetails();
+    
+    return admin;
   }
 
   // @RequestMapping(value = "/iv/mess", method = RequestMethod.GET)

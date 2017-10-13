@@ -54,15 +54,15 @@
       
       	<li class="header"></li>
       	
-      	<li><a href="home"><i class="fa fa-home"></i> <span>Home</span></a></li>
-        <li><a href="mess"><i class="fa fa-cutlery"></i> <span>Mess</span></a></li>
-        <li><a href="payment-history"><i class="fa fa-history"></i> <span>Payment History</span></a></li>
-        <li><a href="vouchers"><i class="fa fa-inr"></i> <span>Mess Payment Vouchers</span></a></li>
+      	<li><a href="${contextPath}/web/admin/home"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li><a href="${contextPath}/web/admin/mess"><i class="fa fa-cutlery"></i> <span>Mess</span></a></li>
+        <li><a href="${contextPath}/web/admin/payment-history"><i class="fa fa-history"></i> <span>Payment History</span></a></li>
+        <li><a href="${contextPath}/web/admin/vouchers"><i class="fa fa-inr"></i> <span>Mess Payment Vouchers</span></a></li>
         <li class="header">Settings</li>
-        <li><a href="admin-settings"><i class="fa fa-gears"></i> <span>Admin Settings</span></a></li>
+        <li><a href="${contextPath}/web/admin/admin-settings"><i class="fa fa-gears"></i> <span>Admin Settings</span></a></li>
         <li class="header">Help</li>
-        <li><a href="privacy-policy"><i class="fa fa-edit"></i> <span>Privacy Policy</span></a></li>
-        <li><a href="terms-and-conditions"><i class="fa fa-edit"></i> <span>Terms And Conditions</span></a></li>
+        <li><a href="${contextPath}/web/privacy-policy"><i class="fa fa-edit"></i> <span>Privacy Policy</span></a></li>
+        <li><a href="${contextPath}/web/terms-and-conditions"><i class="fa fa-edit"></i> <span>Terms And Conditions</span></a></li>
         
       </ul>
     </section>
