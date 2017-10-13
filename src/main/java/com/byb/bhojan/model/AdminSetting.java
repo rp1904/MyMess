@@ -86,7 +86,8 @@ public class AdminSetting implements Serializable {
 
 	@Override
 	public String toString() {
-		return "AdminSetting [adminSettingId=" + adminSettingId + ", freeTrialDays=" + freeTrialDays + ", notifyBeforeDays=" + notifyBeforeDays + ", createdUpdated=" + createdUpdated + "]";
+		return "AdminSetting [adminSettingId=" + adminSettingId + ", freeTrialDays=" + freeTrialDays + ", notifyBeforeDays=" + notifyBeforeDays + ", privacyPolicy=" + privacyPolicy + ", termsAndConditions=" + termsAndConditions + ", createdUpdated=" + createdUpdated
+				+ "]";
 	}
 
 }

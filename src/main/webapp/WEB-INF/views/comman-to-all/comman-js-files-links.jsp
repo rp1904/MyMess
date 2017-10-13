@@ -226,6 +226,8 @@
 	src="../../resources/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="../../resources/plugins/bootbox/bootbox-4.4.0.min.js"></script>
 
+<script src="../../resources/plugins/ckeditor/ckeditor.js"></script>
+
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- <script src="../../resources/dist/js/pages/dashboard.js"></script> -->
 <!-- AdminLTE for demo purposes -->
