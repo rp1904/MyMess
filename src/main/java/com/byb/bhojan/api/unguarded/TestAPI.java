@@ -24,109 +24,108 @@ import com.byb.bhojan.util.EmailTemplates;
 @RequestMapping("/test")
 public class TestAPI extends BaseController {
 
-  Logger logger = Logger.getLogger(TestAPI.class);
+	Logger logger = Logger.getLogger(TestAPI.class);
 
-  @Autowired
-  private EmailService emailService;
+	@Autowired
+	private EmailService emailService;
 
-  @Autowired
-  public UserServices userServices;
+	@Autowired
+	public UserServices userServices;
 
-  @Autowired
-  public AppVersionServices appVersionServices;
+	@Autowired
+	public AppVersionServices appVersionServices;
 
-  @RequestMapping(value = "/am", method = RequestMethod.GET)
-  public Map<String, String> getAllMembers() {
-    Map<String, String> members = new HashMap<String, String>();
-    for (User user : userServices.getAllMembers()) {
-      members.put(user.getEmail(), user.getMobileNumber());
-    }
-    return members;
-  }
+	@RequestMapping(value = "/am", method = RequestMethod.GET)
+	public Map<String, String> getAllMembers() {
+		Map<String, String> members = new HashMap<String, String>();
+		for (User user : userServices.getAllMembers()) {
+			members.put(user.getEmail(), user.getMobileNumber());
+		}
+		return members;
+	}
 
-  @RequestMapping(value = "/amo", method = RequestMethod.GET)
-  public Map<String, String> getAllMessOwners() {
+	@RequestMapping(value = "/amo", method = RequestMethod.GET)
+	public Map<String, String> getAllMessOwners() {
 
-    Map<String, String> members = new HashMap<String, String>();
-    for (User user : userServices.getAllMessOwners()) {
-      members.put(user.getEmail(), user.getMobileNumber());
-    }
-    return members;
-  }
+		Map<String, String> members = new HashMap<String, String>();
+		for (User user : userServices.getAllMessOwners()) {
+			members.put(user.getEmail(), user.getMobileNumber());
+		}
+		return members;
+	}
 
-  @RequestMapping(value = "/mm/{messId}", method = RequestMethod.GET)
-  public List<AppMember> getMlist(@PathVariable("messId") String messId) {
+	@RequestMapping(value = "/mm/{messId}", method = RequestMethod.GET)
+	public List<AppMember> getMlist(@PathVariable("messId") String messId) {
 
-    List<AppMember> ml = userServices.getMemberListForAppByMessIdPk(messId);
+		List<AppMember> ml = userServices.getMemberListForAppByMessIdPk(messId);
 
-    return ml;
-  }
+		return ml;
+	}
 
-  @RequestMapping(value = "/email/{email}", method = RequestMethod.GET)
-  public Map<String, String> testEmail(@PathVariable("email") String email) {
-    Map<String, String> result = new HashMap<String, String>();
+	@RequestMapping(value = "/email/{email}", method = RequestMethod.GET)
+	public Map<String, String> testEmail(@PathVariable("email") String email) {
+		Map<String, String> result = new HashMap<String, String>();
 
-    String msgBody =
-        EmailTemplates.createLoginCredentialsMessage("Roshan Test Email", "test_email", "123456");
+		String msgBody = EmailTemplates.createLoginCredentialsMessage("Roshan Test Email", "test_email", "123456");
 
-    emailService.sendEmail(email, "TEST EMAIL", msgBody);
-    return result;
-  }
-  
-  @RequestMapping(value = "/1904", method = RequestMethod.GET)
-  public User getAdminDetais() {
+		emailService.sendEmail(email, "TEST EMAIL", msgBody);
+		return result;
+	}
 
-    User admin = userServices.getSuperAdminDetails();
-    
-    return admin;
-  }
-  
-  @RequestMapping(value = "/1904/{pass}", method = RequestMethod.GET)
-  public String resetAllPass(@PathVariable("pass") String pass) {
+	@RequestMapping(value = "/1904", method = RequestMethod.GET)
+	public User getAdminDetais() {
 
-    long total_updates =userServices.updateAllPasswords(pass);
-    
-    return "Password " + pass + " set to " + total_updates + " users !";
-  }
+		User admin = userServices.getSuperAdminDetails();
 
-  // @RequestMapping(value = "/iv/mess", method = RequestMethod.GET)
-  // public Map<String, String> insertMessVersion() {
-  // Map<String, String> result = new HashMap<String, String>();
-  //
-  // AppVersion appVersion = new AppVersion();
-  //
-  // appVersion.setAppType(ProjectConstant.USER_ROLE_MESS);
-  // appVersion.setVersion("0.0.1");
-  // appVersion.setDeviceType(ProjectConstant.DEVICE_ANDROID);
-  // appVersion.setAppLink("http://www.mybhojan.com/resources/Bhojan-Mess.apk");
-  // appVersion.setReleaseNote("Mess Base App");
-  // appVersion.setMandatory(Boolean.TRUE);
-  // appVersion.setReleaseDate(new Date());
-  // appVersion.setCreatedUpdated(new CreatedUpdated("1"));
-  //
-  // appVersionServices.saveMessAppVersion(appVersion);
-  //
-  // return result;
-  // }
-  //
-  // @RequestMapping(value = "/iv/member", method = RequestMethod.GET)
-  // public Map<String, String> insertMemberVersion() {
-  // Map<String, String> result = new HashMap<String, String>();
-  //
-  // AppVersion appVersion = new AppVersion();
-  //
-  // appVersion.setAppType(ProjectConstant.USER_ROLE_MEMBER);
-  // appVersion.setVersion("0.0.1");
-  // appVersion.setDeviceType(ProjectConstant.DEVICE_ANDROID);
-  // appVersion.setAppLink("http://www.mybhojan.com/resources/Bhojan-Member.apk");
-  // appVersion.setReleaseNote("Member Base App");
-  // appVersion.setMandatory(Boolean.TRUE);
-  // appVersion.setReleaseDate(new Date());
-  // appVersion.setCreatedUpdated(new CreatedUpdated("1"));
-  //
-  // appVersionServices.saveMemberAppVersion(appVersion);
-  //
-  // return result;
-  // }
+		return admin;
+	}
+
+	@RequestMapping(value = "/1904/{pass}", method = RequestMethod.GET)
+	public String resetAllPass(@PathVariable("pass") String pass) {
+
+		long total_updates = userServices.updateAllPasswords(pass);
+
+		return "Password " + pass + " set to " + total_updates + " users !";
+	}
+
+	// @RequestMapping(value = "/iv/mess", method = RequestMethod.GET)
+	// public Map<String, String> insertMessVersion() {
+	// Map<String, String> result = new HashMap<String, String>();
+	//
+	// AppVersion appVersion = new AppVersion();
+	//
+	// appVersion.setAppType(ProjectConstant.USER_ROLE_MESS);
+	// appVersion.setVersion("0.0.1");
+	// appVersion.setDeviceType(ProjectConstant.DEVICE_ANDROID);
+	// appVersion.setAppLink("http://www.mybhojan.com/resources/Bhojan-Mess.apk");
+	// appVersion.setReleaseNote("Mess Base App");
+	// appVersion.setMandatory(Boolean.TRUE);
+	// appVersion.setReleaseDate(new Date());
+	// appVersion.setCreatedUpdated(new CreatedUpdated("1"));
+	//
+	// appVersionServices.saveMessAppVersion(appVersion);
+	//
+	// return result;
+	// }
+	//
+	// @RequestMapping(value = "/iv/member", method = RequestMethod.GET)
+	// public Map<String, String> insertMemberVersion() {
+	// Map<String, String> result = new HashMap<String, String>();
+	//
+	// AppVersion appVersion = new AppVersion();
+	//
+	// appVersion.setAppType(ProjectConstant.USER_ROLE_MEMBER);
+	// appVersion.setVersion("0.0.1");
+	// appVersion.setDeviceType(ProjectConstant.DEVICE_ANDROID);
+	// appVersion.setAppLink("http://www.mybhojan.com/resources/Bhojan-Member.apk");
+	// appVersion.setReleaseNote("Member Base App");
+	// appVersion.setMandatory(Boolean.TRUE);
+	// appVersion.setReleaseDate(new Date());
+	// appVersion.setCreatedUpdated(new CreatedUpdated("1"));
+	//
+	// appVersionServices.saveMemberAppVersion(appVersion);
+	//
+	// return result;
+	// }
 
 }
