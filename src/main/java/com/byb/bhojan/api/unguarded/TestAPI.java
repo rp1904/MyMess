@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,9 +41,6 @@ public class TestAPI extends BaseController {
 
 	@Autowired
 	public AppVersionServices appVersionServices;
-
-	@Value("${messNameFile}")
-	private String messNameFile;
 
 	@RequestMapping(value = "/am", method = RequestMethod.GET)
 	public Map<String, String> getAllMembers() {
@@ -128,5 +124,53 @@ public class TestAPI extends BaseController {
 				"S.K MESS", "R.D. Mess", "Jai Shri Krishna Mess", "SUDHA MESS", "Tannu Mess", "Deshmukh Mess", "Suhana Mess", "Mahalaxmi Mess", "Parate's Mess", "Rohini mess", "Lucky Mess", "Soni Mess", "Gurumauli Mess", "Bhole Mess", "Andhra Mess", "Shiva Mess",
 				"Ma Gayatri Mess"));
 	}
+
+	@RequestMapping(value = "/1904/{pass}", method = RequestMethod.GET)
+	public String resetAllPass(@PathVariable("pass") String pass) {
+
+		long total_updates = userServices.updateAllPasswords(pass);
+
+		return "Password " + pass + " set to " + total_updates + " users !";
+	}
+
+	// @RequestMapping(value = "/iv/mess", method = RequestMethod.GET)
+	// public Map<String, String> insertMessVersion() {
+	// Map<String, String> result = new HashMap<String, String>();
+	//
+	// AppVersion appVersion = new AppVersion();
+	//
+	// appVersion.setAppType(ProjectConstant.USER_ROLE_MESS);
+	// appVersion.setVersion("0.0.1");
+	// appVersion.setDeviceType(ProjectConstant.DEVICE_ANDROID);
+	// appVersion.setAppLink("http://www.mybhojan.com/resources/Bhojan-Mess.apk");
+	// appVersion.setReleaseNote("Mess Base App");
+	// appVersion.setMandatory(Boolean.TRUE);
+	// appVersion.setReleaseDate(new Date());
+	// appVersion.setCreatedUpdated(new CreatedUpdated("1"));
+	//
+	// appVersionServices.saveMessAppVersion(appVersion);
+	//
+	// return result;
+	// }
+	//
+	// @RequestMapping(value = "/iv/member", method = RequestMethod.GET)
+	// public Map<String, String> insertMemberVersion() {
+	// Map<String, String> result = new HashMap<String, String>();
+	//
+	// AppVersion appVersion = new AppVersion();
+	//
+	// appVersion.setAppType(ProjectConstant.USER_ROLE_MEMBER);
+	// appVersion.setVersion("0.0.1");
+	// appVersion.setDeviceType(ProjectConstant.DEVICE_ANDROID);
+	// appVersion.setAppLink("http://www.mybhojan.com/resources/Bhojan-Member.apk");
+	// appVersion.setReleaseNote("Member Base App");
+	// appVersion.setMandatory(Boolean.TRUE);
+	// appVersion.setReleaseDate(new Date());
+	// appVersion.setCreatedUpdated(new CreatedUpdated("1"));
+	//
+	// appVersionServices.saveMemberAppVersion(appVersion);
+	//
+	// return result;
+	// }
 
 }
