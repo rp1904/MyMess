@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -16,13 +18,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.byb.bhojan.model.User;
-import com.byb.bhojan.model.UserProfile;
-import com.byb.bhojan.util.RandomStringGenerator;
-
 public class General {
 
-	private static final String FILE_NAME = "G:\\Roshan\\Projects\\My mess docs\\Members.xlsx";
+	private static final String FILE_NAME = "G:\\Roshan\\Projects\\My mess docs\\NewMesses.xlsx";
 
 	public static void main(String[] args) {
 
@@ -43,7 +41,19 @@ public class General {
 		//		}
 		//
 		//		System.out.println(getNewMobileNumber(nos, 500));
-
+		List<String> names = new ArrayList<String>(Arrays.asList("Vithu Mauli Mess", "Vahini's Mess", "Andhra Mess", "Kerala Mess Service", "Badshahi Restaurant", "Satvik Mess", "Aware Maratha Khanawal", "MONTHLY MESS", "Mamta Mess", "RAI MONTHLY MESS", "Dining Hall",
+				"Murlidhar Mess", "sharvari caterers", "Mahalaxmi Mess", "Kulkarni Mess", "Neelam Restaurant", "Andhra Mess", "trupti mess", "New Milan Khanawala", "Annapurna Pure", "Rasoi Mess", "Kerala Fast Food", "Anuradha Mess", "Punjabi Mess",
+				"Reddys Andhra Meals", "Zakas Food", "Shri Murlidhar Mess", "Krushnai Night Kitchen", "Ruchira", "Vasant Utsav Hotel", "Monthly Mess", "Annapurna Mess", "Bedekar Mess", "Velhal Mess", "Sai Mess", "Vhatkar Mess", "Sai Mess", "HARDIK MESS",
+				"Mugdar Mess", "Mama Mami Mess", "Mayur Sai Mess", "Sujit Rohit Mess", "Avanti Food Point", "Atharv Mess", "Tulasi Mess", "Naik Mess", "Shree Gurudev Mess", "My Tiffin Service", "Samarth Mess", "Delhi Mess", "Mahaveer Mess", "Charaka Mess",
+				"Manisha Mess", "Lakshmi Mess", "Annapurneshwari Thali", "Padmashree Mess", "Hotel Shreya", "Laxmi Mess", "Anand Mess", "Sai Mess", "Delhi Mess", "Vijay Mess", "Shree Jagdamba Mess", "Guru Krupa Mess", "Sai Mess", "Annapurna Mess", "Sangam Mess",
+				"Rahul Mess", "Kanchan Mess", "Chowgule Mess", "Samadhan Mess", "Mangal Mess", "Laxmi Mess", "OM Mess", "Annapurna Mess", "Deepa Mess", "Suruchi Mess", "Atithi Mess", "Sai Mess", "Patil`s Mess", "Shree Gajanan Mess", "Shree Banshankari Mess",
+				"shree basaveshwar mess", "Shri Renuka Mess", "Majukar Mess", "Sai Bhojnalay Mess", "Hotel Shri Laxmi", "Annapurneshwari Thali Restaurant", "Renu Mess", "South Indian Mess", "Neelam Mess", "Anesha Mess", "Rajkamal Mess", "LAXMI RESTAURANT",
+				"Royal Mess", "Paliwal Mess", "Bansod Mess", "PRANAY MESS CENTER", "Jagdip Mess Bhojnalay", "Maa Durga Mess", "Manjari Panhalkar Mess", "Nikhath Mess Center", "Mega Mess", "Suder Mess", "Shree Mess", "Shree Sai Samarth Mess", "Anshul Mess",
+				"Kathole Bro's Mess", "Chetna Mess", "S.K MESS", "R.D. Mess", "Jai Shri Krishna Mess", "SUDHA MESS", "Tannu Mess", "Deshmukh Mess", "Suhana Mess", "Mahalaxmi Mess", "Parate's Mess", "Rohini mess", "Lucky Mess", "Soni Mess", "Gurumauli Mess",
+				"Bhole Mess", "Andhra Mess", "Shiva Mess", "Ma Gayatri Mess"));
+		for (String s : names) {
+			System.out.println("-->" + s);
+		}
 		readExcelFile();
 
 	}
@@ -86,42 +96,21 @@ public class General {
 			Workbook workbook = new XSSFWorkbook(excelFile);
 			Sheet datatypeSheet = workbook.getSheetAt(0);
 			Iterator<Row> iterator = datatypeSheet.iterator();
-			int j = 0;
-			LinkedList<User> messOwners = new LinkedList<User>();
+			int i = 0;
+			StringBuilder names = new StringBuilder();
 			while (iterator.hasNext()) {
-
-				System.out.println(j++);
-
-				User messOwner = new User();
-				UserProfile messOwnerProfile = new UserProfile();
-
 				Row currentRow = iterator.next();
 				Iterator<Cell> cellIterator = currentRow.iterator();
-				int i = 0;
 				while (cellIterator.hasNext()) {
-
 					Cell currentCell = cellIterator.next();
-
-					if (i == 0) {
-						messOwnerProfile.setFirstName(currentCell.toString());
-					}
-
-					if (i == 1) {
-						messOwnerProfile.setLastName(currentCell.toString());
-					}
-					i++;
+					currentCell.setCellType(Cell.CELL_TYPE_STRING);
+					System.out.println(currentCell.toString());
+					names.append("\"").append(currentCell.toString()).append("\",");
 				}
-
-				messOwner.setEmail(RandomStringGenerator.getNewEmail(messOwnerProfile));
-				messOwner.setMobileNumber(RandomStringGenerator.getNewMobileNumber());
-				messOwner.setUserProfile(messOwnerProfile);
-
-				messOwners.add(messOwner);
+				i++;
 			}
 
-			messOwners.removeLast();
-
-			System.out.println(messOwners);
+			System.out.println(names.toString());
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
