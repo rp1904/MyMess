@@ -73,6 +73,7 @@ $(document).ready(function() {
     var voucherTable = $('#voucherTable').DataTable({
       "processing": true,
       "ajax": "vouchers/list",
+      "order": [[ 4, "asc" ]],
       "columns": [
                   { "data": "messPaymentVoucherId", "visible": false },
                   { "data": null, "orderable": false, "width": "10%"},

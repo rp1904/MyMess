@@ -75,7 +75,7 @@ public class Registration extends BaseController {
 	}
 
 	@RequestMapping(value = "/mess-registration", method = RequestMethod.POST)
-	public ResponseEntity<?> messMember(@RequestBody Mess mess, BindingResult bindingResult) {
+	public ResponseEntity<?> registerMess(@RequestBody Mess mess, BindingResult bindingResult) {
 
 		if (messServices.isMessNameAlreadyRegistered(mess.getMessName())) {
 			return sendErrorResponse("Mess Name Already Registered With Us !");
@@ -96,12 +96,8 @@ public class Registration extends BaseController {
 		mess.getMessOwner().setCreatedUpdated(createdUpdated);
 
 		AdminSetting adminSetting = adminSettingServices.getAdminSettings();
-
 		mess.setDaysRemaining(adminSetting.getFreeTrialDays());
-
 		messServices.saveMess(mess);
-
-		logger.info("Mess :" + mess);
 
 		return sendSuccessResponse("Registration Successful !");
 	}

@@ -97,18 +97,18 @@ public class TestAPI extends BaseController {
 		Collections.shuffle(names);
 		int updatedCount = 0;
 
-		for (int i = 0; i < messes.size(); i++) {
-			try {
-				Mess m = messes.get(i);
-				m.setMessName(names.get(i));
-				messServices.updateMess(m);
-				System.out.println(names.get(i));
-				updatedCount++;
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-			}
-		}
+		//		for (int i = 0; i < messes.size(); i++) {
+		//			try {
+		//				Mess m = messes.get(i);
+		//				m.setMessName(names.get(i));
+		//				messServices.updateMess(m);
+		//				System.out.println(names.get(i));
+		//				updatedCount++;
+		//			} catch (Exception e) {
+		//				// TODO: handle exception
+		//				e.printStackTrace();
+		//			}
+		//		}
 		return updatedCount;
 	}
 

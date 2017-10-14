@@ -68,16 +68,11 @@
 <!-- ./wrapper -->
 <script>
 $(document).ready(function() {
-// 	if(error === "invalid_id") {		
-// 		$("#invalidid-error-alert").fadeTo(2000, 500).slideUp(500, function(){
-// 		    $("#invalidid-error-alert").slideUp(2000);
-// 		});
-// 	}
-
 	
     var messTable = $('#example').DataTable({
       "processing": true,
       "ajax": "mess/list",
+      "order": [[ 4, "asc" ]],
       "columns": [
                   { "data": "messIdPk", "visible": false },
                   { "data": null, "orderable": false, "width": "10%"},

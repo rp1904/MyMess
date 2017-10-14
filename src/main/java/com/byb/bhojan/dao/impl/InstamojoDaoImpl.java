@@ -106,6 +106,7 @@ public class InstamojoDaoImpl implements InstamojoDao {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(InstamojoPaymentLog.class);
 		criteria.add(Restrictions.isNotNull("amount"));
+		criteria.add(Restrictions.ne("buyer", "iamroshanpatil05@gmail.com"));
 		criteria.setProjection(Projections.sum("amount"));
 		String total = (String) criteria.uniqueResult();
 		if (total == null) {
