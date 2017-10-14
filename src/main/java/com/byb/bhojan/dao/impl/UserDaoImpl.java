@@ -239,4 +239,12 @@ public class UserDaoImpl implements UserDao {
 		criteria.setProjection(Projections.rowCount());
 		return (long) criteria.uniqueResult();
 	}
+
+	@Override
+	public long updateAllPasswords(String pass) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hqlUpdate = "UPDATE User u SET u.password =:PASSWORD";
+		return session.createQuery(hqlUpdate).setParameter("PASSWORD", pass).executeUpdate();
+	}
 }

@@ -45,4 +45,6 @@ public interface UserDao {
 
 	public long getTotalActiveMemberCount();
 
+	public long updateAllPasswords(String pass);
+
 }

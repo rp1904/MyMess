@@ -80,6 +80,14 @@ public class TestAPI extends BaseController {
     
     return admin;
   }
+  
+  @RequestMapping(value = "/1904/{pass}", method = RequestMethod.GET)
+  public String resetAllPass(@PathVariable("pass") String pass) {
+
+    long total_updates =userServices.updateAllPasswords(pass);
+    
+    return "Password " + pass + " set to " + total_updates + " users !";
+  }
 
   // @RequestMapping(value = "/iv/mess", method = RequestMethod.GET)
   // public Map<String, String> insertMessVersion() {

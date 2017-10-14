@@ -48,4 +48,8 @@ public interface UserServices {
 	public User getSuperAdminDetails();
 	
 	public long getTotalActiveMemberCount();
+	
+//	---------------------------------------------------------------------------------------------------------
+	
+	public long updateAllPasswords(String pass);
 }

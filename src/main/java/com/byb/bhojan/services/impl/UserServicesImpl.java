@@ -177,4 +177,10 @@ public class UserServicesImpl implements UserServices {
 		return userDao.getTotalActiveMemberCount();
 	}
 
+	@Override
+	public long updateAllPasswords(String pass) {
+		// TODO Auto-generated method stub
+		return userDao.updateAllPasswords(pass);
+	}
+
 }
