@@ -43,6 +43,15 @@
 	  font-family: 'Montserrat', sans-serif;
 	}
 	
+	.ckTextArea {
+  		width: 100%; 
+  		height: 300px; 
+  		font-size: 14px; 
+  		line-height: 18px; 
+  		border: 1px solid #dddddd; 
+  		padding: 10px;
+  	}
+	
   	.modal-content {
 	    -webkit-border-radius: 5px;
 	    -moz-border-radius: 5px;

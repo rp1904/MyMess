@@ -26,14 +26,15 @@
     <section class="content">
      <div class="row">
      	 <div class="box">
-            <form:form id="privacy-policy-form" class="form-horizontal" method="post" action="#" modelAttribute="adminSettings">
+            <form id="privacy-policy-form" class="form-horizontal" method="post" action="privacy-policy">
 	            <div class="box-body pad">
-	                <form:textarea cssClass="textarea" path="privacyPolicy" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></form:textarea>
+	                <textarea class="ckTextArea" id="privacyPolicy" name="privacyPolicy"></textarea>
 	            </div>
 	            <div class="box-footer">
 	               <button type="submit" class="btn btn-success">Update</button>
 	            </div>
-            </form:form>
+            </form>
+            <input type="hidden" id="hiddenPrivacyPolicy" value="${pp}"/>
           </div>
      </div>
     </section>
@@ -45,9 +46,13 @@
  
 </div>
 <!-- ./wrapper -->
+
 <script>
 $(document).ready(function() {
-	 $(".textarea").wysihtml5();
+// 	 $(".textarea").wysihtml5();
+	CKEDITOR.replace('privacyPolicy');
+	var data = $("#hiddenPrivacyPolicy").val();
+	CKEDITOR.instances['privacyPolicy'].setData(data);
 });
 </script>
 

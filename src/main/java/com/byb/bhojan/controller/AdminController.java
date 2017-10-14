@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.byb.bhojan.model.AdminSetting;
 import com.byb.bhojan.model.CreatedUpdated;
@@ -255,7 +254,7 @@ public class AdminController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/vouchers-edit", method = RequestMethod.POST)
-	public @ResponseBody JSONObject updateVoucher(@ModelAttribute("voucher") MessPaymentVoucher voucher, final RedirectAttributes ra) {
+	public @ResponseBody JSONObject updateVoucher(@ModelAttribute("voucher") MessPaymentVoucher voucher) {
 
 		MessPaymentVoucher oldVoucher = messPaymentVoucherServices.getVoucherById(voucher.getMessPaymentVoucherId());
 
@@ -294,39 +293,41 @@ public class AdminController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/privacy-policy", method = RequestMethod.GET)
-	public ModelAndView getPrivacyPolicyPage(@ModelAttribute("adminSettings") AdminSetting adminSettings) {
+	public ModelAndView getPrivacyPolicyPage() {
 
 		ModelAndView modelAndView = new ModelAndView("super-admin/privacy-policy");
-		adminSettings = adminSettingServices.getAdminSettings();
+		AdminSetting adminSettings = adminSettingServices.getAdminSettings();
+		modelAndView.addObject("pp", adminSettings.getPrivacyPolicy());
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "/terms-and-conditions", method = RequestMethod.GET)
-	public ModelAndView getTermsAndContitionsPage(@ModelAttribute("adminSettings") AdminSetting adminSettings) {
+	public ModelAndView getTermsAndContitionsPage() {
 
 		ModelAndView modelAndView = new ModelAndView("super-admin/terms-and-conditions");
-		adminSettings = adminSettingServices.getAdminSettings();
+		AdminSetting adminSettings = adminSettingServices.getAdminSettings();
+		modelAndView.addObject("tc", adminSettings.getTermsAndConditions());
 		return modelAndView;
 	}
-	
-	@RequestMapping(value = "/privacy-policy", method = RequestMethod.POST)
-	public ModelAndView updatePrivacyPolicyPage(@ModelAttribute("adminSettings") AdminSetting adminSettings) {
 
-		ModelAndView modelAndView = new ModelAndView("super-admin/privacy-policy");
+	@RequestMapping(value = "/privacy-policy", method = RequestMethod.POST)
+	public ModelAndView updatePrivacyPolicyPage(@RequestParam("privacyPolicy") String privacyPolicy) {
+
+		ModelAndView modelAndView = new ModelAndView("redirect:privacy-policy");
 		AdminSetting oldAdminSettings = adminSettingServices.getAdminSettings();
-		oldAdminSettings.setPrivacyPolicy(adminSettings.getPrivacyPolicy());
+		oldAdminSettings.setPrivacyPolicy(privacyPolicy);
 		adminSettingServices.updateAdminSettings(oldAdminSettings);
 		return modelAndView;
 	}
-	
-	@RequestMapping(value = "/terms-and-conditions", method = RequestMethod.POST)
-	public ModelAndView updateTermsAndContitionsPage(@ModelAttribute("adminSettings") AdminSetting adminSettings) {
 
-		ModelAndView modelAndView = new ModelAndView("super-admin/terms-and-conditions");
+	@RequestMapping(value = "/terms-and-conditions", method = RequestMethod.POST)
+	public ModelAndView updateTermsAndContitionsPage(@RequestParam("termsAndConditions") String termsAndConditions) {
+
+		ModelAndView modelAndView = new ModelAndView("redirect:terms-and-conditions");
 		AdminSetting oldAdminSettings = adminSettingServices.getAdminSettings();
-		oldAdminSettings.setTermsAndConditions(adminSettings.getTermsAndConditions());
+		oldAdminSettings.setTermsAndConditions(termsAndConditions);
 		adminSettingServices.updateAdminSettings(oldAdminSettings);
 		return modelAndView;
 	}

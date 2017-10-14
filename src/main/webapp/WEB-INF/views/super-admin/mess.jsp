@@ -91,9 +91,9 @@ $(document).ready(function() {
            "targets": -1,
            "data": null,
            "className": 'text-center',
-           "defaultContent": "<i id='btn-1' data-toggle='tooltip' title='Details' role='button' class='fa fa-info-circle gi-1_3x'></i>" + 
-        	                 "<i id='btn-2' data-toggle='tooltip' title='Payouts' role='button' class='fa fa-rupee gi-1_3x'></i>" +
-        	                 "<i id='btn-3' data-toggle='tooltip' title='Members' role='button' class='fa fa-group gi-1_3x'></i>"
+           "defaultContent": "<i id='btn-3' data-toggle='tooltip' title='Members' role='button' class='fa fa-group gi-1_3x'></i>"
+//         	   "<i id='btn-1' data-toggle='tooltip' title='Details' role='button' class='fa fa-info-circle gi-1_3x'></i>" + 
+//                "<i id='btn-2' data-toggle='tooltip' title='Payouts' role='button' class='fa fa-rupee gi-1_3x'></i>" +
        } ]
     });
     
