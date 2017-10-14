@@ -10,6 +10,7 @@ import com.byb.bhojan.dao.MessDao;
 import com.byb.bhojan.model.Mess;
 import com.byb.bhojan.services.MessServices;
 import com.byb.bhojan.util.EmailTemplates;
+import com.byb.bhojan.util.ProjectConstant;
 import com.byb.bhojan.util.RandomStringGenerator;
 
 @Service
@@ -19,8 +20,8 @@ public class MessServicesImpl implements MessServices {
 	@Autowired
 	private MessDao messDao;
 
-	//	@Autowired
-	//	private EmailService emailService;
+	@Autowired
+	private EmailService emailService;
 
 	@Override
 	public Mess getActiveMessByMessId(String messId) {
@@ -38,7 +39,7 @@ public class MessServicesImpl implements MessServices {
 
 		String msgBody = EmailTemplates.createLoginCredentialsMessage(mess.getMessName(), mess.getMessOwner().getEmail(), pass);
 
-		//		emailService.sendEmail(mess.getMessOwner().getEmail(), ProjectConstant.WELCOME_EMAIL_SUB, msgBody);
+		emailService.sendEmail(mess.getMessOwner().getEmail(), ProjectConstant.WELCOME_EMAIL_SUB, msgBody);
 
 		return messDao.saveMess(mess);
 	}
