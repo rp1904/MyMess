@@ -177,7 +177,7 @@ public class AdminController {
 
 			innerObj.put("amountReceived", amountReceived);
 			innerObj.put("status", paymentLog.getStatus());
-			innerObj.put("purchasedDateTime", DateUtils.getFormatedDate(paymentLog.getCreatedUpdated().getUpdatedAt(), ProjectConstant.DF_dd_MMM_yyyy_hh_mm_a));
+			innerObj.put("purchasedDateTime", DateUtils.getFormatedDate(paymentLog.getCreatedUpdated().getUpdatedAt(), ProjectConstant.DF_dd_MMM_yyyy));
 
 			result.add(innerObj);
 		}

@@ -1,39 +1,35 @@
 package com.byb.bhojan;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.byb.bhojan.model.CreatedUpdated;
-import com.byb.bhojan.model.MealCoupen;
+import com.byb.bhojan.model.InstamojoPaymentLog;
 import com.byb.bhojan.model.Mess;
-import com.byb.bhojan.model.User;
-import com.byb.bhojan.model.UserProfile;
-import com.byb.bhojan.services.MealCoupenServices;
+import com.byb.bhojan.model.MessPaymentVoucher;
+import com.byb.bhojan.services.InstamojoServices;
+import com.byb.bhojan.services.MessPaymentVoucherServices;
 import com.byb.bhojan.services.MessServices;
 import com.byb.bhojan.services.UserServices;
-import com.byb.bhojan.util.ProjectConstant;
 import com.byb.bhojan.util.RandomStringGenerator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/mvc-dispatcher-servlet.xml", "classpath:/spring-email.xml" })
 @ComponentScan(basePackages = { "com.byb.bhojan" })
+@PropertySource("classpath:application.properties ")
 @WebAppConfiguration
 public class MessReg {
 
@@ -44,95 +40,82 @@ public class MessReg {
 	public MessServices messServices;
 
 	@Autowired
-	private MealCoupenServices mealCoupenServices;
+	private InstamojoServices instamojoServices;
 
-	private static final String FILE_NAME = "G:\\Roshan\\Projects\\My mess docs\\Messes.xlsx";
+	@Autowired
+	private MessPaymentVoucherServices messPaymentVoucherServices;
 
 	@Test
 	public void test() {
 
-		try {
+		List<Mess> messes = messServices.getAllMessess();
 
-			FileInputStream excelFile = new FileInputStream(new File(FILE_NAME));
-			Workbook workbook = new XSSFWorkbook(excelFile);
-			Sheet datatypeSheet = workbook.getSheetAt(0);
-			Iterator<Row> iterator = datatypeSheet.iterator();
-			int j = 0;
-			LinkedList<Mess> messes = new LinkedList<Mess>();
-			while (iterator.hasNext()) {
+		System.out.println("Total: " + messes.size());
 
-				Mess mess = new Mess();
-				User messOwner = new User();
-				UserProfile messOwnerProfile = new UserProfile();
+		for (int i = 1; i < messes.size(); i++) {
 
-				Row currentRow = iterator.next();
-				Iterator<Cell> cellIterator = currentRow.iterator();
-				int i = 0;
-				while (cellIterator.hasNext()) {
+			MessPaymentVoucher voucher = messPaymentVoucherServices.getVoucherById(getVoucherNo());
 
-					Cell currentCell = cellIterator.next();
+			//			InstamojoPaymentRequest instamojoPaymentRequest = new InstamojoPaymentRequest();
+			//
+			//			instamojoPaymentRequest.setBuyer_name(messes.get(i).getMessName());
+			//			instamojoPaymentRequest.setEmail(messes.get(i).getMessOwner().getEmail());
+			//			instamojoPaymentRequest.setPhone(messes.get(i).getMessOwner().getMobileNumber());
+			//
+			//			InstamojoPaymentReqResponse response = instamojoServices.placePaymentRequest(instamojoPaymentRequest, messes.get(i).getMessIdPk(), voucher);
 
-					System.out.println(currentCell.toString());
+			InstamojoPaymentLog instamojoPaymentLog = new InstamojoPaymentLog();
+			instamojoPaymentLog.setMess(messes.get(i));
+			//			instamojoPaymentLog.setPayment_request_id(response.getPayment_request().getId());
+			instamojoPaymentLog.setVoucherName(voucher.getName());
+			instamojoPaymentLog.setVoucherAmount(voucher.getAmount());
+			instamojoPaymentLog.setVoucherDays(voucher.getDays());
+			instamojoPaymentLog.setVoucherDiscount(voucher.getDiscount());
+			instamojoPaymentLog.setCreatedUpdated(new CreatedUpdated(getDate(), messes.get(i).getMessIdPk()));
+			instamojoPaymentLog.setPayment_id("MOJO" + RandomStringGenerator.getRandomString(16));
+			instamojoPaymentLog.setAmount(voucher.getAmount() + "");
+			instamojoPaymentLog.setBuyer(messes.get(i).getMessOwner().getEmail());
+			instamojoPaymentLog.setBuyer_name(messes.get(i).getMessName());
+			instamojoPaymentLog.setBuyer_phone(messes.get(i).getMessOwner().getMobileNumber());
+			instamojoPaymentLog.setCurrency("INR");
+			double fees = (voucher.getAmount() * 0.02) + 3.09;
+			instamojoPaymentLog.setFees(fees + "");
+			instamojoPaymentLog.setLongurl("https://instamojo.com/@iamroshanpatil05/d2a5206cf2264938a2716902ac47d7e7");
+			instamojoPaymentLog.setStatus("Credit");
 
-					if (i == 0) {
-						messOwnerProfile.setFirstName(currentCell.toString());
-					}
+			instamojoServices.saveInstamojoPaymentLog(instamojoPaymentLog);
 
-					if (i == 1) {
-						messOwnerProfile.setLastName(currentCell.toString());
-					}
-
-					if (i == 2) {
-						mess.setMessName(currentCell.toString());
-					}
-					i++;
-				}
-
-				messOwner.setEmail(RandomStringGenerator.getNewEmail(messOwnerProfile));
-				messOwner.setMobileNumber(RandomStringGenerator.getNewMobileNumber());
-				messOwner.setUserProfile(messOwnerProfile);
-				mess.setMessOwner(messOwner);
-
-				messes.add(mess);
-			}
-
-			//			messes.removeLast();
-
-			for (Mess mess : messes) {
-
-				mess.setMessId(RandomStringGenerator.getMessCode(mess.getMessName()));
-				mess.getMessOwner().setUserRole(userServices.getUserRoleById(ProjectConstant.USER_ROLE_ID_MESS));
-				CreatedUpdated createdUpdated = new CreatedUpdated(ProjectConstant.CREATEDBY_SELF);
-				mess.setCreatedUpdated(createdUpdated);
-				mess.getMessOwner().setCreatedUpdated(createdUpdated);
-				mess.setDaysRemaining(15);
-				messServices.saveMess(mess);
-
-				MealCoupen mealCoupen = new MealCoupen();
-				mealCoupen.setAmount(1200);
-				mealCoupen.setNoOfMeals(30);
-				mealCoupen.setValidity(35);
-				mealCoupen.setMess(mess);
-				mealCoupen.setCreatedUpdated(new CreatedUpdated(mess.getMessOwner().getUserIdPk()));
-				mealCoupenServices.saveMealCoupen(mealCoupen);
-
-				MealCoupen mealCoupen2 = new MealCoupen();
-				mealCoupen2.setAmount(2000);
-				mealCoupen2.setNoOfMeals(60);
-				mealCoupen2.setValidity(65);
-				mealCoupen2.setMess(mess);
-				mealCoupen2.setCreatedUpdated(new CreatedUpdated(mess.getMessOwner().getUserIdPk()));
-				mealCoupenServices.saveMealCoupen(mealCoupen2);
-			}
-
-			System.out.println("Total Mess Inserted: " + messes.size());
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(instamojoPaymentLog);
+			System.out.println(i);
 		}
 
+	}
+
+	public Date getDate() {
+		try {
+			String inputString = "01-10-2017";
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = dateFormat.parse(inputString);
+			Calendar c = Calendar.getInstance();
+			c.setTime(date);
+			Random r = new Random();
+			int Low = 1;
+			int High = 14;
+			c.add(Calendar.DATE, r.nextInt(High - Low) + Low);
+			return c.getTime();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public String getVoucherNo() {
+		Random r = new Random();
+		int min = 2;
+		int max = 4;
+
+		String str = String.valueOf(r.nextInt((max - min) + 1) + min);
+		return str;
 	}
 
 }

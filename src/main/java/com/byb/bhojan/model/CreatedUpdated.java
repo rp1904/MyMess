@@ -32,6 +32,14 @@ public class CreatedUpdated {
 		this.updatedAt = currDate;
 	}
 
+	public CreatedUpdated(Date date, String createdBy) {
+		super();
+		this.createdBy = createdBy;
+		this.createdAt = date;
+		this.updatedBy = createdBy;
+		this.updatedAt = date;
+	}
+
 	public CreatedUpdated(CreatedUpdated old_created_updated, String updatedBy) {
 		super();
 		Date currDate = new Date();
@@ -75,8 +83,7 @@ public class CreatedUpdated {
 
 	@Override
 	public String toString() {
-		return "CreatedUpdated [createdBy=" + createdBy + ", createdAt=" + createdAt + ", updatedBy=" + updatedBy
-				+ ", updatedAt=" + updatedAt + "]";
+		return "CreatedUpdated [createdBy=" + createdBy + ", createdAt=" + createdAt + ", updatedBy=" + updatedBy + ", updatedAt=" + updatedAt + "]";
 	}
 
 }

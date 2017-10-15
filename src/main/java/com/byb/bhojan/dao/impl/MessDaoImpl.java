@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,8 @@ public class MessDaoImpl implements MessDao {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(Mess.class);
+		criteria.createAlias("messOwner", "mo");
+		criteria.addOrder(Order.asc("mo.mobileNumber"));
 		return criteria.list();
 	}
 
