@@ -33,7 +33,7 @@
           <div class="box">
 	        <div class="box-header">
 	        	<button type="button" class="btn btn-warning pull-right" id="addNewVoucher">
-	        		<i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Add New Coupen
+	        		<i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Add New Voucher
 	        	</button>
 	        </div>
             <div class="box-body">

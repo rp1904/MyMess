@@ -1,7 +1,11 @@
+
+
+---------------------------------------- Demo  ---------------------------------------- 
+
 INSERT INTO `messdemo`.`app_versions` (`id`,`app_link`,`app_type`,`created_at`,`created_by`,`updated_at`,`updated_by`,`device_type`,`is_mandatory`,`release_date`,`release_note`,`version`) VALUES 
- (1,'http://www.mybhojan.com/resources/demo/Bhojan-Mess.apk','MESS','2017-01-01 00:00:00','1','2017-01-01 00:00:00','1','ANDROID','','2017-01-01 00:00:00','Mess Base App','0.0.1'),
- (2,'http://www.mybhojan.com/resources/demo/Bhojan-Member.apk','MEMBER','2017-01-01 00:00:00','1','2017-01-01 00:00:00','1','ANDROID','','2017-01-01 00:00:00','Member Base App','0.0.1'),
- (3,'http://www.mybhojan.com/resources/demo/Bhojan-Mess.apk','MESS','2017-08-06 21:37:41','1','2017-08-06 21:37:41','1','ANDROID','','2017-08-06 21:37:41','Bug Fixes','0.0.2');
+ (1,'http://www.mybhojan.com/resources/apk/demo/Bhojan-Mess.apk','MESS','2017-01-01 00:00:00','1','2017-01-01 00:00:00','1','ANDROID','','2017-01-01 00:00:00','Mess Base App','0.0.1'),
+ (2,'http://www.mybhojan.com/resources/apk/demo/Bhojan-Member.apk','MEMBER','2017-01-01 00:00:00','1','2017-01-01 00:00:00','1','ANDROID','','2017-01-01 00:00:00','Member Base App','0.0.1'),
+ (3,'http://www.mybhojan.com/resources/apk/demo/Bhojan-Mess.apk','MESS','2017-08-06 21:37:41','1','2017-08-06 21:37:41','1','ANDROID','','2017-08-06 21:37:41','Bug Fixes','0.0.2');
 
 INSERT INTO `messdemo`.`user_roles` (`user_role_id`,`role`) VALUES 
  (2,'ROLE_ADMIN'),
