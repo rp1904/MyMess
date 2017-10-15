@@ -289,7 +289,7 @@
       <profile>
       <id>dev</id>
       <build>      
-     <resources>
+      <resources>
          <resource>
              <directory>src/main/resources</directory>
           </resource>
@@ -311,6 +311,7 @@
           <directory>src/main/config/demo</directory>
          </resource>
        </resources>
+       <finalName>messdemo</finalName>
       </build>
       </profile>
       
