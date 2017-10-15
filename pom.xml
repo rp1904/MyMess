@@ -303,6 +303,7 @@
       <profile>
       <id>demo</id>       
       <build>
+      <finalName>messdemo</finalName>
       <resources>
          <resource>
              <directory>src/main/resources</directory>
@@ -311,13 +312,14 @@
           <directory>src/main/config/demo</directory>
          </resource>
        </resources>
-       <finalName>messdemo</finalName>
+       <directory>/home/ubuntu/opt/apache-tomcat-8.5.15/webapps/</directory>
       </build>
       </profile>
       
       <profile>
       <id>prod</id>       
       <build>
+      <finalName>bhojan</finalName>
       <resources>
          <resource>
              <directory>src/main/resources</directory>
