@@ -7,7 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.byb.bhojan.dao.MessDao;
+import com.byb.bhojan.dto.MessSettingDto;
+import com.byb.bhojan.model.CreatedUpdated;
+import com.byb.bhojan.model.Meal;
 import com.byb.bhojan.model.Mess;
+import com.byb.bhojan.model.MessSetting;
+import com.byb.bhojan.services.MealServices;
 import com.byb.bhojan.services.MessServices;
 import com.byb.bhojan.util.EmailTemplates;
 import com.byb.bhojan.util.ProjectConstant;
@@ -19,6 +24,9 @@ public class MessServicesImpl implements MessServices {
 
 	@Autowired
 	private MessDao messDao;
+
+	@Autowired
+	private MealServices mealServices;
 
 	@Autowired
 	private EmailService emailService;
@@ -41,7 +49,20 @@ public class MessServicesImpl implements MessServices {
 
 		emailService.sendEmail(mess.getMessOwner().getEmail(), ProjectConstant.WELCOME_EMAIL_SUB, msgBody);
 
-		return messDao.saveMess(mess);
+		messDao.saveMess(mess);
+
+		Meal meal = new Meal();
+		meal.setMess(mess);
+		meal.setCreatedUpdated(new CreatedUpdated(mess.getMessIdPk()));
+		mealServices.addMeal(meal);
+
+		MessSetting messSetting = new MessSetting();
+		messSetting.setCreatedUpdated(new CreatedUpdated(mess.getMessIdPk()));
+		messSetting.setMess(mess);
+		messSetting.setMeal(meal);
+		saveMessSetting(messSetting);
+
+		return mess;
 	}
 
 	@Override
@@ -84,6 +105,26 @@ public class MessServicesImpl implements MessServices {
 	public long getTotalActiveMessCount() {
 		// TODO Auto-generated method stub
 		return messDao.getTotalActiveMessCount();
+	}
+
+	@Override
+	public void saveMessSetting(MessSetting messSetting) {
+		// TODO Auto-generated method stub
+		messDao.saveMessSetting(messSetting);
+	}
+
+	@Override
+	public void updateMessSetting(MessSettingDto messSettingDto, Mess mess) {
+		// TODO Auto-generated method stub
+		MessSetting messSetting = getMessSetting(mess.getMessIdPk());
+		messSetting.setCreatedUpdated(new CreatedUpdated(messSetting.getCreatedUpdated(), mess.getMessIdPk()));
+		messDao.updateMessSetting(messSetting);
+	}
+
+	@Override
+	public MessSetting getMessSetting(String messIdFk) {
+		// TODO Auto-generated method stub
+		return messDao.getMessSetting(messIdFk);
 	}
 
 }

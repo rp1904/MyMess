@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import com.byb.bhojan.dao.MessDao;
 import com.byb.bhojan.model.Mess;
+import com.byb.bhojan.model.MessSetting;
 
 @Repository
 public class MessDaoImpl implements MessDao {
@@ -119,6 +120,27 @@ public class MessDaoImpl implements MessDao {
 				.setParameter("UPDATED_AT", new Date()).executeUpdate();
 		//@formatter:on
 		return updatedEntities;
+	}
+
+	@Override
+	public void saveMessSetting(MessSetting messSetting) {
+		// TODO Auto-generated method stub
+		sessionFactory.getCurrentSession().save(messSetting);
+	}
+
+	@Override
+	public void updateMessSetting(MessSetting messSetting) {
+		// TODO Auto-generated method stub
+		sessionFactory.getCurrentSession().update(messSetting);
+	}
+
+	@Override
+	public MessSetting getMessSetting(String messIdFk) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(MessSetting.class);
+		criteria.createAlias("mess", "m").add(Restrictions.eq("m.messIdPk", messIdFk));
+		return (MessSetting) criteria.uniqueResult();
 	}
 
 }

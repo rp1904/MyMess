@@ -3,6 +3,7 @@ package com.byb.bhojan.dao;
 import java.util.List;
 
 import com.byb.bhojan.model.Mess;
+import com.byb.bhojan.model.MessSetting;
 
 public interface MessDao {
 
@@ -26,4 +27,9 @@ public interface MessDao {
 
 	public long getTotalActiveMessCount();
 
+	public void saveMessSetting(MessSetting messSetting);
+
+	public void updateMessSetting(MessSetting messSetting);
+
+	public MessSetting getMessSetting(String messIdFk);
 }

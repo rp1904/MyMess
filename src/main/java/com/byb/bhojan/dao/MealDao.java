@@ -20,4 +20,5 @@ public interface MealDao {
 	public void closeAllOpenedMeals();
 
 	public List<Meal> getOpenedMealsByMessId(String messIdPk);
+
 }

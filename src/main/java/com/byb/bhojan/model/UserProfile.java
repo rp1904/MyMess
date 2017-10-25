@@ -99,8 +99,7 @@ public class UserProfile implements Serializable {
 
 	@Override
 	public String toString() {
-		return "UserProfile [userProfileIdPk=" + userProfileIdPk + ", firstName=" + firstName + ", lastName=" + lastName + ", fullName=" + fullName + ", profileImageUrl=" + profileImageUrl + ", profileImageThumbnailUrl=" + profileImageThumbnailUrl + ", address=" + address
-				+ "]";
+		return "UserProfile [userProfileIdPk=" + userProfileIdPk + ", firstName=" + firstName + ", lastName=" + lastName + ", fullName=" + fullName + ", profileImageUrl=" + profileImageUrl + ", profileImageThumbnailUrl=" + profileImageThumbnailUrl + "]";
 	}
 
 }
