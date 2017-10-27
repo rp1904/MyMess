@@ -1,5 +1,6 @@
 package com.byb.bhojan.services.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,9 @@ public class MessServicesImpl implements MessServices {
 
 		MessSetting messSetting = new MessSetting();
 		messSetting.setCreatedUpdated(new CreatedUpdated(mess.getMessIdPk()));
+
+		Date dt = new Date();
+
 		messSetting.setMess(mess);
 		messSetting.setMeal(meal);
 		saveMessSetting(messSetting);

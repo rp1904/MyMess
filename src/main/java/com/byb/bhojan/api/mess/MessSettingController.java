@@ -42,8 +42,6 @@ public class MessSettingController extends BaseController {
 		messSettingDto.setPreparesNonVeg(messSetting.isPreparesNonVeg());
 		messSettingDto.setClosingTime1(messSetting.getClosingTime1());
 		messSettingDto.setClosingTime2(messSetting.getClosingTime2());
-		messSettingDto.setCreatedAt(messSetting.getCreatedUpdated().getCreatedAt());
-		messSettingDto.setCreatedBy(messSetting.getCreatedUpdated().getCreatedBy());
 		messSettingDto.setOpeningTime1(messSetting.getOpeningTime1());
 		messSettingDto.setOpeningTime2(messSetting.getOpeningTime2());
 		messSettingDto.setTrialMealNonVegDefaultMenu(messSetting.getMeal().getNonVegDefaultMenu());
@@ -53,8 +51,6 @@ public class MessSettingController extends BaseController {
 		messSettingDto.setTrialMealVegDefaultMenu(messSetting.getMeal().getVegDefaultMenu());
 		messSettingDto.setTrialMealVegExtra(messSetting.getMeal().getVegExtra());
 		messSettingDto.setTrialMealVegItems(messSetting.getMeal().getVegItems());
-		messSettingDto.setUpdatedAt(messSetting.getCreatedUpdated().getUpdatedAt());
-		messSettingDto.setUpdatedBy(messSetting.getCreatedUpdated().getUpdatedBy());
 		messSettingDto.setWeeklyOff(messSetting.getWeeklyOff());
 		messSettingDto.setOffSession1(messSetting.isOffSession1());
 		messSettingDto.setOffSession2(messSetting.isOffSession2());

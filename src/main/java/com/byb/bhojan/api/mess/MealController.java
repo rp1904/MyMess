@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.byb.bhojan.api.comman.BaseController;
+import com.byb.bhojan.dto.MealCodeDto;
 import com.byb.bhojan.model.CreatedUpdated;
 import com.byb.bhojan.model.Meal;
 import com.byb.bhojan.model.MemberMeal;
@@ -78,10 +79,14 @@ public class MealController extends BaseController {
 		return new ResponseEntity<List<Meal>>(meals, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/read-meal-code/{code}", method = RequestMethod.GET)
-	public ResponseEntity<?> readMealCode(@PathVariable("code") String qrCode) {
+	@RequestMapping(value = "/read-meal-code", method = RequestMethod.POST)
+	public ResponseEntity<?> readMealCode(@RequestBody MealCodeDto mealCodeDto) {
 
-		Mess mess = getLoggedInMessByAppKey();
+		String qrCode = mealCodeDto.getCode();
+		logger.info("QR code: " + qrCode);
+		if (qrCode.split("==").length != 4) {
+			return sendErrorResponse("Invalid QR Code !");
+		}
 
 		String memberIdPk = qrCode.split("==")[0];
 		String mealId = qrCode.split("==")[1];
@@ -125,6 +130,8 @@ public class MealController extends BaseController {
 		} else {
 			activeMealCoupen.setRemainingMealCount(lastMealcount - 1);
 		}
+
+		Mess mess = getLoggedInMessByAppKey();
 
 		if (activeMealCoupen.getRemainingMealCount() == 0) {
 			activeMealCoupen.setStatus(ProjectConstant.MEAL_COUPEN_STATUS_CONSUMED);
