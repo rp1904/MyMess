@@ -21,6 +21,27 @@ public class Meal implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public Meal() {
+
+	}
+
+	public Meal(Mess mess) {
+		super();
+		this.mess = mess;
+		this.mealTitle = "Trial Meal";
+		this.status = "-";
+		this.vegDefaultMenu = "Chapati (3) / Roti (2), Rice (1 Bowl)";
+		this.vegItems = "Dal, Subzi";
+		this.vegExtra = "Curd, Salad, Pickel, Papaad";
+		this.sweet = "Gulabjamun";
+		this.isNonVeg = Boolean.FALSE;
+		this.nonVegDefaultMenu = "Chapati (3) / Roti (2), Rice (1 Bowl)";
+		this.nonVegItems = "Chiken / Mutton / Egg Curry";
+		this.nonVegExtra = "Salad";
+		this.note = "Trial Meal";
+		this.createdUpdated = new CreatedUpdated(mess.getMessIdPk());
+	}
+
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
@@ -183,10 +204,8 @@ public class Meal implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Meal [mealId=" + mealId + ", mealTitle=" + mealTitle + ", status=" + status + ", vegDefaultMenu="
-				+ vegDefaultMenu + ", vegItems=" + vegItems + ", vegExtra=" + vegExtra + ", sweet=" + sweet
-				+ ", isNonVeg=" + isNonVeg + ", nonVegDefaultMenu=" + nonVegDefaultMenu + ", nonVegItems=" + nonVegItems
-				+ ", nonVegExtra=" + nonVegExtra + ", note=" + note + ", createdUpdated=" + createdUpdated + "]";
+		return "Meal [mealId=" + mealId + ", mealTitle=" + mealTitle + ", status=" + status + ", vegDefaultMenu=" + vegDefaultMenu + ", vegItems=" + vegItems + ", vegExtra=" + vegExtra + ", sweet=" + sweet + ", isNonVeg=" + isNonVeg + ", nonVegDefaultMenu="
+				+ nonVegDefaultMenu + ", nonVegItems=" + nonVegItems + ", nonVegExtra=" + nonVegExtra + ", note=" + note + ", createdUpdated=" + createdUpdated + "]";
 	}
 
 }

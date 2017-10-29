@@ -1,6 +1,5 @@
 package com.byb.bhojan.services.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import com.byb.bhojan.model.Mess;
 import com.byb.bhojan.model.MessSetting;
 import com.byb.bhojan.services.MealServices;
 import com.byb.bhojan.services.MessServices;
+import com.byb.bhojan.util.DateUtils;
 import com.byb.bhojan.util.EmailTemplates;
 import com.byb.bhojan.util.ProjectConstant;
 import com.byb.bhojan.util.RandomStringGenerator;
@@ -52,18 +52,19 @@ public class MessServicesImpl implements MessServices {
 
 		messDao.saveMess(mess);
 
-		Meal meal = new Meal();
-		meal.setMess(mess);
-		meal.setCreatedUpdated(new CreatedUpdated(mess.getMessIdPk()));
+		Meal meal = new Meal(mess);
 		mealServices.addMeal(meal);
 
 		MessSetting messSetting = new MessSetting();
 		messSetting.setCreatedUpdated(new CreatedUpdated(mess.getMessIdPk()));
-
-		Date dt = new Date();
-
 		messSetting.setMess(mess);
+		messSetting.setPreparesNonVeg(Boolean.FALSE);
 		messSetting.setMeal(meal);
+		messSetting.setOpeningTime1(DateUtils.getDefaultTime(10));
+		messSetting.setClosingTime1(DateUtils.getDefaultTime(14));
+		messSetting.setOpeningTime2(DateUtils.getDefaultTime(20));
+		messSetting.setClosingTime2(DateUtils.getDefaultTime(00));
+		messSetting.setWeeklyOff("1"); //Sunday
 		saveMessSetting(messSetting);
 
 		return mess;

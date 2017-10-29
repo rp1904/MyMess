@@ -29,15 +29,15 @@ public class MessSetting implements Serializable {
 	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
 	@Column(name = "mess_setting_id", unique = true)
 	private String messSettingId;
-	
+
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "mess_id_fk")
 	private Mess mess;
-	
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "meal_id_fk")
 	private Meal meal;
-	
+
 	@Column(name = "prepares_non_veg")
 	private boolean preparesNonVeg = false;
 
@@ -62,10 +62,10 @@ public class MessSetting implements Serializable {
 
 	@Column(name = "off_session_1")
 	private boolean offSession1 = true;
-	
+
 	@Column(name = "off_session_2")
-	private boolean offSession2 = false;
-	
+	private boolean offSession2 = true;
+
 	@Embedded
 	private CreatedUpdated createdUpdated;
 
@@ -166,6 +166,5 @@ public class MessSetting implements Serializable {
 		return "MessSetting [messSettingId=" + messSettingId + ", meal=" + meal + ", preparesNonVeg=" + preparesNonVeg + ", openingTime1=" + openingTime1 + ", closingTime1=" + closingTime1 + ", openingTime2=" + openingTime2 + ", closingTime2=" + closingTime2
 				+ ", weeklyOff=" + weeklyOff + ", offSession1=" + offSession1 + ", offSession2=" + offSession2 + ", createdUpdated=" + createdUpdated + "]";
 	}
-	
 
 }

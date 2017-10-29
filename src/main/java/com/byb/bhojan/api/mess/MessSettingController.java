@@ -54,6 +54,7 @@ public class MessSettingController extends BaseController {
 		messSettingDto.setWeeklyOff(messSetting.getWeeklyOff());
 		messSettingDto.setOffSession1(messSetting.isOffSession1());
 		messSettingDto.setOffSession2(messSetting.isOffSession2());
+		messSettingDto.setTrialMealId(messSetting.getMeal().getMealId());
 
 		return messSettingDto;
 	}

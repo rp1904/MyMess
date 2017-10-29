@@ -72,10 +72,18 @@ public class DateUtils {
 	}
 
 	public static long getDiffInDaysBetweenDates(Date fromDate, Date toDate) {
-
 		long diff = fromDate.getTime() - toDate.getTime();
-
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+	}
+
+	public static Date getDefaultTime(int hrs) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.clear();
+		calendar.set(Calendar.HOUR_OF_DAY, hrs);
+		calendar.set(Calendar.MINUTE, 00);
+		calendar.set(Calendar.SECOND, 00);
+		calendar.set(Calendar.MILLISECOND, 000);
+		return calendar.getTime();
 	}
 
 }
