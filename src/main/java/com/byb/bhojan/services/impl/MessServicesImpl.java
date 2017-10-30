@@ -65,6 +65,8 @@ public class MessServicesImpl implements MessServices {
 		messSetting.setOpeningTime2(DateUtils.getDefaultTime(20));
 		messSetting.setClosingTime2(DateUtils.getDefaultTime(00));
 		messSetting.setWeeklyOff("1"); //Sunday
+		messSetting.setVegMealPrice(60d);
+		messSetting.setNonVegMealPrice(90d);
 		saveMessSetting(messSetting);
 
 		return mess;
@@ -121,7 +123,35 @@ public class MessServicesImpl implements MessServices {
 	@Override
 	public void updateMessSetting(MessSettingDto messSettingDto, Mess mess) {
 		// TODO Auto-generated method stub
+
+		Meal trialMeal = new Meal();
+		if (messSettingDto.getTrialMealId() != null && messSettingDto.getTrialMealId().equals("")) {
+			trialMeal = mealServices.getMealByMealId(messSettingDto.getTrialMealId());
+		} else {
+			trialMeal = new Meal(mess);
+			mealServices.addMeal(trialMeal);
+		}
+
+		trialMeal.setIsNonVeg(messSettingDto.isPreparesNonVeg());
+		trialMeal.setVegDefaultMenu(messSettingDto.getTrialMealVegDefaultMenu());
+		trialMeal.setVegItems(messSettingDto.getTrialMealVegItems());
+		trialMeal.setVegExtra(messSettingDto.getTrialMealVegExtra());
+		trialMeal.setNonVegDefaultMenu(messSettingDto.getTrialMealNonVegDefaultMenu());
+		trialMeal.setNonVegItems(messSettingDto.getTrialMealNonVegItems());
+		trialMeal.setNonVegExtra(messSettingDto.getTrialMealNonVegExtra());
+
 		MessSetting messSetting = getMessSetting(mess.getMessIdPk());
+		messSetting.setPreparesNonVeg(messSettingDto.isPreparesNonVeg());
+		messSetting.setOpeningTime1(messSettingDto.getOpeningTime1());
+		messSetting.setClosingTime1(messSettingDto.getClosingTime1());
+		messSetting.setOpeningTime2(messSettingDto.getOpeningTime2());
+		messSetting.setClosingTime2(messSettingDto.getClosingTime2());
+		messSetting.setWeeklyOff(messSettingDto.getWeeklyOff());
+		messSetting.setOffSession1(messSettingDto.isOffSession1());
+		messSetting.setOffSession2(messSettingDto.isOffSession2());
+		messSetting.setVegMealPrice(messSettingDto.getTrialVegMealPrice());
+		messSetting.setNonVegMealPrice(messSettingDto.getTrialNonVegMealPrice());
+		messSetting.setMeal(trialMeal);
 		messSetting.setCreatedUpdated(new CreatedUpdated(messSetting.getCreatedUpdated(), mess.getMessIdPk()));
 		messDao.updateMessSetting(messSetting);
 	}

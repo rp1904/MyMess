@@ -32,6 +32,10 @@ public class MessSettingDto {
 
 	private Date closingTime2;
 
+	private double trialVegMealPrice;
+
+	private double trialNonVegMealPrice;
+
 	private String weeklyOff;
 
 	private boolean offSession1;
@@ -214,12 +218,28 @@ public class MessSettingDto {
 		this.updatedAt = updatedAt;
 	}
 
+	public double getTrialVegMealPrice() {
+		return trialVegMealPrice;
+	}
+
+	public void setTrialVegMealPrice(double trialVegMealPrice) {
+		this.trialVegMealPrice = trialVegMealPrice;
+	}
+
+	public double getTrialNonVegMealPrice() {
+		return trialNonVegMealPrice;
+	}
+
+	public void setTrialNonVegMealPrice(double trialNonVegMealPrice) {
+		this.trialNonVegMealPrice = trialNonVegMealPrice;
+	}
+
 	@Override
 	public String toString() {
 		return "MessSettingDto [messIdPk=" + messIdPk + ", trialMealId=" + trialMealId + ", trialMealVegDefaultMenu=" + trialMealVegDefaultMenu + ", trialMealVegItems=" + trialMealVegItems + ", trialMealVegExtra=" + trialMealVegExtra + ", trialMealSweet=" + trialMealSweet
 				+ ", trialMealNonVegDefaultMenu=" + trialMealNonVegDefaultMenu + ", trialMealNonVegItems=" + trialMealNonVegItems + ", trialMealNonVegExtra=" + trialMealNonVegExtra + ", preparesNonVeg=" + preparesNonVeg + ", openingTime1=" + openingTime1
-				+ ", closingTime1=" + closingTime1 + ", openingTime2=" + openingTime2 + ", closingTime2=" + closingTime2 + ", weeklyOff=" + weeklyOff + ", offSession1=" + offSession1 + ", offSession2=" + offSession2 + ", createdBy=" + createdBy + ", createdAt="
-				+ createdAt + ", updatedBy=" + updatedBy + ", updatedAt=" + updatedAt + "]";
+				+ ", closingTime1=" + closingTime1 + ", openingTime2=" + openingTime2 + ", closingTime2=" + closingTime2 + ", trialVegMealPrice=" + trialVegMealPrice + ", trialNonVegMealPrice=" + trialNonVegMealPrice + ", weeklyOff=" + weeklyOff + ", offSession1="
+				+ offSession1 + ", offSession2=" + offSession2 + ", createdBy=" + createdBy + ", createdAt=" + createdAt + ", updatedBy=" + updatedBy + ", updatedAt=" + updatedAt + "]";
 	}
 
 }

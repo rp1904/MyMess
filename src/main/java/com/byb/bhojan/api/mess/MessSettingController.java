@@ -29,7 +29,7 @@ public class MessSettingController extends BaseController {
 
 		Mess mess = getLoggedInMessByAppKey();
 		messServices.updateMessSetting(messSettingDto, mess);
-		return sendSuccessResponse("Meal added successfully !");
+		return sendSuccessResponseWithData("Setting updated successfully !", messSettingDto);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -55,6 +55,8 @@ public class MessSettingController extends BaseController {
 		messSettingDto.setOffSession1(messSetting.isOffSession1());
 		messSettingDto.setOffSession2(messSetting.isOffSession2());
 		messSettingDto.setTrialMealId(messSetting.getMeal().getMealId());
+		messSettingDto.setTrialVegMealPrice(messSetting.getVegMealPrice());
+		messSettingDto.setTrialNonVegMealPrice(messSetting.getNonVegMealPrice());
 
 		return messSettingDto;
 	}

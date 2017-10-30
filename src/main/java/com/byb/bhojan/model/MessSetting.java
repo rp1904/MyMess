@@ -60,6 +60,12 @@ public class MessSetting implements Serializable {
 	@Column(name = "weekly_off")
 	private String weeklyOff;
 
+	@Column(name = "veg_meal_price")
+	private double vegMealPrice;
+
+	@Column(name = "non_veg_meal_price")
+	private double nonVegMealPrice;
+
 	@Column(name = "off_session_1")
 	private boolean offSession1 = true;
 
@@ -161,10 +167,26 @@ public class MessSetting implements Serializable {
 		this.mess = mess;
 	}
 
+	public double getVegMealPrice() {
+		return vegMealPrice;
+	}
+
+	public void setVegMealPrice(double vegMealPrice) {
+		this.vegMealPrice = vegMealPrice;
+	}
+
+	public double getNonVegMealPrice() {
+		return nonVegMealPrice;
+	}
+
+	public void setNonVegMealPrice(double nonVegMealPrice) {
+		this.nonVegMealPrice = nonVegMealPrice;
+	}
+
 	@Override
 	public String toString() {
 		return "MessSetting [messSettingId=" + messSettingId + ", meal=" + meal + ", preparesNonVeg=" + preparesNonVeg + ", openingTime1=" + openingTime1 + ", closingTime1=" + closingTime1 + ", openingTime2=" + openingTime2 + ", closingTime2=" + closingTime2
-				+ ", weeklyOff=" + weeklyOff + ", offSession1=" + offSession1 + ", offSession2=" + offSession2 + ", createdUpdated=" + createdUpdated + "]";
+				+ ", weeklyOff=" + weeklyOff + ", vegMealPrice=" + vegMealPrice + ", nonVegMealPrice=" + nonVegMealPrice + ", offSession1=" + offSession1 + ", offSession2=" + offSession2 + ", createdUpdated=" + createdUpdated + "]";
 	}
 
 }
