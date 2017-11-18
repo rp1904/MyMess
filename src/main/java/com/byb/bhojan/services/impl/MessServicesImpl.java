@@ -132,10 +132,10 @@ public class MessServicesImpl implements MessServices {
 		}
 
 		messSetting.setPreparesNonVeg(messSettingDto.isPreparesNonVeg());
-		messSetting.setOpeningTime1(messSettingDto.getOpeningTime1());
-		messSetting.setClosingTime1(messSettingDto.getClosingTime1());
-		messSetting.setOpeningTime2(messSettingDto.getOpeningTime2());
-		messSetting.setClosingTime2(messSettingDto.getClosingTime2());
+		messSetting.setOpeningTime1(DateUtils.getServerTZtoDate(messSettingDto.getOpeningTime1()));
+		messSetting.setClosingTime1(DateUtils.getServerTZtoDate(messSettingDto.getClosingTime1()));
+		messSetting.setOpeningTime2(DateUtils.getServerTZtoDate(messSettingDto.getOpeningTime2()));
+		messSetting.setClosingTime2(DateUtils.getServerTZtoDate(messSettingDto.getClosingTime2()));
 		messSetting.setWeeklyOff(messSettingDto.getWeeklyOff());
 		messSetting.setOffSession1(messSettingDto.isOffSession1());
 		messSetting.setOffSession2(messSettingDto.isOffSession2());
