@@ -42,6 +42,12 @@ public class MessSettingDto {
 
 	private boolean offSession2;
 
+	private String address;
+
+	private String latitude;
+
+	private String longitude;
+
 	private String createdBy;
 
 	private Date createdAt;
@@ -234,12 +240,38 @@ public class MessSettingDto {
 		this.trialNonVegMealPrice = trialNonVegMealPrice;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
 	@Override
 	public String toString() {
 		return "MessSettingDto [messIdPk=" + messIdPk + ", trialMealId=" + trialMealId + ", trialMealVegDefaultMenu=" + trialMealVegDefaultMenu + ", trialMealVegItems=" + trialMealVegItems + ", trialMealVegExtra=" + trialMealVegExtra + ", trialMealSweet=" + trialMealSweet
 				+ ", trialMealNonVegDefaultMenu=" + trialMealNonVegDefaultMenu + ", trialMealNonVegItems=" + trialMealNonVegItems + ", trialMealNonVegExtra=" + trialMealNonVegExtra + ", preparesNonVeg=" + preparesNonVeg + ", openingTime1=" + openingTime1
 				+ ", closingTime1=" + closingTime1 + ", openingTime2=" + openingTime2 + ", closingTime2=" + closingTime2 + ", trialVegMealPrice=" + trialVegMealPrice + ", trialNonVegMealPrice=" + trialNonVegMealPrice + ", weeklyOff=" + weeklyOff + ", offSession1="
-				+ offSession1 + ", offSession2=" + offSession2 + ", createdBy=" + createdBy + ", createdAt=" + createdAt + ", updatedBy=" + updatedBy + ", updatedAt=" + updatedAt + "]";
+				+ offSession1 + ", offSession2=" + offSession2 + ", address=" + address + ", latitude=" + latitude + ", longitude=" + longitude + ", createdBy=" + createdBy + ", createdAt=" + createdAt + ", updatedBy=" + updatedBy + ", updatedAt=" + updatedAt
+				+ "]";
 	}
+
 
 }

@@ -39,9 +39,11 @@ public class Mess implements Serializable {
 	@JoinColumn(name = "mess_owner_id_fk")
 	private User messOwner;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "mess_address_id_fk")
-	private Address messAddress;
+	private String address;
+
+	private String latitude;
+
+	private String longitude;
 
 	@Column(name = "mess_tag_line")
 	private String messTagLine;
@@ -102,14 +104,6 @@ public class Mess implements Serializable {
 		this.messOwner = messOwner;
 	}
 
-	public Address getMessAddress() {
-		return messAddress;
-	}
-
-	public void setMessAddress(Address messAddress) {
-		this.messAddress = messAddress;
-	}
-
 	public String getMessTagLine() {
 		return messTagLine;
 	}
@@ -158,10 +152,36 @@ public class Mess implements Serializable {
 		this.createdUpdated = createdUpdated;
 	}
 
-	@Override
-	public String toString() {
-		return "Mess [messIdPk=" + messIdPk + ", messId=" + messId + ", messName=" + messName + ", messOwner=" + messOwner + ", messAddress=" + messAddress + ", messTagLine=" + messTagLine + ", messProfileImageUrl=" + messProfileImageUrl
-				+ ", messProfileImageThumbnailUrl=" + messProfileImageThumbnailUrl + ", daysRemaining=" + daysRemaining + ", createdUpdated=" + createdUpdated + "]";
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public boolean isNonvegPrepare() {
+		return isNonvegPrepare;
+	}
+
+	public void setNonvegPrepare(boolean isNonvegPrepare) {
+		this.isNonvegPrepare = isNonvegPrepare;
 	}
 
 }

@@ -29,6 +29,10 @@ public class MessSettingController extends BaseController {
 
 		Mess mess = getLoggedInMessByAppKey();
 		messServices.updateMessSetting(messSettingDto, mess);
+		mess.setLatitude(messSettingDto.getLatitude());
+		mess.setLongitude(messSettingDto.getLongitude());
+		mess.setAddress(messSettingDto.getAddress());
+		messServices.updateMess(mess);
 		return sendSuccessResponseWithData("Setting updated successfully !", messSettingDto);
 	}
 
@@ -57,6 +61,9 @@ public class MessSettingController extends BaseController {
 		messSettingDto.setTrialMealId(messSetting.getMeal().getMealId());
 		messSettingDto.setTrialVegMealPrice(messSetting.getVegMealPrice());
 		messSettingDto.setTrialNonVegMealPrice(messSetting.getNonVegMealPrice());
+		messSettingDto.setAddress(mess.getAddress());
+		messSettingDto.setLatitude(mess.getLatitude());
+		messSettingDto.setLongitude(mess.getLongitude());
 
 		return messSettingDto;
 	}
