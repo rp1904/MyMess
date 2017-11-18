@@ -52,22 +52,7 @@ public class MessServicesImpl implements MessServices {
 
 		messDao.saveMess(mess);
 
-		Meal meal = new Meal(mess);
-		mealServices.addMeal(meal);
-
-		MessSetting messSetting = new MessSetting();
-		messSetting.setCreatedUpdated(new CreatedUpdated(mess.getMessIdPk()));
-		messSetting.setMess(mess);
-		messSetting.setPreparesNonVeg(Boolean.FALSE);
-		messSetting.setMeal(meal);
-		messSetting.setOpeningTime1(DateUtils.getDefaultTime(10));
-		messSetting.setClosingTime1(DateUtils.getDefaultTime(14));
-		messSetting.setOpeningTime2(DateUtils.getDefaultTime(20));
-		messSetting.setClosingTime2(DateUtils.getDefaultTime(00));
-		messSetting.setWeeklyOff("1"); //Sunday
-		messSetting.setVegMealPrice(60d);
-		messSetting.setNonVegMealPrice(90d);
-		saveMessSetting(messSetting);
+		saveMessSetting(mess);
 
 		return mess;
 	}
@@ -141,6 +126,11 @@ public class MessServicesImpl implements MessServices {
 		trialMeal.setNonVegExtra(messSettingDto.getTrialMealNonVegExtra());
 
 		MessSetting messSetting = getMessSetting(mess.getMessIdPk());
+
+		if (messSetting == null) {
+			messSetting = saveMessSetting(mess);
+		}
+
 		messSetting.setPreparesNonVeg(messSettingDto.isPreparesNonVeg());
 		messSetting.setOpeningTime1(messSettingDto.getOpeningTime1());
 		messSetting.setClosingTime1(messSettingDto.getClosingTime1());
@@ -161,6 +151,28 @@ public class MessServicesImpl implements MessServices {
 	public MessSetting getMessSetting(String messIdFk) {
 		// TODO Auto-generated method stub
 		return messDao.getMessSetting(messIdFk);
+	}
+
+	public MessSetting saveMessSetting(Mess mess) {
+
+		Meal meal = new Meal(mess);
+		mealServices.addMeal(meal);
+
+		MessSetting messSetting = new MessSetting();
+		messSetting.setCreatedUpdated(new CreatedUpdated(mess.getMessIdPk()));
+		messSetting.setMess(mess);
+		messSetting.setPreparesNonVeg(Boolean.FALSE);
+		messSetting.setMeal(meal);
+		messSetting.setOpeningTime1(DateUtils.getDefaultTime(10));
+		messSetting.setClosingTime1(DateUtils.getDefaultTime(14));
+		messSetting.setOpeningTime2(DateUtils.getDefaultTime(20));
+		messSetting.setClosingTime2(DateUtils.getDefaultTime(00));
+		messSetting.setWeeklyOff("1"); //Sunday
+		messSetting.setVegMealPrice(60d);
+		messSetting.setNonVegMealPrice(90d);
+		saveMessSetting(messSetting);
+
+		return messSetting;
 	}
 
 }
