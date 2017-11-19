@@ -1,6 +1,5 @@
 package com.byb.bhojan.util;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -85,18 +84,6 @@ public class DateUtils {
 		calendar.set(Calendar.SECOND, 00);
 		calendar.set(Calendar.MILLISECOND, 000);
 		return calendar.getTime();
-	}
-
-	public static Date getServerTZtoDate(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat(ProjectConstant.DF_dd_MMM_yyyy_hh_mm_a);
-		sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
-		try {
-			return sdf.parse(date.toString());
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 }
